@@ -1,5 +1,6 @@
 from peewee import *
 from models.BaseModel import BaseModel, db
+# from db import *
 from models.Members import Members
 
 
@@ -14,4 +15,4 @@ class Teachers(BaseModel):
         table_name = 'teachers'
 
 
-# db.create_tables([Teachers])
+db.create_tables([Teachers])

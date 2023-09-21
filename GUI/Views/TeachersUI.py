@@ -1,11 +1,12 @@
 from datetime import datetime
 import datetime
-
+import logging
 import peewee
 from PyQt5.QtCore import QDate, Qt
 
 from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QDialog, QMessageBox, QTableWidgetItem, QPushButton, \
     QWidget, QHBoxLayout, QVBoxLayout
+from zk import ZK
 
 from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
 from GUI.Dialogs.TeacherDialog import TeacherDialog
@@ -53,7 +54,6 @@ class TeachersUI:
                         if item_value:
                             item_value = 'نعم'
                             self.finger_button_state = False
-
                         else:
                             item_value = 'لا'
                             self.finger_button_state = True
@@ -81,27 +81,39 @@ class TeachersUI:
         if teacher_dialog.exec_() == QDialog.Accepted:
             try:
                 schoolID = 1
-                fName, phone, DOB, major, task, state = teacher_dialog.save_data()
+                FName, SName, TName, LName, Phone, DOB, Major, Task, state = teacher_dialog.save_data()
                 Members.insert({
                     Members.school_id: schoolID,
-                    Members.fName: fName,
-                    Members.phone: phone,
+                    Members.fName: FName,
+                    Members.sName: SName,
+                    Members.tName: TName,
+                    Members.lName: LName,
+                    Members.phone: Phone,
                     Members.dateBerth: DOB,
                 }).execute()
                 self.lastInsertedMemberId = Members.select(peewee.fn.Max(Members.id)).scalar()
                 Teachers.insert({
                     Teachers.members_id: self.lastInsertedMemberId,
-                    Teachers.major: major,
-                    Teachers.task: task,
+                    Teachers.major: Major,
+                    Teachers.task: Task,
                     Teachers.state: state,
                     # Teachers.fingerPrintData: fingerPrintData,
                 }).execute()
                 has_finger_print_data = 'لا'
-                teacher = [fName, phone, DOB, major, task, state, has_finger_print_data]
+                teacher = [FName, SName, TName, LName, Phone, DOB, Major, Task, state, has_finger_print_data]
                 self.lastInsertedTeacherId = Teachers.select(peewee.fn.Max(Teachers.id)).scalar()
                 # self.get_members_data()
-                self.add_new_teacher_to_table_widget(self.lastInsertedTeacherId, teacher)
-                QMessageBox.information(self.ui, "نجاح", "تم الحفظ بنجاح")
+                fullName = [teacher[0], teacher[1], teacher[3]]
+                print (fullName)
+                operations_buttons = DeleteUpdateButtonTeachersWidget(table_widget=self.ui.tblTeachers)
+                result = operations_buttons.add_users_to_device(self.lastInsertedTeacherId, fullName)
+                print(result)
+                if result:
+                    self.add_new_teacher_to_table_widget(self.lastInsertedTeacherId, teacher)
+                    QMessageBox.information(self.ui, "نجاح", "تم الحفظ بنجاح")
+                else:
+                    QMessageBox.critical(self.ui, "خطأ", "لم يتم الحفظ بنجاح")
+
             except ValueError as e:
                 QMessageBox.critical(self.ui, "خطأ", f"لم يتم الحفظ بنجاح: {str(e)}")
 
@@ -112,13 +124,16 @@ class TeachersUI:
             self.ui.tblTeachers.insertRow(current_row)
             self.ui.tblTeachers.setItem(current_row, 0, QTableWidgetItem(str(teacher_id)))
             self.ui.tblTeachers.setItem(current_row, 1, QTableWidgetItem(teacher[0]))
-            self.ui.tblTeachers.setItem(current_row, 2, QTableWidgetItem(str(teacher[1])))
-            self.ui.tblTeachers.setItem(current_row, 3, QTableWidgetItem(str(teacher[2])))
+            self.ui.tblTeachers.setItem(current_row, 2, QTableWidgetItem(teacher[1]))
+            self.ui.tblTeachers.setItem(current_row, 3, QTableWidgetItem(teacher[2]))
             self.ui.tblTeachers.setItem(current_row, 4, QTableWidgetItem(teacher[3]))
-            self.ui.tblTeachers.setItem(current_row, 5, QTableWidgetItem(teacher[4]))
-            self.ui.tblTeachers.setItem(current_row, 6, QTableWidgetItem(teacher[5]))
+            self.ui.tblTeachers.setItem(current_row, 5, QTableWidgetItem(str(teacher[4])))
+            self.ui.tblTeachers.setItem(current_row, 6, QTableWidgetItem(str(teacher[5])))
             self.ui.tblTeachers.setItem(current_row, 7, QTableWidgetItem(teacher[6]))
-            self.ui.tblTeachers.setCellWidget(current_row, 8,  operations_buttons.get_buttons('New'))
+            self.ui.tblTeachers.setItem(current_row, 8, QTableWidgetItem(teacher[7]))
+            self.ui.tblTeachers.setItem(current_row, 9, QTableWidgetItem(teacher[8]))
+            self.ui.tblTeachers.setItem(current_row, 10, QTableWidgetItem(teacher[9]))
+            self.ui.tblTeachers.setCellWidget(current_row, 11, operations_buttons.get_buttons('Old'))
             self.ui.tblTeachers.setColumnWidth(current_row, 40)
             self.ui.tblTeachers.setRowHeight(current_row, 150)
             # self.add_to_members_to_device(str(teacher_id),teacher[0])

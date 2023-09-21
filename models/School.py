@@ -1,33 +1,23 @@
-from datetime import datetime
 from peewee import *
-from models.BaseModel import BaseModel, db
-
-STUDENT_GENDER_TYPE = (
-    ('طلاب', 'طلاب'),
-    ('طالبات', 'طالبات'),
-    ('مختلط', 'مختلط'),
-
-)
-ACADEMIC_LEVEL = (
-    ('أبتدائي', 'أبتدائي'),
-    ('عدادي', 'عدادي'),
-    ('ثانوب', 'ثانوب'),
-    ('أساسي', 'أساسي'),
-    ('شامل', 'شامل'),
-
-)
+from models.BaseModel import BaseModel ,db
+from models.City import City
+import datetime
+from models.Directorate import Directory
 
 
 class School(BaseModel):
-    schoolName = CharField()
-    city= CharField()
-    directorate= CharField()
-    village = CharField()
-    academicLevel = CharField(choices=ACADEMIC_LEVEL)
-    studentsGenderType = CharField(choices=STUDENT_GENDER_TYPE)
+    school_name = CharField(max_length=100)
+    city = ForeignKeyField(model=City, backref="schools")
+    directorate = ForeignKeyField(model=Directory, backref="schools")
+    village = CharField(max_length=30)
+    academic_level = CharField(max_length=20)
+    student_gender_type = CharField(max_length=10)
+    created_at = DateTimeField(default=datetime.datetime.now)
+    updated_at = DateTimeField()
 
-    class Meta:
-        table_name = 'School'
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.datetime.now()
+        return super(School, self).save(*args, **kwargs)
 
 
-# db.create_tables([School])
+db.create_tables([School])

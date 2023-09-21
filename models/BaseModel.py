@@ -1,6 +1,6 @@
 from peewee import Model, MySQLDatabase
 
-db = MySQLDatabase('EduTrackingSystemDB', user='root', password='',
+db = MySQLDatabase('EduTrackingSystemDB2', user='root', password='',
                    host='localhost')
 
 
