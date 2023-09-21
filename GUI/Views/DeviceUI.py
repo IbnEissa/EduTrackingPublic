@@ -3,12 +3,12 @@ from PyQt5.QtGui import QMouseEvent
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem, QAbstractItemView, QHeaderView, QDialog, QApplication, \
     QVBoxLayout, QWidget, QHBoxLayout
 # from PyZkUI.models import ZK
-from zk import const
+# from zk import const
 
-from zk import ZK
+# from zk import ZK
 
 from GUI.Dialogs.DeviceDailog import MyDialog
-from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonDeviceWidget, DeleteUpdateButtonTeachersWidget
+# from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonDeviceWidget, DeleteUpdateButtonTeachersWidget
 
 
 # from GUI.Dialogs.MouseClick import CustomTableWidget

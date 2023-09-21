@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication
 
 from GUI.Dialogs.DeviceDailog import MyDialog
-from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
+# from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
 from GUI.Views.AttendanceUI import AttendanceUI
 from GUI.Views.DeviceUI import  DeviceUI
 from GUI.Views.TeachersUI import TeachersUI

@@ -7,7 +7,7 @@ from PyQt5.QtCore import QDate, Qt
 from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QDialog, QMessageBox, QTableWidgetItem, QPushButton, \
     QWidget, QHBoxLayout, QVBoxLayout
 
-from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
+# from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
 from GUI.Dialogs.TeacherDialog import TeacherDialog
 from GUI.Views.DeviceUI import DeviceUI
 from models.Members import Members

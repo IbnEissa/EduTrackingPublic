@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QTableWidgetItem
-from zk import ZK
+# from zk import ZK
 
 
 class Attendance(object):
@@ -17,7 +17,7 @@ class AttendanceRetriever(object):
         self.device_port = device_port
 
     def retrieve_attendance_data(self):
-        zk = ZK(self.device_ip, port=self.device_port)
+        # zk = ZK(self.device_ip, port=self.device_port)
         conn = zk.connect()
         if conn:
             attendance_data = conn.get_attendance()

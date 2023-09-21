@@ -14,4 +14,4 @@ class Teachers(BaseModel):
         table_name = 'teachers'
 
 
-# db.create_tables([Teachers])
+db.create_tables([Teachers])
