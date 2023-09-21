@@ -47,7 +47,7 @@ color:rgb(0, 0, 0)</string>
     <string>اللقب</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="txtName_2">
+  <widget class="QTextEdit" name="txtStudentSecName">
    <property name="geometry">
     <rect>
      <x>99</x>
@@ -61,7 +61,7 @@ color:rgb(0, 0, 0)</string>
 color:rgb(0, 0, 0)</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnCancelAddingDevice">
+  <widget class="QPushButton" name="btnCancelAddingStudent">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -132,7 +132,7 @@ color:rgb(0, 0, 0)</string>
     <string>الاسم الثاني</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnSaveDevice">
+  <widget class="QPushButton" name="btnSaveStudent">
    <property name="geometry">
     <rect>
      <x>270</x>
@@ -167,7 +167,7 @@ color:rgb(0, 0, 0)</string>
     <string>الاسم الثالث</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="txtName_4">
+  <widget class="QTextEdit" name="txtStudentLName">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -181,7 +181,7 @@ color:rgb(0, 0, 0)</string>
 color:rgb(0, 0, 0)</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="txtName_3">
+  <widget class="QTextEdit" name="txtStudentThirName">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -229,21 +229,7 @@ color:rgb(0, 0, 0)</string>
     <string>الصف</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="txtName_5">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>300</y>
-     <width>261</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(255, 255, 255);
-color:rgb(0, 0, 0)</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="txtName">
+  <widget class="QTextEdit" name="txtStudentFName">
    <property name="geometry">
     <rect>
      <x>99</x>
@@ -257,7 +243,7 @@ color:rgb(0, 0, 0)</string>
 color:rgb(0, 0, 0)</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="txtName_7">
+  <widget class="QTextEdit" name="txtStudentParentPhone">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -271,7 +257,7 @@ color:rgb(0, 0, 0)</string>
 color:rgb(0, 0, 0)</string>
    </property>
   </widget>
-  <widget class="QDateEdit" name="dateEdit">
+  <widget class="QDateEdit" name="dateStudentDOB">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -280,6 +266,41 @@ color:rgb(0, 0, 0)</string>
      <height>31</height>
     </rect>
    </property>
+  </widget>
+  <widget class="QComboBox" name="combClasses">
+   <property name="geometry">
+    <rect>
+     <x>102</x>
+     <y>301</y>
+     <width>261</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(25, 21, 59);
+color:rgb(255, 255, 255);
+font: 12pt &quot;PT Bold Heading&quot;;</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>الاول</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>الثاني</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>الثالث</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>الرابع</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

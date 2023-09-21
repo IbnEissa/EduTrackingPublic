@@ -1,5 +1,6 @@
 from peewee import *
 from models.BaseModel import BaseModel, db
+# from db import *
 from models.Members import Members
 
 

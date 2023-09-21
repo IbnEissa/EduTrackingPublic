@@ -20,6 +20,8 @@ class SubMain(QMainWindow):
         super(SubMain, self).__init__()
         self.ui_handler = ui_handler
         self.ui = self.ui_handler.get_ui()
+
+
         # self.ui.setFixedSize(1700, 950)
         # self.ui.setGeometry(200, 100, 70, 500)
         # button.setStyleSheet("border: none;")
