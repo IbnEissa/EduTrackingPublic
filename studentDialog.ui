@@ -79,7 +79,7 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
     <string>إلغــــــاء</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_8">
+  <widget class="QPushButton" name="labAddStudent">
    <property name="geometry">
     <rect>
      <x>0</x>

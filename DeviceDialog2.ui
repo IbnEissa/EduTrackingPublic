@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
-    <height>434</height>
+    <width>733</width>
+    <height>572</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>التهيئة</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -25,21 +25,37 @@ color:rgb(0, 0, 0);
 font: 18pt &quot;Mohammad Annoktah&quot;;</string>
        </property>
        <property name="text">
-        <string>إضافة جهاز بصمة جديد</string>
+        <string>بيانات جهاز البصمة </string>
        </property>
       </widget>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="22,40,10,18">
          <item>
-          <widget class="QTextEdit" name="txtIPAddress">
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>100</width>
+             <height>50</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="txtDeviceName">
            <property name="maximumSize">
             <size>
              <width>250</width>
              <height>40</height>
             </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 75 11pt &quot;MS Shell Dlg 2&quot;;</string>
            </property>
            <property name="inputMethodHints">
             <set>Qt::ImhDigitsOnly|Qt::ImhMultiLine|Qt::ImhPreferNumbers</set>
@@ -55,24 +71,53 @@ font: 18pt &quot;Mohammad Annoktah&quot;;</string>
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
            <property name="text">
             <string>اسم الجهاز</string>
            </property>
           </widget>
          </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>30</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QTextEdit" name="txtPortNumber">
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="txtIPNumber">
            <property name="maximumSize">
             <size>
              <width>250</width>
              <height>40</height>
             </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 75 11pt &quot;MS Shell Dlg 2&quot;;</string>
            </property>
            <property name="inputMethodHints">
             <set>Qt::ImhPreferNumbers</set>
@@ -88,24 +133,53 @@ font: 18pt &quot;Mohammad Annoktah&quot;;</string>
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
            <property name="text">
             <string>عنوان IP</string>
            </property>
           </widget>
          </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="22,40,10,19">
          <item>
-          <widget class="QTextEdit" name="txtIPAddress_2">
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="txtPortNumber">
            <property name="maximumSize">
             <size>
              <width>250</width>
              <height>40</height>
             </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 75 11pt &quot;MS Shell Dlg 2&quot;;</string>
            </property>
            <property name="inputMethodHints">
             <set>Qt::ImhDigitsOnly|Qt::ImhMultiLine|Qt::ImhPreferNumbers</set>
@@ -121,83 +195,86 @@ font: 18pt &quot;Mohammad Annoktah&quot;;</string>
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
            <property name="text">
             <string>رقم المنفذ</string>
            </property>
           </widget>
          </item>
+         <item>
+          <spacer name="horizontalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QTextEdit" name="txtPortNumber_2">
-           <property name="maximumSize">
-            <size>
-             <width>250</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="inputMethodHints">
-            <set>Qt::ImhPreferNumbers</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_5">
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
-           </property>
-           <property name="text">
-            <string>تابع مدرسة</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <layout class="QHBoxLayout" name="horizontalLayout_4"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <widget class="QPushButton" name="btnCancelAddingDevice">
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color:rgb(255, 85, 0);
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-           </property>
-           <property name="text">
-            <string>إلغــــــاء</string>
-           </property>
-          </widget>
-         </item>
          <item>
           <widget class="QPushButton" name="btnSaveDevice">
            <property name="maximumSize">
             <size>
              <width>150</width>
-             <height>50</height>
+             <height>60</height>
             </size>
            </property>
            <property name="styleSheet">
             <string notr="true">background-color:rgb(4, 0, 62);
 color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
+font: 15pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
            <property name="text">
-            <string>حفـــــظ</string>
+            <string>التالـــي</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icons/arrowLeft.png</normaloff>icons/arrowLeft.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnSkippingDevice">
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>60</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(4, 0, 62);
+color:rgb(255, 255, 255);
+font: 15pt &quot;Mohammad Annoktah&quot;;</string>
+           </property>
+           <property name="text">
+            <string>تخطي</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icons/arrow-left.png</normaloff>icons/arrow-left.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>30</width>
+             <height>30</height>
+            </size>
            </property>
           </widget>
          </item>
