@@ -2,12 +2,17 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QMouseEvent
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem, QAbstractItemView, QHeaderView, QDialog, QApplication, \
     QVBoxLayout, QWidget, QHBoxLayout
+from zk import ZK, const
+
 # from PyZkUI.models import ZK
 # from zk import const
 
 # from zk import ZK
 
 from GUI.Dialogs.DeviceDailog import MyDialog
+from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonDeviceWidget
+
+
 # from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonDeviceWidget, DeleteUpdateButtonTeachersWidget
 
 
@@ -52,7 +57,7 @@ class DeviceUI:
                     privilege = 'Admin'
                 else:
                     privilege = 'User'
-                operations_buttons = DeleteUpdateButtonTeachersWidget(table_widget=self.ui.tblDeviceUsers)
+                operations_buttons = DeleteUpdateButtonDeviceWidget(table_widget=self.ui.tblDeviceUsers)
                 current_row = self.ui.tblDevice.rowCount()
                 self.ui.tblDeviceUsers.insertRow(current_row)
                 self.ui.tblDeviceUsers.setItem(current_row, 0, QTableWidgetItem(user.user_id))

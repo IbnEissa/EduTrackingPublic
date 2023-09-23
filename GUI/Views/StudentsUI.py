@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QDialog, QMessageBox
 from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonStudentsWidget
 from GUI.Dialogs.StudentDialog import StudentDialog
 from models.Members import Members
+from models.School import School
 from models.Students import Students
 
 
@@ -30,7 +31,7 @@ class StudentsUI:
 
     def addMembersDataBase(self):
         if self.ui.tblStudents.rowCount() > 0:
-            schoolID = 1  # قم بتعديل هذا السطر إذا كان لديك معرف مدرسة محدد
+            lastInsertedSchoolId = School.select(peewee.fn.Max(School.id)).scalar()
             last_row_index = self.ui.tblStudents.rowCount() - 1
             fname = self.ui.tblStudents.item(last_row_index, 1).text()
             sname = self.ui.tblStudents.item(last_row_index, 2).text()
@@ -57,7 +58,7 @@ class StudentsUI:
             else:
                 try:
                     Members.insert({
-                        Members.school_id: schoolID,
+                        Members.school_id: lastInsertedSchoolId,
                         Members.fName: fname,
                         Members.sName: sname,
                         Members.tName: tname,

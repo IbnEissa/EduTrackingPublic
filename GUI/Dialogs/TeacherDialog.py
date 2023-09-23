@@ -8,6 +8,8 @@ from datetime import datetime
 import datetime
 from PyQt5.QtCore import QDate
 
+from models.Members import Members
+
 
 class TeacherDialog(QDialog):
     def __init__(self):
@@ -42,13 +44,18 @@ class TeacherDialog(QDialog):
                 raise ValueError("يجب ادخال التخصص ")
             if Task.strip() == "":
                 raise ValueError("يجب ادخال المهمة ")
-            self.accept()
-
-            # Return the values as a tuple
-            return FName, SName, TName, LName, Phone, DOB, Major, Task, state
-
+            existing_member = Members.select().where(
+                (Members.fName == FName) &
+                (Members.sName == SName) &
+                (Members.tName == TName) &
+                (Members.lName == LName)
+            ).first()
+            if existing_member:
+                raise ValueError("المعلم موجوداً بالفعل ")
+            else:
+                self.accept()
+                return FName, SName, TName, LName, Phone, DOB, Major, Task, state
         except Exception as e:
-            # Display error message in a message box
             error_message = "حدث خطأ:\n\n" + str(e)
             QMessageBox.critical(self, "خطأ", error_message)
             return None, None, None, None, None, None, None, None, None, None, None
