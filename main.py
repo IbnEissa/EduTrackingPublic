@@ -8,6 +8,7 @@ from GUI.Dialogs.InitializingTheProject.classesDialog import ClassesDialog
 # from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
 from GUI.Views.AttendanceUI import AttendanceUI
 from GUI.Views.CommonFunctionality import Common
+from GUI.Views.CouncilFathersUI import CouncilFathersUI
 from GUI.Views.DeviceUI import DeviceUI
 from GUI.Views.StudentsUI import StudentsUI
 from GUI.Views.TeachersUI import TeachersUI
@@ -16,7 +17,7 @@ from GUI.Views.PersonBasicDataUI import SubMain
 
 
 def main():
-    state = 0
+    state = 1
     app = QApplication([])
     # initial_design = 'SchoolData.ui'
     main_design = 'Design/EduTrac2.ui'
@@ -45,6 +46,8 @@ def main():
         common.use_ui_elements()
         students = StudentsUI(window)
         students.use_ui_elements()
+        council_fathers = CouncilFathersUI(window)
+        council_fathers.use_ui_elements()
         app.exec_()
 
 

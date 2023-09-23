@@ -13,6 +13,7 @@ from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachers
 from GUI.Dialogs.TeacherDialog import TeacherDialog
 from GUI.Views.DeviceUI import DeviceUI
 from models.Members import Members
+from models.School import School
 from models.Teachers import Teachers
 
 
@@ -80,11 +81,12 @@ class TeachersUI:
     def add_members_database(self):
         teacher_dialog = TeacherDialog()
         if teacher_dialog.exec_() == QDialog.Accepted:
+
             try:
-                schoolID = 1
+                lastInsertedSchoolId = School.select(peewee.fn.Max(School.id)).scalar()
                 FName, SName, TName, LName, Phone, DOB, Major, Task, state = teacher_dialog.save_data()
                 Members.insert({
-                    Members.school_id: schoolID,
+                    Members.school_id: lastInsertedSchoolId,
                     Members.fName: FName,
                     Members.sName: SName,
                     Members.tName: TName,
