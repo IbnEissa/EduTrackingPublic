@@ -1,164 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>dialog</class>
+ <widget class="QDialog" name="dialog">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>941</width>
-    <height>475</height>
+    <width>731</width>
+    <height>572</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>التهيئة</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/kisspng-computer-icons-businessperson-clip-art-3d-character-icon-vector-material-5aaef05a746085.5997945215214142344767.jpg</normaloff>icons/kisspng-computer-icons-businessperson-clip-art-3d-character-icon-vector-material-5aaef05a746085.5997945215214142344767.jpg</iconset>
+  </property>
+  <property name="whatsThis">
+   <string/>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="modal">
+   <bool>false</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <property name="spacing">
+    <number>10</number>
+   </property>
+   <property name="sizeConstraint">
+    <enum>QLayout::SetDefaultConstraint</enum>
+   </property>
+   <item>
     <widget class="QPushButton" name="pushButton_8">
      <property name="styleSheet">
       <string notr="true">background-color:rgb(223, 221, 220);
 color:rgb(0, 0, 0);
 
-font: 18pt &quot;Mohammad Annoktah&quot;;
-background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;
-</string>
+font: 18pt &quot;Mohammad Annoktah&quot;;</string>
      </property>
      <property name="text">
-      <string>بيانات المدرسة</string>
+      <string>البيانات الاساسية المدرسة</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="15,85">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QPushButton" name="pushButton">
-         <property name="maximumSize">
-          <size>
-           <width>130</width>
-           <height>50</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>اضافة</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="maximumSize">
-          <size>
-           <width>130</width>
-           <height>50</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>الغاء</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout" stretch="30,30,30">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>10</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="20,10,20,10,20,10">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QComboBox" name="comboBox_2">
+          <widget class="QLabel" name="label_4">
            <property name="maximumSize">
             <size>
-             <width>200</width>
-             <height>40</height>
+             <width>255</width>
+             <height>60</height>
             </size>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_5">
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>40</height>
-            </size>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
            <property name="text">
-            <string>المديرية</string>
+            <string>المسنوى الاكاديمي</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="comboAcademicLevel">
            <property name="maximumSize">
             <size>
-             <width>200</width>
+             <width>255</width>
              <height>40</height>
             </size>
            </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>ثانوي</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>إعدادي</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>إبتدائي</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>أساسي</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>شامل</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="label_3">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>255</width>
              <height>40</height>
             </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
            <property name="text">
-            <string>المحافظة</string>
+            <string>القرية او العزلة</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QTextEdit" name="textEdit">
+          <widget class="QTextEdit" name="txtVillage">
            <property name="maximumSize">
             <size>
-             <width>200</width>
+             <width>255</width>
              <height>40</height>
             </size>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>40</height>
-            </size>
+           <property name="styleSheet">
+            <string notr="true">font: 75 11pt &quot;MS Shell Dlg 2&quot;;</string>
            </property>
-           <property name="text">
-            <string>اسم المدرسة</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="20,10,20,10,20,10">
-         <item>
-          <widget class="QComboBox" name="comboBox_3">
-           <property name="maximumSize">
-            <size>
-             <width>200</width>
-             <height>40</height>
-            </size>
+           <property name="inputMethodHints">
+            <set>Qt::ImhPreferNumbers</set>
            </property>
           </widget>
          </item>
@@ -166,9 +157,12 @@ font: 15pt &quot;PT Bold Heading&quot;;
           <widget class="QLabel" name="label_7">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>255</width>
              <height>40</height>
             </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
            <property name="text">
             <string>نوع الطلاب</string>
@@ -176,62 +170,101 @@ font: 15pt &quot;PT Bold Heading&quot;;
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_4">
+          <widget class="QComboBox" name="comboGenderType">
            <property name="maximumSize">
             <size>
-             <width>200</width>
+             <width>255</width>
              <height>40</height>
             </size>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_3">
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>40</height>
-            </size>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
            </property>
-           <property name="text">
-            <string>المسنوى الااديمي</string>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QTextEdit" name="textEdit_4">
-           <property name="maximumSize">
-            <size>
-             <width>200</width>
-             <height>40</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_4">
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>القرية او العزلة</string>
-           </property>
+           <item>
+            <property name="text">
+             <string>بنين</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>بنات</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>مختلط</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="20,10,20,10">
+        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0">
          <item>
-          <widget class="QDateEdit" name="dateEdit">
+          <widget class="QLabel" name="label_5">
            <property name="maximumSize">
             <size>
-             <width>200</width>
+             <width>255</width>
              <height>40</height>
             </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
+           </property>
+           <property name="text">
+            <string>اسم المدرسة :  </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="txtSchoolName">
+           <property name="maximumSize">
+            <size>
+             <width>255</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 75 11pt &quot;MS Shell Dlg 2&quot;;</string>
+           </property>
+           <property name="inputMethodHints">
+            <set>Qt::ImhDigitsOnly|Qt::ImhMultiLine|Qt::ImhPreferNumbers</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="maximumSize">
+            <size>
+             <width>255</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
+           </property>
+           <property name="text">
+            <string>المحافظة : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboCity">
+           <property name="maximumSize">
+            <size>
+             <width>255</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
           </widget>
          </item>
@@ -239,41 +272,53 @@ font: 15pt &quot;PT Bold Heading&quot;;
           <widget class="QLabel" name="label_6">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>255</width>
              <height>40</height>
             </size>
            </property>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
+           </property>
            <property name="text">
-            <string>تارخ التعديل</string>
+            <string>المديرية : </string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QDateEdit" name="dateEdit_2">
+          <widget class="QComboBox" name="combDirectorates">
            <property name="maximumSize">
             <size>
-             <width>200</width>
+             <width>255</width>
              <height>40</height>
             </size>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_8">
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>40</height>
-            </size>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
            </property>
-           <property name="text">
-            <string>تاريخ الانشاء</string>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSaveSchool">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(4, 0, 62);
+color:rgb(255, 255, 255);
+font: 15pt &quot;Mohammad Annoktah&quot;;</string>
+       </property>
+       <property name="text">
+        <string>التالي</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>icons/arrowLeft.png</normaloff>icons/arrowLeft.png</iconset>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QDialog, QMessageBox
     QWidget, QHBoxLayout, QVBoxLayout
 from zk import ZK
 
+from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
 # from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
 from GUI.Dialogs.TeacherDialog import TeacherDialog
 from GUI.Views.DeviceUI import DeviceUI
@@ -33,7 +34,7 @@ class TeachersUI:
         self.ui.txtTeachersSearch.textChanged.connect(self.get_members_data)
 
     def get_members_data(self):
-        columns = ['id', 'fName', 'phone', 'dateBerth', 'major', 'task', 'state', 'fingerPrintData']
+        columns = ['id', 'fName', 'sName', 'tName', 'lName', 'phone', 'dateBerth', 'major', 'task', 'state', 'fingerPrintData']
         search_item = self.ui.txtTeachersSearch.toPlainText().lower()
 
         members_query = Members.select().join(Teachers).where(
@@ -47,7 +48,7 @@ class TeachersUI:
                     item_value = getattr(member_data, column_name)
 
                 except AttributeError:
-                    teacher_data = Teachers.get(Teachers.id == member_data.id)
+                    teacher_data = Teachers.get(Teachers.members_id == member_data.id)
                     item_value = getattr(teacher_data, column_name)
                     if column_name == 'fingerPrintData':
                         item_value = getattr(teacher_data, column_name)
@@ -71,10 +72,10 @@ class TeachersUI:
             operations_buttons = DeleteUpdateButtonTeachersWidget(table_widget=self.ui.tblTeachers)
             if self.finger_button_state:
                 new_instance = operations_buttons.get_buttons('New')
-                self.ui.tblTeachers.setCellWidget(row, 8, new_instance)
+                self.ui.tblTeachers.setCellWidget(row, 11, new_instance)
             else:
                 new_instance = operations_buttons.get_buttons('Old')
-                self.ui.tblTeachers.setCellWidget(row, 8, new_instance)
+                self.ui.tblTeachers.setCellWidget(row, 11, new_instance)
 
     def add_members_database(self):
         teacher_dialog = TeacherDialog()
