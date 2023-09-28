@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QPushButton" name="btnSaveDevice">
+  <widget class="QPushButton" name="btnSaveUser">
    <property name="geometry">
     <rect>
      <x>270</x>
@@ -31,7 +31,7 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
     <string>حفـــــظ</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="txtPortNumber">
+  <widget class="QTextEdit" name="txtUserName">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -44,7 +44,7 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
     <set>Qt::ImhPreferNumbers</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnCancelAddingDevice">
+  <widget class="QPushButton" name="btnCancelAddingUser">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -89,7 +89,7 @@ font: 15pt &quot;PT Bold Heading&quot;;
     <string>اضافة مستخدم جديد</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="txtIPAddress">
+  <widget class="QTextEdit" name="txtname">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -105,9 +105,9 @@ font: 15pt &quot;PT Bold Heading&quot;;
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>350</x>
      <y>210</y>
-     <width>71</width>
+     <width>111</width>
      <height>21</height>
     </rect>
    </property>
@@ -115,7 +115,7 @@ font: 15pt &quot;PT Bold Heading&quot;;
     <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
    </property>
    <property name="text">
-    <string>User Name</string>
+    <string>إسم المستخدم</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -131,10 +131,10 @@ font: 15pt &quot;PT Bold Heading&quot;;
     <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
    </property>
    <property name="text">
-    <string>اسم المستخدم الجديد</string>
+    <string>الاسم : </string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="txtPortNumber_2">
+  <widget class="QTextEdit" name="txtPassword">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -150,20 +150,20 @@ font: 15pt &quot;PT Bold Heading&quot;;
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>360</x>
      <y>260</y>
-     <width>71</width>
-     <height>21</height>
+     <width>101</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
    </property>
    <property name="text">
-    <string>Passwored</string>
+    <string>كلمة المرور :</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="comboAccountType">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -171,6 +171,14 @@ font: 15pt &quot;PT Bold Heading&quot;;
      <width>261</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(25, 21, 59);
+color:rgb(255, 255, 255);
+font: 12pt &quot;PT Bold Heading&quot;;</string>
    </property>
    <item>
     <property name="text">

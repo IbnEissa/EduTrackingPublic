@@ -19,31 +19,22 @@ class UserDialog(QDialog):
 
     def save_data(self):
         try:
-            accountType = self.combAccountType.currentText()
-            Name = self.txtName.toPlainText()
-            userName = self.txtUserName.toPlainText()
-            userPassword = self.txtPasswordUser.toPlainText()
+            account_type = self.comboAccountType.currentText()
+            name = self.txtname.toPlainText()
+            user_name = self.txtUserName.toPlainText()
+            password = self.txtPassword.toPlainText()
 
-
-
-            if accountType.strip() == "":
-                raise ValueError("يجب ادخال الاسم الاول ")
-            if Name.strip() == "":
-                raise ValueError("يجب ادخال إسم الأب ")
-            if userName.strip() == "":
-                raise ValueError("يجب ادخال الاسم الجد ")
-            if userPassword.strip() == "":
-                raise ValueError("يجب ادخال إسم اللقب ")
-
+            if name.strip() == "":
+                raise ValueError("يجب ادخال الاسم ")
+            if user_name.strip() == "":
+                raise ValueError("يجب ادخال إسم المستخدم ")
+            if password.strip() == "":
+                raise ValueError("يجب ادخال كلمة المرور ")
             self.accept()
-            # print(FName)
-            # Return the values as a tuple
-            return accountType, Name, userName, userPassword
+            return account_type, name, user_name, password
 
         except Exception as e:
             # Display error message in a message box
             error_message = "حدث خطأ:\n\n" + str(e)
             QMessageBox.critical(self, "خطأ", error_message)
-            return None, None, None, None, None, None, None, None
-
-
+            return None, None, None, None

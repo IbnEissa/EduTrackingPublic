@@ -6,6 +6,7 @@ from PyQt5.uic import loadUi
 
 from GUI.Dialogs.InitializingTheProject.DeviceInintDialog import DeviceInitDialog
 from GUI.Dialogs.InitializingTheProject.classesDialog import ClassesDialog
+from GUI.Views.CommonFunctionality import Common
 from models.City import Cities
 from models.Directorate import Directories
 from models.School import School
@@ -18,6 +19,8 @@ class SchoolDialog(QDialog):
         self.get_cities_combo_data()
         self.setWindowFlags(Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint)
 
+    # this is the method that makes the design of the dialog very good
+
     def use_ui_elements(self):
         self.btnSaveSchool.clicked.connect(self.add_school_data)
         # self.btnSkipSchool.clicked.connect(self.skipping_dialog)
@@ -28,13 +31,13 @@ class SchoolDialog(QDialog):
         if index is not None:
             column_names = 'name'
             where_clause = Directories.city_id == index + 1
-            directories = self.retrieve_combobox_data(Directories, column_names, where_clause)
+            directories = Common.get_combo_box_data(self, Directories, column_names, where_clause)
             self.combDirectorates.clear()
             self.combDirectorates.addItems(directories)
 
     def get_cities_combo_data(self):
         column_names = 'name'
-        cities = self.retrieve_combobox_data(Cities, column_names)
+        cities = Common.get_combo_box_data(self, Cities, column_names)
         self.comboCity.clear()
         self.comboCity.addItems(cities)
 
@@ -59,14 +62,3 @@ class SchoolDialog(QDialog):
         device.use_ui_elements()
         device.exec_()
         self.hide()
-
-    def retrieve_combobox_data(self, table_model, column_name, where_clause=None):
-        query = table_model.select(getattr(table_model, column_name)).distinct()
-        print(f"The where clause is: {where_clause}")
-        if where_clause is not None:
-            query = query.where(where_clause)
-        items = []
-        for data in query:
-            item_value = getattr(data, column_name)
-            items.append(str(item_value))
-        return items

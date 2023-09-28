@@ -73,7 +73,6 @@ class DeleteUpdateButtonStudentsWidget(QWidget):
                     print("Student does not exist.")
 
     def on_update_button_clicked(self):
-        self.table_widget.setColumnHidden(0, True)
 
         clicked_button = self.sender()
         if clicked_button:
@@ -83,6 +82,7 @@ class DeleteUpdateButtonStudentsWidget(QWidget):
 
                 # Fetch the user with the selected ID from the database
                 member_id = self.table_widget.item(row, 0)
+                print("the member id is : ", member_id.text())
                 # Get the data from the selected row in the table_widget
                 fname_stu = self.table_widget.item(row, 1)
                 secname_stu = self.table_widget.item(row, 2)
@@ -106,50 +106,30 @@ class DeleteUpdateButtonStudentsWidget(QWidget):
                     student_dialog.dateStudentDOB.setDate(date)
                     student_dialog.txtStudentParentPhone.setPlainText(par_phone.text())
                     if student_dialog.exec_() == QDialog.Accepted:
-                        fname = student_dialog.txtStudentFName.toPlainText()
-                        sname = student_dialog.txtStudentSecName.toPlainText()
-                        thirname = student_dialog.txtStudentThirName.toPlainText()
-                        lname = student_dialog.txtStudentLName.toPlainText()
-                        stuClass = student_dialog.combClasses.currentText()
-                        birth = student_dialog.dateStudentDOB.date().toPyDate()
-                        phoneStu = student_dialog.txtStudentParentPhone.toPlainText()
+                        FName, SName, TName, LName, ClassId, Birth, Phone, ClassName = student_dialog.save_data()
+                        print("the member id is : ", member_id.text())
+                        m = Members.get_members_by_id(self,member_id.text())
+                        m.school_id = lastInsertedSchoolId
+                        m.fName = FName
+                        m.sName = SName
+                        m.tName = TName
+                        m.lName = LName
+                        m.phone = Phone
+                        m.dateBerth = Birth
+                        m.save()
 
-                        self.table_widget.setItem(row, 1, QTableWidgetItem(fname))
-                        self.table_widget.setItem(row, 2, QTableWidgetItem(sname))
-                        self.table_widget.setItem(row, 3, QTableWidgetItem(thirname))
-                        self.table_widget.setItem(row, 4, QTableWidgetItem(lname))
-                        self.table_widget.setItem(row, 5, QTableWidgetItem(stuClass))
-                        self.table_widget.setItem(row, 6, QTableWidgetItem(str(birth)))
-                        self.table_widget.setItem(row, 7, QTableWidgetItem(phoneStu))
-
-                        # member_id = student_dialog.labAddStudent.text()
-                        # existing_member = Members.select().where(
-                        #     (Members.fName == fname) &
-                        #     (Members.sName == sname) &
-                        #     (Members.tName == thirname) &
-                        #     (Members.lName == lname)
-                        # ).first()
-                        # if existing_member:
-                        #     QMessageBox.critical(self, "خطأ", "العضو موجودًا بالفعل: ")
-                        # else:
-
-                            # Update the Members table
-                        member = Members.get_by_id(member_id)
-                        member.school_id = lastInsertedSchoolId
-                        member.fName = fname
-                        member.sName = sname
-                        member.tName = thirname
-                        member.lName = lname
-                        member.phone = phoneStu
-                        member.dateBerth = birth
-                        member.save()
-
-                        # Update the Students table
-                        student = Students.get(Students.member_id == member_id)
-                        student.className = stuClass
-                        student.Phone = phoneStu
+                        student = Students.get(Students.member_id == m.id)
+                        student.class_id = ClassId
                         student.save()
-
+                        self.table_widget.setItem(row, 0, QTableWidgetItem(member_id.text()))
+                        self.table_widget.setItem(row, 1, QTableWidgetItem(FName))
+                        self.table_widget.setItem(row, 2, QTableWidgetItem(SName))
+                        self.table_widget.setItem(row, 3, QTableWidgetItem(TName))
+                        self.table_widget.setItem(row, 4, QTableWidgetItem(LName))
+                        self.table_widget.setItem(row, 5, QTableWidgetItem(ClassName))
+                        self.table_widget.setItem(row, 6, QTableWidgetItem(str(Birth)))
+                        self.table_widget.setItem(row, 7, QTableWidgetItem(Phone))
+                        self.table_widget.setColumnHidden(0, True)
                         QMessageBox.information(self, "نجاح", "تم التعديل بنجاح")
 
 
@@ -320,7 +300,7 @@ class DeleteUpdateButtonCouncilFathersWidget(QWidget):
                 Members.delete()
 
     def on_update_button_clicked(self):
-        print ("the update button is clicked")
+        print("the update button is clicked")
         clicked_button = self.sender()
         if clicked_button:
             cell_widget = clicked_button.parentWidget()

@@ -11,6 +11,7 @@ from zk import ZK
 from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
 # from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
 from GUI.Dialogs.TeacherDialog import TeacherDialog
+from GUI.Views.CommonFunctionality import Common
 from GUI.Views.DeviceUI import DeviceUI
 from models.Members import Members
 from models.School import School
@@ -26,6 +27,7 @@ class TeachersUI:
         self.lastInsertedMemberId = 0
         self.lastInsertedTeacherId = 0
         self.finger_button_state = True
+        self.ui.tblTeachers.setColumnHidden(0, True)
 
     def use_ui_elements(self):
         self.ui.tblTeachers.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -35,6 +37,7 @@ class TeachersUI:
         self.ui.txtTeachersSearch.textChanged.connect(self.get_members_data)
 
     def get_members_data(self):
+        Common.style_table_widget(self.ui, self.ui.tblTeachers)
         columns = ['id', 'fName', 'sName', 'tName', 'lName', 'phone', 'dateBerth', 'major', 'task', 'state', 'fingerPrintData']
         search_item = self.ui.txtTeachersSearch.toPlainText().lower()
 
@@ -63,6 +66,7 @@ class TeachersUI:
                 table_item = QTableWidgetItem(str(item_value))
                 table_items.append(table_item)
 
+
             self.ui.tblTeachers.insertRow(row)
             for col, item in enumerate(table_items):
                 self.ui.tblTeachers.setItem(row, col, item)
@@ -74,11 +78,15 @@ class TeachersUI:
             if self.finger_button_state:
                 new_instance = operations_buttons.get_buttons('New')
                 self.ui.tblTeachers.setCellWidget(row, 11, new_instance)
+                Common.style_table_widget(self.ui, self.ui.tblTeachers)
             else:
                 new_instance = operations_buttons.get_buttons('Old')
                 self.ui.tblTeachers.setCellWidget(row, 11, new_instance)
+                Common.style_table_widget(self.ui, self.ui.tblTeachers)
+                Common.style_table_widget(self.ui, self.ui.tblTeachers)
 
     def add_members_database(self):
+        Common.style_table_widget(self.ui, self.ui.tblTeachers)
         teacher_dialog = TeacherDialog()
         if teacher_dialog.exec_() == QDialog.Accepted:
 
@@ -100,7 +108,6 @@ class TeachersUI:
                     Teachers.major: Major,
                     Teachers.task: Task,
                     Teachers.state: state,
-                    # Teachers.fingerPrintData: fingerPrintData,
                 }).execute()
                 has_finger_print_data = 'لا'
                 teacher = [FName, SName, TName, LName, Phone, DOB, Major, Task, state, has_finger_print_data]
@@ -113,6 +120,7 @@ class TeachersUI:
                 print(result)
                 if result:
                     self.add_new_teacher_to_table_widget(self.lastInsertedTeacherId, teacher)
+                    Common.style_table_widget(self.ui, self.ui.tblTeachers)
                     QMessageBox.information(self.ui, "نجاح", "تم الحفظ بنجاح")
                 else:
                     QMessageBox.critical(self.ui, "خطأ", "لم يتم الحفظ بنجاح")
@@ -125,7 +133,7 @@ class TeachersUI:
             operations_buttons = DeleteUpdateButtonTeachersWidget(table_widget=self.ui.tblTeachers)
             current_row = self.ui.tblTeachers.rowCount()
             self.ui.tblTeachers.insertRow(current_row)
-            self.ui.tblTeachers.setItem(current_row, 0, QTableWidgetItem(str(teacher_id)))
+            # self.ui.tblTeachers.setItem(current_row, 0, QTableWidgetItem(str(teacher_id)))
             self.ui.tblTeachers.setItem(current_row, 1, QTableWidgetItem(teacher[0]))
             self.ui.tblTeachers.setItem(current_row, 2, QTableWidgetItem(teacher[1]))
             self.ui.tblTeachers.setItem(current_row, 3, QTableWidgetItem(teacher[2]))
@@ -139,6 +147,7 @@ class TeachersUI:
             self.ui.tblTeachers.setCellWidget(current_row, 11, operations_buttons.get_buttons('Old'))
             self.ui.tblTeachers.setColumnWidth(current_row, 40)
             self.ui.tblTeachers.setRowHeight(current_row, 150)
+            Common.style_table_widget(self.ui, self.ui.tblTeachers)
             # self.add_to_members_to_device(str(teacher_id),teacher[0])
         except Exception as e:
             error_message = "حدث خطأ:\n\n" + str(e)

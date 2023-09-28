@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QDialog, QMessageBox
 # from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonCouncilFathersWidget
 from GUI.Dialogs.CouncilFathersDialog import CouncilFathersDialog
 from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonCouncilFathersWidget
+from GUI.Views.CommonFunctionality import Common
 from GUI.Views.DeviceUI import DeviceUI
 from models.Members import Members
 from models.CouncilFathers import CouncilFathers
@@ -62,6 +63,7 @@ class CouncilFathersUI:
             self.ui.tblCouncilFathers.setRowHeight(row, 150)
             operations_buttons = DeleteUpdateButtonCouncilFathersWidget(table_widget=self.ui.tblCouncilFathers)
             self.ui.tblCouncilFathers.setCellWidget(row, 8, operations_buttons)
+            Common.style_table_widget(self.ui, self.ui.tblCouncilFathers)
 
     def add_council_fathers_database(self):
         CouncilFathers_dialog = CouncilFathersDialog()

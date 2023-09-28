@@ -18,5 +18,10 @@ class Members(BaseModel):
     class Meta:
         table_name = 'members'
 
-
+    def get_members_by_id(self, id):
+        try:
+            class_obj = Members.get(Members.id == id)
+            return class_obj
+        except DoesNotExist:
+            return None
 # db.create_tables([Members])

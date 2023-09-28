@@ -276,6 +276,9 @@ color:rgb(0, 0, 0)</string>
      <height>51</height>
     </rect>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">background-color:rgb(25, 21, 59);
 color:rgb(255, 255, 255);
