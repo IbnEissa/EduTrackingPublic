@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QDialog, QMessageBox
 
 from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonStudentsWidget
 from GUI.Dialogs.StudentDialog import StudentDialog
+from GUI.Views.CommonFunctionality import Common
+from models.ClassRoom import ClassRoom
 from models.Members import Members
 from models.School import School
 from models.Students import Students
@@ -19,120 +21,96 @@ class StudentsUI:
         self.ports = ''
         self.lastInsertedMemberId = 0
         self.lastInsertedStudentId = 0
-        # self.ui.tblStudents.setColumnHidden(0, True)
-        # self.ui.tblStudents.setColumnHidden(8, True)
+        self.id = 0
+        self.ui.tblStudents.setColumnHidden(0, True)
 
     def use_ui_elements(self):
         self.ui.tblStudents.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui.tblStudents.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.tblStudents.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.ui.btnAddNewStudent.clicked.connect(self.add_new_student)
+        self.ui.btnAddNewStudent.clicked.connect(self.add_members_database)
         self.ui.txtStudentsSearch.textChanged.connect(self.get_member_data)
 
-    def addMembersDataBase(self):
-        if self.ui.tblStudents.rowCount() > 0:
-            lastInsertedSchoolId = School.select(peewee.fn.Max(School.id)).scalar()
-            last_row_index = self.ui.tblStudents.rowCount() - 1
-            fname = self.ui.tblStudents.item(last_row_index, 1).text()
-            sname = self.ui.tblStudents.item(last_row_index, 2).text()
-            tname = self.ui.tblStudents.item(last_row_index, 3).text()
-            lname = self.ui.tblStudents.item(last_row_index, 4).text()
-            classname = self.ui.tblStudents.item(last_row_index, 5).text()
-            dateBerth = self.ui.tblStudents.item(last_row_index, 6).text()
-            parentPhone = self.ui.tblStudents.item(last_row_index, 7).text()
-
-            # التحقق مما إذا كان العضو موجودًا بالفعل
-            existing_member = Members.select().where(
-                (Members.fName == fname) &
-                (Members.sName == sname) &
-                (Members.tName == tname) &
-                (Members.lName == lname)
-            ).first()
-            if existing_member:
-                # العضو موجود بالفعل، يمكنك التعامل مع حالة التكرار هنا
-                QMessageBox.critical(self.ui, "خطأ", "العضو موجودًا بالفعل: ")
-                print("العضو موجود بالفعل!")
-                return
-
-                # العضو غير موجود، قم بإجراء الإدخال
-            else:
-                try:
-                    Members.insert({
-                        Members.school_id: lastInsertedSchoolId,
-                        Members.fName: fname,
-                        Members.sName: sname,
-                        Members.tName: tname,
-                        Members.lName: lname,
-                        Members.phone: parentPhone,
-                        Members.dateBerth: dateBerth,
-                    }).execute()
-                    self.lastInsertedMemberId = Members.select(peewee.fn.Max(Members.id)).scalar()
-                    Students.insert({
-                        Students.member_id: self.lastInsertedMemberId,
-                        Students.class_id: classname,
-                    }).execute()
-                    self.lastInsertedStudentId = Students.select(peewee.fn.Max(Students.id)).scalar()
-
-                    print("the id inserted m is : ", self.lastInsertedMemberId)
-                    print("the id inserted S is : ", self.lastInsertedStudentId)
-                    QMessageBox.information(self.ui, "نجاح", "تم الحفظ بنجاح")
-                except ValueError as e:
-                    QMessageBox.critical(self.ui, "خطأ", f"لم يتم الحفظ بنجاح: {str(e)}")
-
-    def add_new_student(self):
-        print("the add clicked")
-        self.ui.tblStudents.setColumnHidden(8, True)
-        self.ui.tblStudents.setColumnHidden(0, True)
-        self.ui.tblStudents.setRowCount(0)
+    def add_members_database(self):
         student_dialog = StudentDialog()
         if student_dialog.exec_() == QDialog.Accepted:
             try:
-                operationsButtons = DeleteUpdateButtonStudentsWidget(table_widget=self.ui.tblStudents)
-                FName, SName, TName, LName, Classname, Birth, Phone = student_dialog.save_data()  # Call save_data() on mydialog instance
-                current_row = self.ui.tblTeachers.rowCount()  # Get the current row index
-                self.ui.tblStudents.insertRow(current_row)  # Insert a new row at the current row index
-                self.ui.tblStudents.setItem(current_row, 1, QTableWidgetItem(FName))
-                self.ui.tblStudents.setItem(current_row, 2, QTableWidgetItem(SName))
-                self.ui.tblStudents.setItem(current_row, 3, QTableWidgetItem(TName))
-                self.ui.tblStudents.setItem(current_row, 4, QTableWidgetItem(LName))
-                self.ui.tblStudents.setItem(current_row, 5, QTableWidgetItem(str(Classname)))
-                self.ui.tblStudents.setItem(current_row, 6, QTableWidgetItem(str(Birth)))
-                self.ui.tblStudents.setItem(current_row, 7, QTableWidgetItem(Phone))
-                self.ui.tblStudents.setCellWidget(current_row, 8, operationsButtons)
+                lastInsertedSchoolId = School.select(peewee.fn.Max(School.id)).scalar()
+                FName, SName, TName, LName, ClassId, Birth, Phone, ClassName = student_dialog.save_data()
+                Members.insert({
+                    Members.school_id: lastInsertedSchoolId,
+                    Members.fName: FName,
+                    Members.sName: SName,
+                    Members.tName: TName,
+                    Members.lName: LName,
+                    Members.phone: Phone,
+                    Members.dateBerth: Birth,
+                }).execute()
+                self.lastInsertedMemberId = Members.select(peewee.fn.Max(Members.id)).scalar()
+                Students.insert({
+                    Students.member_id: self.lastInsertedMemberId,
+                    Students.class_id: ClassId,
+                }).execute()
+                self.lastInsertedStudentId = Students.select(peewee.fn.Max(Students.id)).scalar()
+                student = [FName, SName, TName, LName, ClassId, Birth, Phone, ClassName]
+                for s in student:
+                    print(s)
+                self.add_new_student_to_table_widget(self.lastInsertedStudentId, student)
+                QMessageBox.information(self.ui, "نجاح", "تم الحفظ بنجاح")
+            except ValueError as e:
+                QMessageBox.critical(self.ui, "خطأ", f"لم يتم الحفظ بنجاح: {str(e)}")
 
-                self.ui.tblStudents.setColumnWidth(current_row, 40)
-                self.ui.tblStudents.setRowHeight(current_row, 150)
-
-                self.addMembersDataBase()
-
-            except Exception as e:
-                error_message = "حدث خطأ:\n\n" + str(e)
-                QMessageBox.critical(self.ui, "خطأ", error_message)
+    def add_new_student_to_table_widget(self, student_id, student):
+        # self.ui.tblStudents.setColumnHidden(8, True)
+        self.ui.tblStudents.setColumnHidden(0, True)
+        self.ui.tblStudents.setRowCount(0)
+        try:
+            operationsButtons = DeleteUpdateButtonStudentsWidget(table_widget=self.ui.tblStudents)
+            current_row = self.ui.tblTeachers.rowCount()  # Get the current row index
+            self.ui.tblStudents.insertRow(current_row)  # Insert a new row at the current row index
+            self.ui.tblStudents.setItem(current_row, 0, QTableWidgetItem(student_id))
+            self.ui.tblStudents.setItem(current_row, 1, QTableWidgetItem(student[0]))
+            self.ui.tblStudents.setItem(current_row, 2, QTableWidgetItem(student[1]))
+            self.ui.tblStudents.setItem(current_row, 3, QTableWidgetItem(student[2]))
+            self.ui.tblStudents.setItem(current_row, 4, QTableWidgetItem(student[3]))
+            self.ui.tblStudents.setItem(current_row, 5, QTableWidgetItem(student[7]))
+            self.ui.tblStudents.setItem(current_row, 6, QTableWidgetItem(str(student[5])))
+            self.ui.tblStudents.setItem(current_row, 7, QTableWidgetItem(str(student[6])))
+            self.ui.tblStudents.setCellWidget(current_row, 8, operationsButtons)
+            self.ui.tblStudents.setColumnWidth(current_row, 40)
+            self.ui.tblStudents.setRowHeight(current_row, 150)
+        except Exception as e:
+            error_message = "حدث خطأ:\n\n" + str(e)
+            QMessageBox.critical(self.ui, "خطأ", error_message)
 
     def get_member_data(self):
         self.ui.tblStudents.setColumnHidden(8, False)
-
         try:
             columns = ['id', 'fName', 'sName', 'tName', 'lName', 'class_id', 'dateBerth', 'phone']
-            # search_item = self.ui.txtTeachersSearch.lower()
             search_item = self.ui.txtStudentsSearch.toPlainText().lower()
-            members_query = Members.select().join(Students).where(
+            members_query = Members.select().join(Students).join(ClassRoom, on=(Students.class_id == ClassRoom.id),
+                                                                 join_type=peewee.JOIN.LEFT_OUTER).where(
                 peewee.fn.LOWER(Members.fName).contains(search_item)).distinct()
 
             self.ui.tblStudents.setRowCount(0)  # Clear existing rows in the table
+
             for row, member_data in enumerate(members_query):
                 table_items = []
+
                 for column_name in columns:
                     try:
                         item_value = getattr(member_data, column_name)
                     except AttributeError:
-                        Student_data = Students.get(Students.member_id == member_data.id)
-                        item_value = getattr(Student_data, column_name)
+                        student_data = Students.get(Students.member_id == member_data.id)
+                        item_value = getattr(student_data, column_name)
+                        if column_name == 'class_id':
+                            self.id = getattr(student_data, column_name)
 
                     table_item = QTableWidgetItem(str(item_value))
                     table_items.append(table_item)
 
                 self.ui.tblStudents.insertRow(row)
+
                 for col, item in enumerate(table_items):
                     self.ui.tblStudents.setItem(row, col, item)
 
@@ -141,6 +119,10 @@ class StudentsUI:
 
                 operations_buttons = DeleteUpdateButtonStudentsWidget(table_widget=self.ui.tblStudents)
                 self.ui.tblStudents.setCellWidget(row, 8, operations_buttons)
+                class_name = ClassRoom.get_class_name_from_id(self.ui, self.id)
+                print(class_name)
+                self.ui.tblStudents.setItem(row, 5, QTableWidgetItem(class_name))
+                Common.style_table_widget(self.ui, self.ui.tblStudents)
         except Exception as e:
             error_message = "حدث خطأ:\n\n" + str(e)
             QMessageBox.critical(self.ui, "خطأ", error_message)

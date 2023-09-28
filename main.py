@@ -4,6 +4,7 @@ from GUI.Dialogs.DeviceDailog import MyDialog
 from GUI.Dialogs.InitializingTheProject.DeviceInintDialog import DeviceInitDialog
 from GUI.Dialogs.InitializingTheProject.DialogsManager import DialogManager
 from GUI.Dialogs.InitializingTheProject.SchoolDialog import SchoolDialog
+from GUI.Dialogs.InitializingTheProject.TeachersInit import TeachersInit
 from GUI.Dialogs.InitializingTheProject.classesDialog import ClassesDialog
 # from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonTeachersWidget
 from GUI.Views.AttendanceUI import AttendanceUI
@@ -12,24 +13,27 @@ from GUI.Views.CouncilFathersUI import CouncilFathersUI
 from GUI.Views.DeviceUI import DeviceUI
 from GUI.Views.StudentsUI import StudentsUI
 from GUI.Views.TeachersUI import TeachersUI
+from GUI.Views.UsersUI import UsersUI
 from GUI.Views.uihandler import UIHandler
 from GUI.Views.PersonBasicDataUI import SubMain
 
 
 def main():
-    state = 1
+    state = 0
     app = QApplication([])
     # initial_design = 'SchoolData.ui'
     main_design = 'Design/EduTrac2.ui'
     if state == 0:
-        school = SchoolDialog()
-        school.use_ui_elements()
+        # school = SchoolDialog()
+        # school.use_ui_elements()
+        teachers = TeachersInit()
+        # teachers.use_ui_elements()
         # dialog_manager = DialogManager()
         # dialog_manager.push_dialog(DeviceInitDialog(dialog_manager))
         # dialog_manager.show_current_dialog()
         # device = DeviceInitDialog()
         # device.use_ui_elements()
-        school.show()
+        teachers.show()
         app.exec_()
     else:
         ui_handler = UIHandler(main_design)
@@ -48,6 +52,8 @@ def main():
         students.use_ui_elements()
         council_fathers = CouncilFathersUI(window)
         council_fathers.use_ui_elements()
+        user = UsersUI(window)
+        user.use_ui_elements()
         app.exec_()
 
 

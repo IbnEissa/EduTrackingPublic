@@ -406,7 +406,7 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
           <string notr="true">background-color:rgb(223, 221, 220)</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab_177">
           <attribute name="title">
@@ -905,7 +905,7 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
                     </font>
                    </property>
                    <property name="currentIndex">
-                    <number>4</number>
+                    <number>1</number>
                    </property>
                    <widget class="QWidget" name="tab_232">
                     <attribute name="title">
@@ -1366,6 +1366,37 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
                              <item>
                               <layout class="QHBoxLayout" name="horizontalLayout_13">
                                <item>
+                                <widget class="QPushButton" name="btnAddNewTeacher_62">
+                                 <property name="maximumSize">
+                                  <size>
+                                   <width>130</width>
+                                   <height>50</height>
+                                  </size>
+                                 </property>
+                                 <property name="layoutDirection">
+                                  <enum>Qt::LeftToRight</enum>
+                                 </property>
+                                 <property name="styleSheet">
+                                  <string notr="true">background-color:rgb(4, 0, 62);
+color:rgb(255, 255, 255);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+                                 </property>
+                                 <property name="text">
+                                  <string>عرض</string>
+                                 </property>
+                                 <property name="icon">
+                                  <iconset>
+                                   <normaloff>../../newjob/icons/add-to-28.svg</normaloff>../../newjob/icons/add-to-28.svg</iconset>
+                                 </property>
+                                 <property name="iconSize">
+                                  <size>
+                                   <width>30</width>
+                                   <height>30</height>
+                                  </size>
+                                 </property>
+                                </widget>
+                               </item>
+                               <item>
                                 <widget class="QLabel" name="label_193">
                                  <property name="maximumSize">
                                   <size>
@@ -1452,37 +1483,6 @@ background-color: rgb(255, 255, 255);</string>
                                    <string>الثالث الثانوي</string>
                                   </property>
                                  </item>
-                                </widget>
-                               </item>
-                               <item>
-                                <widget class="QPushButton" name="btnAddNewTeacher_62">
-                                 <property name="maximumSize">
-                                  <size>
-                                   <width>130</width>
-                                   <height>50</height>
-                                  </size>
-                                 </property>
-                                 <property name="layoutDirection">
-                                  <enum>Qt::LeftToRight</enum>
-                                 </property>
-                                 <property name="styleSheet">
-                                  <string notr="true">background-color:rgb(4, 0, 62);
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-                                 </property>
-                                 <property name="text">
-                                  <string>عرض</string>
-                                 </property>
-                                 <property name="icon">
-                                  <iconset>
-                                   <normaloff>../../newjob/icons/add-to-28.svg</normaloff>../../newjob/icons/add-to-28.svg</iconset>
-                                 </property>
-                                 <property name="iconSize">
-                                  <size>
-                                   <width>30</width>
-                                   <height>30</height>
-                                  </size>
-                                 </property>
                                 </widget>
                                </item>
                               </layout>
@@ -4443,11 +4443,6 @@ font: 10pt &quot;PT Bold Heading&quot;;</string>
            </layout>
           </widget>
          </widget>
-         <widget class="QWidget" name="tab_196">
-          <attribute name="title">
-           <string>المستخدمين</string>
-          </attribute>
-         </widget>
          <widget class="QWidget" name="tab_4">
           <attribute name="title">
            <string>الأعدادات</string>
@@ -4465,7 +4460,7 @@ font: 10pt &quot;PT Bold Heading&quot;;</string>
               <string notr="true">background-color:rgb(223, 221, 220)</string>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="tab_5">
               <attribute name="title">
@@ -5204,7 +5199,7 @@ font: 15pt &quot;PT Bold Heading&quot;;
                     <number>20</number>
                    </property>
                    <item>
-                    <widget class="QPushButton" name="btnAddNewTeacher_41">
+                    <widget class="QPushButton" name="btnAddNewUser">
                      <property name="layoutDirection">
                       <enum>Qt::LeftToRight</enum>
                      </property>
@@ -5255,7 +5250,7 @@ font: 15pt &quot;Mohammad Annoktah&quot;;</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QTextEdit" name="txtTeachersSearch_35">
+                    <widget class="QTextEdit" name="txtUsersSearch">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                        <horstretch>0</horstretch>
@@ -5295,7 +5290,7 @@ font: 10pt &quot;PT Bold Heading&quot;;</string>
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_184">
                    <item>
-                    <widget class="QTableWidget" name="tblTeachers_57">
+                    <widget class="QTableWidget" name="tblUsers">
                      <property name="styleSheet">
                       <string notr="true">QTableWidget {
     background-color: #FFFFFF;
@@ -5322,17 +5317,52 @@ QTableWidget::item:selected {
                      </property>
                      <column>
                       <property name="text">
-                       <string>اسم المستخدم</string>
+                       <string>الرقم</string>
                       </property>
                      </column>
                      <column>
                       <property name="text">
-                       <string>UserName</string>
+                       <string>نوع الحساب</string>
                       </property>
                      </column>
                      <column>
                       <property name="text">
-                       <string>Password</string>
+                       <string>الاسم</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>إسم المستخدم</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>كلمة المرور</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>الحالة</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>وقت الانشاء</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>وقت التعديل</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string> التهيئة</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>العمليات</string>
                       </property>
                      </column>
                     </widget>

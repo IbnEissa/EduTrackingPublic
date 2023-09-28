@@ -1,3 +1,7 @@
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QHeaderView
+
+
 class Common:
     def __init__(self, submain_instance):
         self.submain = submain_instance
@@ -17,7 +21,7 @@ class Common:
         self.ui.tabMainTab.setCurrentIndex(0)
 
     def settings_button_clicked(self):
-        self.ui.tabMainTab.setCurrentIndex(6)
+        self.ui.tabMainTab.setCurrentIndex(5)
         self.ui.tabSettings.setCurrentIndex(0)
 
     def btn_management_clicked(self):
@@ -34,3 +38,22 @@ class Common:
 
     def archive_button_clicked(self):
         self.ui.tabMainTab.setCurrentIndex(4)
+
+    def get_combo_box_data(self, table_model, column_name, where_clause=None):
+        query = table_model.select(getattr(table_model, column_name)).distinct()
+        print(f"The where clause is: {where_clause}")
+        if where_clause is not None:
+            query = query.where(where_clause)
+        items = []
+        for data in query:
+            item_value = getattr(data, column_name)
+            items.append(str(item_value))
+        return items
+
+    def style_table_widget(self, table_widget):
+        table_widget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        for row in range(table_widget.rowCount()):
+            for col in range(table_widget.columnCount()):
+                item = table_widget.item(row, col)
+                if item is not None:
+                    item.setTextAlignment(Qt.AlignCenter)

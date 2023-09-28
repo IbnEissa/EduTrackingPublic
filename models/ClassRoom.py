@@ -20,4 +20,21 @@ class ClassRoom(BaseModel):
             created_classes.append(class_obj)
         return created_classes
 
+    def get_class_id_from_name(self, class_name):
+        try:
+            class_obj = ClassRoom.get(ClassRoom.name == class_name)
+            return class_obj.id
+        except DoesNotExist:
+            return None
+
+    def get_class_name_from_id(self, class_id):
+        try:
+            class_obj = ClassRoom.get(ClassRoom.id == class_id)
+            return class_obj.name
+        except DoesNotExist:
+            return None
+
+    # this is the method that update the data in the database with data that takes as a parameters
+
+
 # db.create_tables([ClassRoom])

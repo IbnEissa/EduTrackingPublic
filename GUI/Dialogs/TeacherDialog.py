@@ -20,6 +20,7 @@ class TeacherDialog(QDialog):
         self.btnCancelAddingTeacher.clicked.connect(self.reject)
 
     def save_data(self):
+
         try:
             FName = self.txtTeacherFName.toPlainText()
             SName = self.txtTeacherSecName.toPlainText()
