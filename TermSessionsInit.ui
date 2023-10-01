@@ -23,7 +23,7 @@
       <number>0</number>
      </property>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="35,5,60">
        <item>
         <widget class="QPushButton" name="pushButton_3">
          <property name="styleSheet">
@@ -33,50 +33,97 @@ color:rgb(0, 0, 0);
 font: 18pt &quot;Mohammad Annoktah&quot;;</string>
          </property>
          <property name="text">
-          <string>بيانات االمعلمين</string>
+          <string>بيانات الحصص الخاصة بالترم</string>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="5,5,0,5,0,5,0">
          <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnAddNewTeacher">
+          <widget class="QPushButton" name="btnAddNewSession">
            <property name="maximumSize">
             <size>
              <width>130</width>
-             <height>50</height>
+             <height>35</height>
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color:rgb(4, 0, 62);
-color:rgb(255, 255, 255);
-font: 15pt &quot;Mohammad Annoktah&quot;;</string>
+            <string notr="true">background-color:rgb(223, 221, 220);
+color:rgb(0, 0, 0);
+font: 14pt &quot;PT Bold Heading&quot;;</string>
            </property>
            <property name="text">
-            <string>جديد</string>
+            <string>إضافة</string>
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>icons/add-to-28.svg</normaloff>icons/add-to-28.svg</iconset>
+             <normaloff>icons/save.svg</normaloff>icons/save.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>30</width>
+             <height>30</height>
             </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPlainTextEdit" name="txtNumberOfSessions">
+           <property name="maximumSize">
+            <size>
+             <width>250</width>
+             <height>35</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="styleSheet">
+            <string notr="true">	font: 10pt &quot;PT Bold Heading&quot;;</string>
+           </property>
+           <property name="text">
+            <string>عدد الحصص في الاسبوع :</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboSubjects">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>35</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="styleSheet">
+            <string notr="true">	font: 10pt &quot;PT Bold Heading&quot;;</string>
+           </property>
+           <property name="text">
+            <string>الماده :</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboClasses">
+           <property name="maximumSize">
+            <size>
+             <width>250</width>
+             <height>35</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="styleSheet">
+            <string notr="true">	font: 10pt &quot;PT Bold Heading&quot;;</string>
+           </property>
+           <property name="text">
+            <string>الصف :</string>
            </property>
           </widget>
          </item>
@@ -85,7 +132,7 @@ font: 15pt &quot;Mohammad Annoktah&quot;;</string>
        <item>
         <layout class="QGridLayout" name="gridLayout">
          <item row="2" column="0">
-          <widget class="QPushButton" name="btnSaveTeachers">
+          <widget class="QPushButton" name="btnSaveTermSessions">
            <property name="maximumSize">
             <size>
              <width>140</width>
@@ -113,7 +160,7 @@ font: 15pt &quot;Mohammad Annoktah&quot;;</string>
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QTableWidget" name="listTeachers">
+          <widget class="QTableWidget" name="tblTermSessions">
            <property name="layoutDirection">
             <enum>Qt::RightToLeft</enum>
            </property>
@@ -148,27 +195,17 @@ QTableWidget::item:selected {
            </column>
            <column>
             <property name="text">
-             <string>الاسم الاول</string>
+             <string>الصف</string>
             </property>
            </column>
            <column>
             <property name="text">
-             <string>الاسم الثاني</string>
+             <string>الماده</string>
             </property>
            </column>
            <column>
             <property name="text">
-             <string>الاسم الثالث</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>اللقب</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>البصمة</string>
+             <string>عدد الحصص في الاسبوع</string>
             </property>
            </column>
            <column>
@@ -179,7 +216,7 @@ QTableWidget::item:selected {
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QPushButton" name="btnSkippingTeachers">
+          <widget class="QPushButton" name="btnSkippingTermSessions">
            <property name="maximumSize">
             <size>
              <width>150</width>
