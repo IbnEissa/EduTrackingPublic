@@ -2,6 +2,8 @@ import peewee
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
 from PyQt5.uic import loadUi
+
+from GUI.Dialogs.InitializingTheProject.TeachersInit import TeachersInit
 from models.Device import Device
 from models.School import School
 from models.Subjects import Subjects
@@ -25,10 +27,10 @@ class SubjectsDialog(QDialog):
         self.btnSkipSubjects.clicked.connect(self.skipping_subjects)
 
     def skipping_subjects(self):
-        # subjects = SubjectsDialog()
-        # subjects.use_ui_elements()
+        teachers = TeachersInit()
+        teachers.use_ui_elements()
         self.reject()
-        # subjects.exec_()
+        teachers.exec_()
 
     def add_to_list(self):
         name = self.txtSubjectName.toPlainText()
@@ -38,7 +40,7 @@ class SubjectsDialog(QDialog):
         self.listSubjects.takeItem(self.listSubjects.currentRow())
 
     def add_subjects_data(self):
-        subject_added = False  # Flag to track if any classes were added
+        subject_added = False
 
         for row in range(self.listSubjects.count()):
             item = self.listSubjects.item(row)
