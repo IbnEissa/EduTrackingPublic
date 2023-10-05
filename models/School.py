@@ -1,14 +1,12 @@
 from peewee import *
-from models.BaseModel import BaseModel
-from models.City import Cities
+from models.BaseModel import BaseModel, db
 import datetime
-from models.Directorate import Directories
 
 
 class School(BaseModel):
     school_name = CharField(max_length=100)
-    city = ForeignKeyField(Cities, backref="schools")
-    directorate = ForeignKeyField(Directories, backref="schools")
+    city = CharField(max_length=30)
+    directorate = CharField(max_length=30)
     village = CharField(max_length=30)
     academic_level = CharField(max_length=20)
     student_gender_type = CharField(max_length=10)
@@ -31,4 +29,12 @@ class School(BaseModel):
         )
         school.save()
         return school
-        # db.create_tables([School])
+
+    def get_school_by_id(self, id):
+        try:
+            school_obj = School.get(School.id == id)
+            return school_obj
+        except DoesNotExist:
+            return None
+
+# db.create_tables([School])

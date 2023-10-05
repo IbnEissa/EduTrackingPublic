@@ -12,7 +12,6 @@ import logging
 import codecs
 
 from GUI.Dialogs.UserDialog import UserDialog
-from GUI.Views.PersonBasicDataUI import SubMain
 from GUI.Views.uihandler import UIHandler
 from models.CouncilFathers import CouncilFathers
 from models.Members import Members
@@ -23,6 +22,7 @@ from models.Members import Members
 from models.School import School
 from models.Students import Students
 from models.Users import Users
+from models.term_table import TeacherSubjectClassRoomTermTable
 
 lastInsertedSchoolId = School.select(peewee.fn.Max(School.id)).scalar()
 
@@ -108,7 +108,7 @@ class DeleteUpdateButtonStudentsWidget(QWidget):
                     if student_dialog.exec_() == QDialog.Accepted:
                         FName, SName, TName, LName, ClassId, Birth, Phone, ClassName = student_dialog.save_data()
                         print("the member id is : ", member_id.text())
-                        m = Members.get_members_by_id(self,member_id.text())
+                        m = Members.get_members_by_id(self, member_id.text())
                         m.school_id = lastInsertedSchoolId
                         m.fName = FName
                         m.sName = SName
@@ -592,10 +592,8 @@ class DeleteUpdateButtonTeachersWidget(QWidget):
         conn = None
         try:
             conn = zk.connect()
-
             if conn:
                 conn.disable_device()
-
                 user_id = str(userid)
                 finger_index = int(fingureindex)
 
