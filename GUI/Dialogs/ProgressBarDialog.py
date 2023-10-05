@@ -41,7 +41,7 @@ class AttendanceUI:
         self.ui.tblAttendence.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui.tblAttendence.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.tblAttendence.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.ui.btnShowAttendance.clicked.connect(self.start_attendance_retrieval)
+        # self.ui.btnShowAttendance.clicked.connect(self.start_attendance_retrieval)
 
     def get_user_name(self, user_id):
         zk = ZK('192.168.1.201', port=4370, timeout=5)

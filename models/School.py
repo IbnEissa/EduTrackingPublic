@@ -1,5 +1,5 @@
 from peewee import *
-from models.BaseModel import BaseModel ,db
+from models.BaseModel import BaseModel, db
 import datetime
 
 
@@ -30,5 +30,11 @@ class School(BaseModel):
         school.save()
         return school
 
+    def get_school_by_id(self, id):
+        try:
+            school_obj = School.get(School.id == id)
+            return school_obj
+        except DoesNotExist:
+            return None
 
 # db.create_tables([School])

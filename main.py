@@ -1,4 +1,6 @@
 import sys
+
+import peewee
 from PyQt5.QtWidgets import QApplication, QDialog
 from GUI.Dialogs.InitializingTheProject.SchoolDialog import SchoolDialog
 from GUI.Dialogs.InitializingTheProject.TermSessionsInit import TermSessionsInit
@@ -11,6 +13,7 @@ from GUI.Views.TeachersUI import TeachersUI
 from GUI.Views.UsersUI import UsersUI
 from GUI.Views.uihandler import UIHandler
 from GUI.Views.PersonBasicDataUI import SubMain
+from models.School import School
 
 
 class Main:
@@ -43,13 +46,12 @@ class Main:
         main_design = 'Design/EduTrac2.ui'
         ui_handler = UIHandler(main_design)
         window = SubMain(ui_handler)
-        window.ui.showMaximized()
         Device = DeviceUI(window)
         Device.use_ui_elements()
         Teacher = TeachersUI(window)
         Teacher.use_ui_elements()
-        # attendance = AttendanceUI(window)
-        # attendance.use_ui_elements()
+        attendance = AttendanceUI(window)
+        attendance.use_ui_elements()
         common = Common(window)
         common.use_ui_elements()
         students = StudentsUI(window)
@@ -58,12 +60,17 @@ class Main:
         council_fathers.use_ui_elements()
         user = UsersUI(window)
         user.use_ui_elements()
+        window.ui.showMaximized()
         sys.exit(app.exec_())
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    state_value = 0
+    school_data = School.select(peewee.fn.Max(School.id)).scalar()
+    if school_data:
+        state_value = 1
+    else:
+        state_value = 0
     main = Main(state_value)
     main.main()
     sys.exit(app.exec_())

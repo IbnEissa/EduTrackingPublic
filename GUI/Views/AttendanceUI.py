@@ -1,5 +1,8 @@
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QTableWidgetItem
+from zk import ZK
+
+
 # from zk import ZK
 
 
@@ -17,7 +20,7 @@ class AttendanceRetriever(object):
         self.device_port = device_port
 
     def retrieve_attendance_data(self):
-        # zk = ZK(self.device_ip, port=self.device_port)
+        zk = ZK(self.device_ip, port=self.device_port)
         conn = zk.connect()
         if conn:
             attendance_data = conn.get_attendance()
@@ -76,8 +79,8 @@ class AttendanceUI:
                 user_id = attendance.user_id
                 timestamp = attendance.timestamp.strftime('%Y-%m-%d %H:%M:%S')  # Convert to string
                 status = attendance.status
-                punch = str(attendance.punch)  # Convert to string
-                user_name = self.get_user_name(user_id)  # Retrieve user name from device
+                punch = str(attendance.punch)
+                user_name = self.get_user_name(user_id)
                 current_row = self.ui.tblAttendence.rowCount()
                 self.ui.tblAttendence.insertRow(current_row)
                 self.ui.tblAttendence.setItem(current_row, 0, QTableWidgetItem(str(user_id)))

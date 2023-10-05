@@ -1,19 +1,23 @@
+import peewee
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QHeaderView
+
+from models.School import School
 
 
 class Common:
     def __init__(self, submain_instance):
         self.submain = submain_instance
-
+        lastInsertedSchoolId = 0
         self.ui = self.submain.ui
+        self.make_school_name()
 
     def use_ui_elements(self):
         self.ui.btnHome.clicked.connect(self.home_button_clicked)
         self.ui.btnManagement.clicked.connect(self.btn_management_clicked)
         self.ui.btnEmpsMovement.clicked.connect(self.btn_emp_movement)
         self.ui.btnReports.clicked.connect(self.reports_button_clicked)
-        self.ui.btnArchive.clicked.connect(self.archive_button_clicked)
+        # self.ui.btnArchive.clicked.connect(self.archive_button_clicked)
         self.ui.btnSettings.clicked.connect(self.settings_button_clicked)
         self.ui.tabMainTab.tabBar().setVisible(False)
         self.ui.tabMainTab.setCurrentIndex(0)
@@ -36,6 +40,12 @@ class Common:
     def reports_button_clicked(self):
         self.ui.tabMainTab.setCurrentIndex(4)
         self.ui.tabTeachersReports.setCurrentIndex(0)
+
+    def make_school_name(self):
+        self.lastInsertedSchoolId = School.select(peewee.fn.Max(School.id)).scalar()
+        id = self.lastInsertedSchoolId
+        school = School.get_school_by_id(self.ui, id)
+        self.ui.btnSchoolName.setText(school.school_name)
 
     def archive_button_clicked(self):
         self.ui.tabMainTab.setCurrentIndex(4)

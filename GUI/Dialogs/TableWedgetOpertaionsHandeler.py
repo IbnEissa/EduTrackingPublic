@@ -12,7 +12,6 @@ import logging
 import codecs
 
 from GUI.Dialogs.UserDialog import UserDialog
-from GUI.Views.PersonBasicDataUI import SubMain
 from GUI.Views.uihandler import UIHandler
 from models.CouncilFathers import CouncilFathers
 from models.Members import Members
@@ -132,93 +131,6 @@ class DeleteUpdateButtonStudentsWidget(QWidget):
                         self.table_widget.setItem(row, 7, QTableWidgetItem(Phone))
                         self.table_widget.setColumnHidden(0, True)
                         QMessageBox.information(self, "نجاح", "تم التعديل بنجاح")
-
-
-class DeleteUpdateButtonTermInitWidget(QWidget):
-    def __init__(self, table_widget, parent=None):
-        super().__init__(parent)
-        self.table_widget = table_widget
-        layout = QVBoxLayout()
-        self.delete_ste = QPushButton("حــــذف")
-        self.update_stu = QPushButton("تفاصيل")
-        self.delete_ste.setFixedSize(110, 40)
-        self.update_stu.setStyleSheet("color: white; background-color: blue; font: 12pt 'PT Bold Heading';")
-        self.delete_ste.setStyleSheet("color: white; background-color: red;font:12pt 'PT Bold Heading';")
-        self.update_stu.setFixedSize(110, 40)
-        layout.addSpacing(3)
-        layout.addWidget(self.update_stu)
-        layout.addSpacing(3)
-        layout.addWidget(self.delete_ste)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setAlignment(Qt.AlignCenter)
-        self.setLayout(layout)
-
-        self.delete_ste.clicked.connect(self.on_delete_button_clicked)
-        self.update_stu.clicked.connect(self.on_update_button_clicked)
-
-    def on_delete_button_clicked(self):
-        print("on_delete_button_clicked")
-        clicked_button = self.sender()
-        if clicked_button:
-            cell_widget = clicked_button.parentWidget()
-            if cell_widget and self.table_widget:
-                row = self.table_widget.indexAt(cell_widget.pos()).row()
-                # Fetch the user with the selected ID from the database
-                term_id = self.table_widget.item(row, 0)
-                try:
-                    term = TeacherSubjectClassRoomTermTable.get_by_id(int(term_id.text()))
-                    reply = QMessageBox.question(self, "تأكيدالحذف", "هل أنت متأكد أنك تريد حذف هذا الطالب",
-                                                 QMessageBox.Yes | QMessageBox.No)
-                    if reply == QMessageBox.Yes:
-                        self.table_widget.removeRow(row)
-                        term.delete_instance()
-                        QMessageBox.information(self, "نجاح", "تم الحذف بنجاح")
-                except TeacherSubjectClassRoomTermTable.DoesNotExist:
-                    print("Student does not exist.")
-
-    def on_update_button_clicked(self):
-        clicked_button = self.sender()
-        if clicked_button:
-            cell_widget = clicked_button.parentWidget()
-            if cell_widget and self.table_widget:
-                row = self.table_widget.indexAt(cell_widget.pos()).row()
-
-                term_id = self.table_widget.item(row, 0)
-                print("the member id is : ", term_id.text())
-                class_name = self.table_widget.item(row, 1)
-                subject_name = self.table_widget.item(row, 2)
-                number_of_sessions = self.table_widget.item(row, 3)
-                if term_id and class_name and subject_name and number_of_sessions:
-                    TeacherSubjectClassRoomTermTable.get_elements(term_id, class_name, subject_name, number_of_sessions)
-                    term.btnAddNewSession.setText('حفظ')
-                    term.comboClasses.setCurrentText(class_name.text())
-                    term.comboSubjects.setCurrentText(subject_name.text())
-                    term.txtNumberOfSessions.setPlainText(number_of_sessions.text())
-                    # FName, SName, TName, LName, ClassId, Birth, Phone, ClassName = student_dialog.save_data()
-                    # print("the member id is : ", member_id.text())
-                    # m = Members.get_members_by_id(self,member_id.text())
-                    # m.school_id = lastInsertedSchoolId
-                    # m.fName = FName
-                    # m.sName = SName
-                    # m.tName = TName
-                    # m.lName = LName
-                    # m.phone = Phone
-                    # m.dateBerth = Birth
-                    # m.save()
-                    #
-                    # student = Students.get(Students.member_id == m.id)
-                    # student.class_id = ClassId
-                    # student.save()
-                    # self.table_widget.setItem(row, 0, QTableWidgetItem(member_id.text()))
-                    # self.table_widget.setItem(row, 1, QTableWidgetItem(FName))
-                    # self.table_widget.setItem(row, 2, QTableWidgetItem(SName))
-                    # self.table_widget.setItem(row, 3, QTableWidgetItem(TName))
-                    # self.table_widget.setItem(row, 4, QTableWidgetItem(LName))
-                    # self.table_widget.setItem(row, 5, QTableWidgetItem(ClassName))
-                    # self.table_widget.setItem(row, 6, QTableWidgetItem(str(Birth)))
-                    # self.table_widget.setItem(row, 7, QTableWidgetItem(Phone))
-                    # self.table_widget.setColumnHidden(0, True)
-                    # QMessageBox.information(self, "نجاح", "تم التعديل بنجاح")
 
 
 class DeleteUpdateButtonUsersWidget(QWidget):
@@ -680,10 +592,8 @@ class DeleteUpdateButtonTeachersWidget(QWidget):
         conn = None
         try:
             conn = zk.connect()
-
             if conn:
                 conn.disable_device()
-
                 user_id = str(userid)
                 finger_index = int(fingureindex)
 

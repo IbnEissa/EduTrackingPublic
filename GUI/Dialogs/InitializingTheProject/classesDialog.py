@@ -3,8 +3,6 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox, QListWidgetItem
 from PyQt5.uic import loadUi
 
-from GUI.Dialogs.InitializingTheProject.DialogsManager import DialogManager
-from GUI.Dialogs.InitializingTheProject.SubjectsDialog import SubjectsDialog
 from GUI.Dialogs.InitializingTheProject.TermSessionsInit import TermSessionsInit
 from models.ClassRoom import ClassRoom
 from models.School import School
