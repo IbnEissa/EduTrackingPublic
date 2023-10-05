@@ -33,8 +33,8 @@ class Main:
 
         if school.result() == QDialog.Accepted:
             term_dialog = TermSessionsInit()
+            term_dialog.accept()
             term_dialog.use_ui_elements()
-            term_dialog.exec_()
 
             if term_dialog.result() == QDialog.Accepted:
                 self.method_1()

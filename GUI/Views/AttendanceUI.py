@@ -81,7 +81,7 @@ class AttendanceUI:
                 current_row = self.ui.tblAttendence.rowCount()
                 self.ui.tblAttendence.insertRow(current_row)
                 self.ui.tblAttendence.setItem(current_row, 0, QTableWidgetItem(str(user_id)))
-                self.ui.tblAttendence.setItem(current_row, 1, QTableWidgetItem(user_name))  # Set user name
+                self.ui.tblAttendence.setItem(current_row, 1, QTableWidgetItem(user_name))
                 self.ui.tblAttendence.setItem(current_row, 2, QTableWidgetItem(timestamp))
                 self.ui.tblAttendence.setItem(current_row, 3, QTableWidgetItem(status))
                 self.ui.tblAttendence.setItem(current_row, 4, QTableWidgetItem(punch))

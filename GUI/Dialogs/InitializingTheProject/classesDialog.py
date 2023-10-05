@@ -5,6 +5,7 @@ from PyQt5.uic import loadUi
 
 from GUI.Dialogs.InitializingTheProject.DialogsManager import DialogManager
 from GUI.Dialogs.InitializingTheProject.SubjectsDialog import SubjectsDialog
+from GUI.Dialogs.InitializingTheProject.TermSessionsInit import TermSessionsInit
 from models.ClassRoom import ClassRoom
 from models.School import School
 
@@ -28,10 +29,14 @@ class ClassesDialog(QDialog):
         self.btnSkipClasses.clicked.connect(self.skipping_classes)
 
     def skipping_classes(self):
-        subjects = SubjectsDialog()
-        subjects.use_ui_elements()
+        # subjects = SubjectsDialog()
+        # subjects.use_ui_elements()
+        # self.reject()
+        # subjects.exec_()
+        term = TermSessionsInit()
+        term.use_ui_elements()
         self.reject()
-        subjects.exec_()
+        term.exec_()
 
     def add_to_list(self):
         name = self.txtClassName.toPlainText()
@@ -56,6 +61,9 @@ class ClassesDialog(QDialog):
 
         if classes_added:
             self.accept()
-            subjects = SubjectsDialog()
-            subjects.use_ui_elements()
-            subjects.exec_()
+            # subjects = SubjectsDialog()
+            # subjects.use_ui_elements()
+            # subjects.exec_()
+            term = TermSessionsInit()
+            term.use_ui_elements()
+            term.exec_()

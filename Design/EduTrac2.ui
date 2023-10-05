@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1504</width>
+    <width>1198</width>
     <height>903</height>
    </rect>
   </property>
@@ -406,7 +406,7 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
           <string notr="true">background-color:rgb(223, 221, 220)</string>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>5</number>
          </property>
          <widget class="QWidget" name="tab_177">
           <attribute name="title">
@@ -905,7 +905,7 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
                     </font>
                    </property>
                    <property name="currentIndex">
-                    <number>1</number>
+                    <number>2</number>
                    </property>
                    <widget class="QWidget" name="tab_232">
                     <attribute name="title">
@@ -1070,6 +1070,9 @@ QTableWidget::item:selected {
     background-color:rgb(25, 21, 65);
     color:rgb(255, 255, 255);
 }</string>
+                           </property>
+                           <property name="textElideMode">
+                            <enum>Qt::ElideRight</enum>
                            </property>
                            <column>
                             <property name="text">
@@ -4460,7 +4463,7 @@ font: 10pt &quot;PT Bold Heading&quot;;</string>
               <string notr="true">background-color:rgb(223, 221, 220)</string>
              </property>
              <property name="currentIndex">
-              <number>4</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab_5">
               <attribute name="title">
@@ -5389,7 +5392,7 @@ QTableWidget::item:selected {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1504</width>
+     <width>1198</width>
      <height>26</height>
     </rect>
    </property>

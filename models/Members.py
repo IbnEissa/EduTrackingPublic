@@ -24,4 +24,11 @@ class Members(BaseModel):
             return class_obj
         except DoesNotExist:
             return None
+
+    def get_member_id_from_name(self, member_name):
+        try:
+            member_object = Members.get(Members.name == member_name)
+            return member_object.id
+        except DoesNotExist:
+            return None
 # db.create_tables([Members])

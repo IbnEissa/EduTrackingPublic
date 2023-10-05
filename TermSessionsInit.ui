@@ -95,6 +95,12 @@ font: 14pt &quot;PT Bold Heading&quot;;</string>
              <height>35</height>
             </size>
            </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
+           </property>
           </widget>
          </item>
          <item>
@@ -114,6 +120,12 @@ font: 14pt &quot;PT Bold Heading&quot;;</string>
              <width>250</width>
              <height>35</height>
             </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;Mohammad Annoktah&quot;;</string>
            </property>
           </widget>
          </item>
