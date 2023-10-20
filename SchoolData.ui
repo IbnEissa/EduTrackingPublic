@@ -43,7 +43,7 @@
     <enum>QLayout::SetDefaultConstraint</enum>
    </property>
    <item>
-    <widget class="QPushButton" name="pushButton_8">
+    <widget class="QPushButton" name="labAddSchool">
      <property name="styleSheet">
       <string notr="true">background-color:rgb(223, 221, 220);
 color:rgb(0, 0, 0);
@@ -317,6 +317,30 @@ font: 15pt &quot;Mohammad Annoktah&quot;;</string>
        <property name="icon">
         <iconset>
          <normaloff>icons/arrowLeft.png</normaloff>icons/arrowLeft.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnUpdateSchool">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(4, 0, 62);
+color:rgb(255, 255, 255);
+font: 15pt &quot;Mohammad Annoktah&quot;;</string>
+       </property>
+       <property name="text">
+        <string>حفظ</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnCancelSchool">
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(4, 0, 62);
+color:rgb(255, 255, 255);
+font: 15pt &quot;Mohammad Annoktah&quot;;</string>
+       </property>
+       <property name="text">
+        <string>إلغاء</string>
        </property>
       </widget>
      </item>

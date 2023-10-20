@@ -7,10 +7,11 @@ from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QDialog, QMessageBox
 from GUI.Dialogs.TableWedgetOpertaionsHandeler import DeleteUpdateButtonUsersWidget, DeleteUpdateButtonTeachersWidget, \
     DeleteUpdateButtonStudentsWidget
 from GUI.Dialogs.UserDialog import UserDialog
+from GUI.Dialogs.UserLoginDialog import UserLoginDialog
 from GUI.Views.CommonFunctionality import Common
-from models.Users import Users
 from models.School import School
 from models.Users import Users
+from models.Permissions import Permissions
 
 
 class UsersUI:
@@ -22,7 +23,6 @@ class UsersUI:
         self.lastInsertedMemberId = 0
         self.lastInsertedUserId = 0
         self.ui.tblUsers.setColumnHidden(0, True)
-        self.ui.tblUsers.setColumnHidden(0, True)
         self.state = 'False'
         self.initialization = 'False'
 
@@ -33,7 +33,20 @@ class UsersUI:
         self.ui.btnAddNewUser.clicked.connect(self.add_new_user)
         self.ui.txtUsersSearch.textChanged.connect(self.get_users_data)
 
+    def login(self):
+        user_login = UserLoginDialog()
+        user_login.use_ui_elements()
+        user_login.exec_()
+        result = user_login.login()
+        if result is True:
+            return True
+        else:
+            return False
     def add_new_user(self):
+        # result_condition = Common.grant_permission_to_clicked_button(self.ui, permission="bt_save_user")
+        # if result_condition is True:
+
+        self.ui.tblUsers.setRowCount(0)
         user_dialog = UserDialog()
         if user_dialog.exec_() == QDialog.Accepted:
             try:
@@ -47,11 +60,67 @@ class UsersUI:
                     Users.state: self.state,
                     Users.initialization: self.initialization,
                 }).execute()
+                self.lastInsertedUserId = Users.select(peewee.fn.Max(Users.id)).scalar()
+                Permissions.insert({
+                    Permissions.users_id: self.lastInsertedUserId,
+                    Permissions.led_main: False,
+                    Permissions.led_manage: False,
+                    Permissions.led_setting: False,
+
+                    Permissions.bt_save_student: False,
+                    Permissions.bt_search_student: False,
+                    Permissions.bt_update_student: False,
+                    Permissions.bt_delete_student: False,
+                    Permissions.bt_export_student: False,
+                    Permissions.bt_show_student: False,
+                    Permissions.bt_reports_student: False,
+
+                    Permissions.bt_save_teacher: False,
+                    Permissions.bt_search_teacher: False,
+                    Permissions.bt_update_teacher: False,
+                    Permissions.bt_delete_teacher: False,
+                    Permissions.bt_export_teacher: False,
+                    Permissions.bt_show_teacher: False,
+                    Permissions.bt_reports_teacher: False,
+
+                    Permissions.bt_save_fathers: False,
+                    Permissions.bt_search_fathers: False,
+                    Permissions.bt_update_fathers: False,
+                    Permissions.bt_delete_fathers: False,
+
+                    Permissions.bt_save_user: False,
+                    Permissions.bt_search_user: False,
+                    Permissions.bt_update_user: False,
+                    Permissions.bt_delete_user: False,
+
+                    Permissions.bt_save_device: False,
+                    Permissions.bt_search_device: False,
+                    Permissions.bt_update_device: False,
+                    Permissions.bt_delete_device: False,
+                    Permissions.bt_export_device: False,
+                    Permissions.bt_show_device: False,
+
+                    Permissions.bt_save_attendance: False,
+                    Permissions.bt_search_attendance: False,
+                    Permissions.bt_update_attendance: False,
+                    Permissions.bt_delete_attendance: False,
+                    Permissions.bt_export_attendance: False,
+                    Permissions.bt_show_attendance: False,
+
+                    Permissions.bt_save_timetable_student: False,
+                    Permissions.bt_show_timetable_student: False,
+                    Permissions.bt_export_timetable_student: False,
+
+                    Permissions.bt_show_timetable_teacher: False,
+                    # Permissions.bt_save_timetable_teacher: False,
+                    # Permissions.bt_export_timetable_teacher: False,
+
+                }).execute()
                 self.lastInsertedMemberId = Users.select(peewee.fn.Max(Users.id)).scalar()
                 user = Users.get(Users.id == self.lastInsertedMemberId)
                 creation_date = user.created_at
                 update_date = user.updated_at
-                user = [self.lastInsertedMemberId,account_type, name, user_name, password, self.state,
+                user = [self.lastInsertedMemberId, account_type, name, user_name, password, self.state,
                         self.initialization, creation_date, update_date
                         ]
                 self.add_new_user_to_table_widget(user)
@@ -59,12 +128,14 @@ class UsersUI:
                 QMessageBox.information(self.ui, "نجاح", "تم الحفظ بنجاح")
             except ValueError as e:
                 QMessageBox.critical(self.ui, "خطأ", f"لم يتم الحفظ بنجاح: {str(e)}")
+        # else:
+        #     QMessageBox.information(self.ui, "الصلاحية", "ليس لديك الصلاحية")
 
     def add_new_user_to_table_widget(self, user):
         self.ui.tblUsers.setColumnHidden(0, True)
         self.ui.tblUsers.setRowCount(0)
         try:
-            operationsButtons = DeleteUpdateButtonStudentsWidget(table_widget=self.ui.tblUsers)
+            operationsButtons = DeleteUpdateButtonUsersWidget(table_widget=self.ui.tblUsers)
             current_row = self.ui.tblTeachers.rowCount()  # Get the current row index
             self.ui.tblUsers.insertRow(current_row)  # Insert a new row at the current row index
             self.ui.tblUsers.setItem(current_row, 0, QTableWidgetItem(user[0]))
@@ -84,37 +155,43 @@ class UsersUI:
             QMessageBox.critical(self.ui, "خطأ", error_message)
 
     def get_users_data(self):
-        self.ui.tblUsers.setColumnHidden(0, True)
-        Common.style_table_widget(self.ui, self.ui.tblStudents)
-        try:
-            columns = ['id', 'account_type', 'Name', 'userName', 'userPassword', 'created_at', 'updated_at', 'state',
-                       'initialization']
-            search_item = self.ui.txtUsersSearch.toPlainText().lower()
-            members_query = Users.select().where(
-                peewee.fn.LOWER(Users.Name).contains(search_item)).distinct()
-            self.ui.tblUsers.setRowCount(0)  # Clear existing rows in the table
-            for row, member_data in enumerate(members_query):
-                table_items = []
-                for column_name in columns:
-                    try:
-                        item_value = getattr(member_data, column_name)
-                    except AttributeError:
-                        User_data = Users.get(Users.id)
-                        item_value = getattr(User_data, column_name)
+        result_condition = Common.grant_permission_to_clicked_button(self.ui, permission="bt_search_user")
+        if result_condition is True:
 
-                    table_item = QTableWidgetItem(str(item_value))
-                    table_items.append(table_item)
+            self.ui.tblUsers.setColumnHidden(0, True)
+            Common.style_table_widget(self.ui, self.ui.tblStudents)
+            try:
+                columns = ['id', 'account_type', 'Name', 'userName', 'userPassword', 'created_at', 'updated_at',
+                           'state',
+                           'initialization']
+                search_item = self.ui.txtUsersSearch.toPlainText().lower()
+                members_query = Users.select().where(
+                    peewee.fn.LOWER(Users.Name).contains(search_item)).distinct()
+                self.ui.tblUsers.setRowCount(0)  # Clear existing rows in the table
+                for row, member_data in enumerate(members_query):
+                    table_items = []
+                    for column_name in columns:
+                        try:
+                            item_value = getattr(member_data, column_name)
+                        except AttributeError:
+                            User_data = Users.get(Users.id)
+                            item_value = getattr(User_data, column_name)
 
-                self.ui.tblUsers.insertRow(row)
-                for col, item in enumerate(table_items):
-                    self.ui.tblUsers.setItem(row, col, item)
+                        table_item = QTableWidgetItem(str(item_value))
+                        table_items.append(table_item)
 
-                self.ui.tblUsers.setColumnWidth(row, 40)
-                self.ui.tblUsers.setRowHeight(row, 150)
+                    self.ui.tblUsers.insertRow(row)
+                    for col, item in enumerate(table_items):
+                        self.ui.tblUsers.setItem(row, col, item)
 
-                operations_buttons = DeleteUpdateButtonUsersWidget(table_widget=self.ui.tblUsers)
-                self.ui.tblUsers.setCellWidget(row, 9, operations_buttons)
-                Common.style_table_widget(self.ui, self.ui.tblUsers)
-        except Exception as e:
-            error_message = "حدث خطأ:\n\n" + str(e)
-            QMessageBox.critical(self.ui, "خطأ", error_message)
+                    self.ui.tblUsers.setColumnWidth(row, 40)
+                    self.ui.tblUsers.setRowHeight(row, 150)
+
+                    operations_buttons = DeleteUpdateButtonUsersWidget(table_widget=self.ui.tblUsers)
+                    self.ui.tblUsers.setCellWidget(row, 9, operations_buttons)
+                    Common.style_table_widget(self.ui, self.ui.tblUsers)
+            except Exception as e:
+                error_message = "حدث خطأ:\n\n" + str(e)
+                QMessageBox.critical(self.ui, "خطأ", error_message)
+        else:
+            QMessageBox.information(self.ui, "الصلاحية", "ليس لديك الصلاحية")

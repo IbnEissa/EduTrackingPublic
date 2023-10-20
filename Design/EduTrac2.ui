@@ -14,8 +14,306 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_7">
-    <item row="2" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout_6">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_218" stretch="0">
+      <property name="spacing">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="btnSchoolName">
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(128, 184, 85);
+color:rgb(255, 255, 255);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+        </property>
+        <property name="text">
+         <string>نظـــــــــام إدارة المدرســـــــــة</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_102">
+      <item>
+       <widget class="QFrame" name="frame_6">
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(4, 0, 62);
+color:rgb(255, 255, 255);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QPushButton" name="btnSettings">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>PT Bold Heading</family>
+             <pointsize>15</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(255, 255, 255);
+color:rgb(0, 0, 0);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+           </property>
+           <property name="text">
+            <string>الإعــــــدادات</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/settings.svg</normaloff>../icons/settings.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnPermissions">
+           <property name="font">
+            <font>
+             <family>PT Bold Heading</family>
+             <pointsize>15</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
+color:rgb(255, 255, 255);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+           </property>
+           <property name="text">
+            <string>الصلاحيـــــات</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/security-183.svg</normaloff>../icons/security-183.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnReports">
+           <property name="font">
+            <font>
+             <family>PT Bold Heading</family>
+             <pointsize>15</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
+color:rgb(255, 255, 255);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+           </property>
+           <property name="text">
+            <string>التـــــــــقارير</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/notice-306.svg</normaloff>../icons/notice-306.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnEmpsMovement">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>PT Bold Heading</family>
+             <pointsize>15</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
+color:rgb(255, 255, 255);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+           </property>
+           <property name="text">
+            <string>سجلات الحضور</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/38-person-1.svg</normaloff>../icons/38-person-1.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+           <property name="default">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnManagement">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>PT Bold Heading</family>
+             <pointsize>15</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
+color:rgb(255, 255, 255);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+           </property>
+           <property name="text">
+            <string>إدارة البيـــانــــات</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/certificates-25.svg</normaloff>../icons/certificates-25.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnHome">
+           <property name="font">
+            <font>
+             <family>PT Bold Heading</family>
+             <pointsize>15</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
+color:rgb(255, 255, 255);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+           </property>
+           <property name="text">
+            <string>النافذة الرئـــــيسية</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/home-page-svgrepo-com.svg</normaloff>../icons/home-page-svgrepo-com.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>60</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
      <widget class="QFrame" name="frame_7">
       <property name="styleSheet">
        <string notr="true">background-color:rgb(223, 221, 220)</string>
@@ -42,7 +340,7 @@
           <string notr="true">background-color:rgb(223, 221, 220)</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab_177">
           <attribute name="title">
@@ -2610,18 +2908,17 @@ font: 10pt &quot;PT Bold Heading&quot;;</string>
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout">
                        <item>
-                        <widget class="QTableWidget" name="tblAttendence">
+                        <widget class="QTableWidget" name="tblAttendenceByHand">
                          <property name="enabled">
-                          <bool>false</bool>
+                          <bool>true</bool>
                          </property>
                          <property name="styleSheet">
                           <string notr="true">QTableWidget {
     background-color: #FFFFFF;
     alternate-background-color:rgb(0, 0, 0);
-  font: 15pt &quot;PT Bold Heading&quot;;
+    font: 9pt &quot;PT Bold Heading&quot;;
     font-weight: bold;
  color:rgb(0, 0, 0)
-
 }
 
 QHeaderView::section {
@@ -2630,14 +2927,14 @@ QHeaderView::section {
     font-weight: bold;
     padding: 4px;
     text-align: center;
-	font: rgb(255, 255, 255)
+	font: 10pt &quot;PT Bold Heading&quot;;
+	color:rgb(255, 255, 255)
 }
 
 QTableWidget::item:selected {
     background-color:rgb(25, 21, 65);
     color:rgb(255, 255, 255);
-}
-</string>
+}</string>
                          </property>
                          <column>
                           <property name="text">
@@ -2651,7 +2948,7 @@ QTableWidget::item:selected {
                          </column>
                          <column>
                           <property name="text">
-                           <string>رقم البصمة</string>
+                           <string>الوقت</string>
                           </property>
                          </column>
                          <column>
@@ -2696,7 +2993,7 @@ QTableWidget::item:selected {
                  <item>
                   <layout class="QGridLayout" name="gridLayout_10">
                    <item row="1" column="0">
-                    <widget class="QTableWidget" name="tblTeachers_3">
+                    <widget class="QTableWidget" name="tblAttendence">
                      <property name="styleSheet">
                       <string notr="true">QTableWidget {
     background-color: #FFFFFF;
@@ -3125,7 +3422,7 @@ font: 10pt &quot;PT Bold Heading&quot;;</string>
                           <number>11</number>
                          </property>
                          <item>
-                          <widget class="QPushButton" name="pushButton_231">
+                          <widget class="QPushButton" name="btnShowAttendance">
                            <property name="maximumSize">
                             <size>
                              <width>120</width>
@@ -8595,333 +8892,6 @@ font: 10pt &quot;PT Bold Heading&quot;;</string>
         </widget>
        </item>
       </layout>
-     </widget>
-    </item>
-    <item row="0" column="0" rowspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_218" stretch="0">
-      <property name="spacing">
-       <number>10</number>
-      </property>
-      <item>
-       <widget class="QPushButton" name="pushButton_270">
-        <property name="styleSheet">
-         <string notr="true">background-color:rgb(128, 184, 85);
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-        </property>
-        <property name="text">
-         <string>نظـــــــــام إدارة المدرســـــــــة</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="1" rowspan="2">
-     <layout class="QVBoxLayout" name="verticalLayout_102">
-      <item>
-       <widget class="QFrame" name="frame_6">
-        <property name="styleSheet">
-         <string notr="true">background-color:rgb(4, 0, 62);
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_103">
-         <item>
-          <widget class="QPushButton" name="pushButton_201">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../icons/education.jpg</normaloff>../icons/education.jpg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>250</width>
-             <height>250</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnHome">
-           <property name="font">
-            <font>
-             <family>PT Bold Heading</family>
-             <pointsize>15</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-           </property>
-           <property name="text">
-            <string>النافذة الرئـــــيسية</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../icons/home-page-svgrepo-com.svg</normaloff>../icons/home-page-svgrepo-com.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>40</width>
-             <height>60</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnManagement">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>PT Bold Heading</family>
-             <pointsize>15</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-           </property>
-           <property name="text">
-            <string>إدارة البيـــانــــات</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../icons/certificates-25.svg</normaloff>../icons/certificates-25.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>40</width>
-             <height>40</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnEmpsMovement">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>PT Bold Heading</family>
-             <pointsize>15</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-           </property>
-           <property name="text">
-            <string>حركــة المــوظــفـين</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../icons/38-person-1.svg</normaloff>../icons/38-person-1.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>40</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-           <property name="default">
-            <bool>false</bool>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnReports">
-           <property name="font">
-            <font>
-             <family>PT Bold Heading</family>
-             <pointsize>15</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-           </property>
-           <property name="text">
-            <string>التـــــــــقارير</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../icons/notice-306.svg</normaloff>../icons/notice-306.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>40</width>
-             <height>40</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnPermissions">
-           <property name="font">
-            <font>
-             <family>PT Bold Heading</family>
-             <pointsize>15</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color:qlineargradient(spread:pad, x1:0.506975, y1:0.432, x2:0.99, y2:0.437227, stop:0.900498 rgba(4, 0, 62, 255), stop:1 rgba(255, 255, 255, 255));
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-           </property>
-           <property name="text">
-            <string>الصلاحيـــــات</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../icons/security-183.svg</normaloff>../icons/security-183.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>40</width>
-             <height>40</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnSettings">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>PT Bold Heading</family>
-             <pointsize>15</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color:rgb(255, 255, 255);
-color:rgb(0, 0, 0);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-           </property>
-           <property name="text">
-            <string>الإعــــــدادات</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../icons/settings.svg</normaloff>../icons/settings.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>40</width>
-             <height>40</height>
-            </size>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="1">
-     <widget class="QPushButton" name="btnSchoolName">
-      <property name="styleSheet">
-       <string notr="true">background-color:rgb(4, 0, 62);
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-      </property>
-      <property name="text">
-       <string>Education Tracking System</string>
-      </property>
      </widget>
     </item>
    </layout>
