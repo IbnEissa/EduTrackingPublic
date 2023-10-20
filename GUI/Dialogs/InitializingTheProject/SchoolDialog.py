@@ -60,6 +60,7 @@ class SchoolDialog(QDialog):
         self.combDirectorates.clear()
         self.combDirectorates.addItems(directorates)
 
+
     def add_school_data(self):
         # self.retrieve_attendance_data()
         name = self.txtSchoolName.toPlainText()

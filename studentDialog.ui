@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
-    <height>640</height>
+    <width>466</width>
+    <height>646</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>100</y>
-     <width>71</width>
+     <x>340</x>
+     <y>340</y>
+     <width>101</width>
      <height>31</height>
     </rect>
    </property>
@@ -27,45 +27,14 @@
 color:rgb(0, 0, 0)</string>
    </property>
    <property name="text">
-    <string>الاسم الاول</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_6">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>250</y>
-     <width>81</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;
-color:rgb(0, 0, 0)</string>
-   </property>
-   <property name="text">
-    <string>اللقب</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="txtStudentSecName">
-   <property name="geometry">
-    <rect>
-     <x>99</x>
-     <y>150</y>
-     <width>261</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(255, 255, 255);
-color:rgb(0, 0, 0)</string>
+    <string>رقم هاتف الاب:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnCancelAddingStudent">
    <property name="geometry">
     <rect>
      <x>90</x>
-     <y>530</y>
+     <y>580</y>
      <width>131</width>
      <height>51</height>
     </rect>
@@ -98,45 +67,11 @@ font: 18pt &quot;Mohammad Annoktah&quot;;</string>
     <string>إضافة طالب جديد</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_9">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>410</y>
-     <width>91</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;
-color:rgb(0, 0, 0)</string>
-   </property>
-   <property name="text">
-    <string>هاتف ولي الامر</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>150</y>
-     <width>81</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;
-color:rgb(0, 0, 0)</string>
-   </property>
-   <property name="text">
-    <string>الاسم الثاني</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btnSaveStudent">
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>530</y>
+     <y>580</y>
      <width>121</width>
      <height>51</height>
     </rect>
@@ -150,56 +85,11 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
     <string>حفـــــظ</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_5">
+  <widget class="QLabel" name="label_12">
    <property name="geometry">
     <rect>
-     <x>370</x>
-     <y>200</y>
-     <width>81</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;
-color:rgb(0, 0, 0)</string>
-   </property>
-   <property name="text">
-    <string>الاسم الثالث</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="txtStudentLName">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>250</y>
-     <width>261</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(255, 255, 255);
-color:rgb(0, 0, 0)</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="txtStudentThirName">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>200</y>
-     <width>261</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(255, 255, 255);
-color:rgb(0, 0, 0)</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_8">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>360</y>
+     <x>350</x>
+     <y>390</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -212,11 +102,44 @@ color:rgb(0, 0, 0)</string>
     <string>تاريخ الميلاد</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_7">
+  <widget class="QDateEdit" name="dateStudentDOB">
    <property name="geometry">
     <rect>
-     <x>370</x>
-     <y>310</y>
+     <x>80</x>
+     <y>390</y>
+     <width>261</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(25, 21, 59);
+color:rgb(255, 255, 255);
+font: 12pt &quot;PT Bold Heading&quot;;</string>
+   </property>
+   <property name="locale">
+    <locale language="Arabic" country="Yemen"/>
+   </property>
+   <property name="currentSection">
+    <enum>QDateTimeEdit::DaySection</enum>
+   </property>
+   <property name="displayFormat">
+    <string>d/M/yyyy</string>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+   <property name="timeSpec">
+    <enum>Qt::LocalTime</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>290</y>
      <width>81</width>
      <height>31</height>
     </rect>
@@ -226,14 +149,107 @@ color:rgb(0, 0, 0)</string>
 color:rgb(0, 0, 0)</string>
    </property>
    <property name="text">
-    <string>الصف</string>
+    <string>اللقب</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>190</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;
+color:rgb(0, 0, 0)</string>
+   </property>
+   <property name="text">
+    <string>الاسم الثاني</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>240</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;
+color:rgb(0, 0, 0)</string>
+   </property>
+   <property name="text">
+    <string>الاسم الثالث</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="txtStudentThirName">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>240</y>
+     <width>261</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(255, 255, 255);
+color:rgb(0, 0, 0)</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="txtStudentSecName">
+   <property name="geometry">
+    <rect>
+     <x>79</x>
+     <y>190</y>
+     <width>261</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(255, 255, 255);
+color:rgb(0, 0, 0)</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>140</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;
+color:rgb(0, 0, 0)</string>
+   </property>
+   <property name="text">
+    <string>الاسم الاول</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="txtStudentLName">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>290</y>
+     <width>261</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(255, 255, 255);
+color:rgb(0, 0, 0)</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="txtStudentFName">
    <property name="geometry">
     <rect>
-     <x>99</x>
-     <y>100</y>
+     <x>80</x>
+     <y>140</y>
      <width>261</width>
      <height>41</height>
     </rect>
@@ -246,8 +262,8 @@ color:rgb(0, 0, 0)</string>
   <widget class="QTextEdit" name="txtStudentParentPhone">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>400</y>
+     <x>80</x>
+     <y>340</y>
      <width>261</width>
      <height>41</height>
     </rect>
@@ -257,53 +273,37 @@ color:rgb(0, 0, 0)</string>
 color:rgb(0, 0, 0)</string>
    </property>
   </widget>
-  <widget class="QDateEdit" name="dateStudentDOB">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>361</y>
-     <width>261</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QComboBox" name="combClasses">
    <property name="geometry">
     <rect>
-     <x>102</x>
-     <y>301</y>
+     <x>80</x>
+     <y>440</y>
      <width>261</width>
-     <height>51</height>
+     <height>41</height>
     </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::RightToLeft</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color:rgb(25, 21, 59);
 color:rgb(255, 255, 255);
 font: 12pt &quot;PT Bold Heading&quot;;</string>
    </property>
-   <item>
-    <property name="text">
-     <string>الاول</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>الثاني</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>الثالث</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>الرابع</string>
-    </property>
-   </item>
+  </widget>
+  <widget class="QLabel" name="label_13">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>440</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;
+color:rgb(0, 0, 0)</string>
+   </property>
+   <property name="text">
+    <string>الفصل</string>
+   </property>
   </widget>
  </widget>
  <resources/>

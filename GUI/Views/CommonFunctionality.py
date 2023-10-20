@@ -1,8 +1,13 @@
+import sys
+
 import peewee
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QHeaderView
+from PyQt5.QtWidgets import QHeaderView, QMessageBox, QApplication
 
+from GUI.Dialogs.UserLoginDialog import UserLoginDialog
+from models.Permissions import Permissions
 from models.School import School
+from models.Users import Users
 
 
 class Common:
@@ -11,23 +16,82 @@ class Common:
         lastInsertedSchoolId = 0
         self.ui = self.submain.ui
         self.make_school_name()
+        self.make_user_name()
 
     def use_ui_elements(self):
         self.ui.btnHome.clicked.connect(self.home_button_clicked)
-        self.ui.btnManagement.clicked.connect(self.btn_management_clicked)
-        self.ui.btnEmpsMovement.clicked.connect(self.btn_emp_movement)
+        # self.ui.bt_sign_out.clicked.connect(self.update_state_to_false)
+        # self.ui.btnEmpsMovement.clicked.connect(self.btn_emp_movement)
         self.ui.btnReports.clicked.connect(self.reports_button_clicked)
         # self.ui.btnArchive.clicked.connect(self.archive_button_clicked)
-        self.ui.btnSettings.clicked.connect(self.settings_button_clicked)
-        self.ui.tabMainTab.tabBar().setVisible(False)
+        # self.ui.btnSettings.clicked.connect(self.settings_button_clicked)
         self.ui.tabMainTab.setCurrentIndex(0)
+        self.ui.tabMainTab.tabBar().setVisible(False)
+        self.ui.tabEmpsMovement.tabBar().setVisible(False)
+        self.ui.tabSettings.tabBar().setVisible(False)
+        self.ui.tabDataManagement.tabBar().setVisible(False)
+        self.ui.tabTeachersReports.tabBar().setVisible(False)
+        self.ui.tabMainTab.setCurrentIndex(0)
+        # self.ui.setWindowFlags(self.ui.windowFlags() & ~Qt.WindowCloseButtonHint)
+        self.ui.setWindowFlags(Qt.WindowTitleHint | Qt.CustomizeWindowHint)
 
     def home_button_clicked(self):
         self.ui.tabMainTab.setCurrentIndex(0)
 
+    def make_user_name(self):
+        self.ui.btnUserDetails.setText(Users.get_name_with_true_state())
+
     def settings_button_clicked(self):
-        self.ui.tabMainTab.setCurrentIndex(5)
+        self.ui.tabMainTab.setCurrentIndex(4)
         self.ui.tabSettings.setCurrentIndex(0)
+
+    def update_state_to_false(self):
+        Users.update_all_states_to_false()
+        self.ui.close()
+        user_login = UserLoginDialog()
+        user_login.use_ui_elements()
+        user_login.exec_()
+        result = user_login.login()
+        if result is True:
+            app = QApplication(sys.argv)
+            sys.exit(app.exec_())
+
+
+
+    # def grant_permission_tab_to_user(self, permission, tab):
+    #     name = Users.get_name_with_true_state()
+    #     print("grant permission tab to ", name)
+    #     user = Users.get(Users.userName == name)
+    #     permissions = (
+    #         Permissions.select()
+    #         .join(Users, on=(Permissions.users_id == Users.id))
+    #         .where(Users.id == user.id)
+    #         .get()
+    #     )
+    #     print(permission)
+    #     if getattr(permissions, permission) == True:
+    #         tab.show()
+    #     else:
+    #
+    #         # tab.hide()
+    #         QMessageBox.information(self.ui, "الصلاحية", "ليس لديك الصلاحية")
+
+    def grant_permission_to_clicked_button(self, permission):
+        name = Users.get_name_with_true_state()
+        print("grant permission button to ", name)
+        # selected_user = "moh"  # Replace with your logic to get the selected user
+        user = Users.get(Users.Name == name)
+        permissions = (
+            Permissions.select()
+            .join(Users, on=(Permissions.users_id == Users.id))
+            .where(Users.id == user.id)
+            .get()
+        )
+        print(permission)
+        if getattr(permissions, permission) == True:
+            return True
+        else:
+            return False
 
     def btn_management_clicked(self):
         self.ui.tabMainTab.setCurrentIndex(1)
@@ -38,7 +102,7 @@ class Common:
         self.ui.tabEmpsMovement.setCurrentIndex(0)
 
     def reports_button_clicked(self):
-        self.ui.tabMainTab.setCurrentIndex(4)
+        self.ui.tabMainTab.setCurrentIndex(3)
         self.ui.tabTeachersReports.setCurrentIndex(0)
 
     def make_school_name(self):
@@ -46,9 +110,6 @@ class Common:
         id = self.lastInsertedSchoolId
         school = School.get_school_by_id(self.ui, id)
         self.ui.btnSchoolName.setText(school.school_name)
-
-    def archive_button_clicked(self):
-        self.ui.tabMainTab.setCurrentIndex(4)
 
     def get_subjects(self):
         subjects = ["الرياضيات",

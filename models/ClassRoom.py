@@ -34,7 +34,6 @@ class ClassRoom(BaseModel):
         except DoesNotExist:
             return None
 
-    # this is the method that update the data in the database with data that takes as a parameters
 
 
 # db.create_tables([ClassRoom])
