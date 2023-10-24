@@ -118,21 +118,13 @@ class TeachersUI:
                     has_finger_print_data = 'لا'
                     teacher = [FName, SName, TName, LName, Phone, DOB, Major, Task, state, has_finger_print_data]
                     self.lastInsertedTeacherId = Teachers.select(peewee.fn.Max(Teachers.id)).scalar()
-                    # self.get_members_data()
-                    fullName = [teacher[0], teacher[1], teacher[3]]
-                    print(fullName)
                     operations_buttons = DeleteUpdateButtonTeachersWidget(table_widget=self.ui.tblTeachers)
-                    result = operations_buttons.add_users_to_device(self.lastInsertedTeacherId, fullName)
-                    print(result)
-                    if result:
-                        self.add_new_teacher_to_table_widget(self.lastInsertedTeacherId, teacher)
-                        Common.style_table_widget(self.ui, self.ui.tblTeachers)
-                        QMessageBox.information(self.ui, "نجاح", "تم الحفظ بنجاح")
-                    else:
-                        QMessageBox.critical(self.ui, "خطأ", "لم يتم الحفظ بنجاح")
-
+                    operations_buttons.add_users_to_device(self.lastInsertedTeacherId)
+                    self.add_new_teacher_to_table_widget(self.lastInsertedTeacherId, teacher)
+                    Common.style_table_widget(self.ui, self.ui.tblTeachers)
+                    QMessageBox.information(self.ui, "نجاح", "تم الحفظ بنجاح")
                 except ValueError as e:
-                    QMessageBox.critical(self.ui, "خطأ", f"لم يتم الحفظ بنجاح: {str(e)}")
+                    QMessageBox.critical(self.ui, "خطأ", f"فشلت العملية  : {str(e)}")
         else:
             QMessageBox.information(self.ui, "الصلاحية", "ليس لديك الصلاحية")
 
@@ -141,7 +133,7 @@ class TeachersUI:
             operations_buttons = DeleteUpdateButtonTeachersWidget(table_widget=self.ui.tblTeachers)
             current_row = self.ui.tblTeachers.rowCount()
             self.ui.tblTeachers.insertRow(current_row)
-            # self.ui.tblTeachers.setItem(current_row, 0, QTableWidgetItem(str(teacher_id)))
+            self.ui.tblTeachers.setItem(current_row, 0, QTableWidgetItem(str(teacher_id)))
             self.ui.tblTeachers.setItem(current_row, 1, QTableWidgetItem(teacher[0]))
             self.ui.tblTeachers.setItem(current_row, 2, QTableWidgetItem(teacher[1]))
             self.ui.tblTeachers.setItem(current_row, 3, QTableWidgetItem(teacher[2]))

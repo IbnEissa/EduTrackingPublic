@@ -806,65 +806,27 @@ class DeleteUpdateButtonTeachersWidget(QWidget):
                             self.table_widget.setItem(row, 6, QTableWidgetItem(str(DOB)))
                             self.table_widget.setItem(row, 7, QTableWidgetItem(major))
                             self.table_widget.setItem(row, 8, QTableWidgetItem(occupation))
-                            QMessageBox.information(UIHandler.get_ui(self), "تعديل", "تم التعديل  بنجاح.")
+                            QMessageBox.information(self, "تعديل", "تم التعديل  بنجاح.")
         else:
             QMessageBox.information(self, "الصلاحية", "ليس لديك الصلاحية")
 
-    def add_users_to_device(self, teacher_id, teacher_name):
+    def add_users_to_device(self, teacher_id):
         try:
-            zk = ZK('192.168.1.201', port=4370, timeout=5)
+            self.last_inserted_device = Device.select(peewee.fn.Max(Device.id)).scalar()
+            device = Device.get(Device.id == self.last_inserted_device)
+            zk = ZK(device.ip, port=device.port, timeout=5)
+            # uid = []
+            # users_id = []
             conn = zk.connect()
-            if conn:
-                conn.enable_device()
-                users = conn.get_users()
-                users_names = []
-
-                teacherName = f"{teacher_name[0]} {teacher_name[1]} {teacher_name[2]}"
-                print(teacherName)
-                for user in users:
-                    users_names.append(user.name)
-                if teacherName in users_names:
-                    QMessageBox.warning(self, "لم تتم الاضافة", "المستخدم موجود مسبقاً")
-                    return False
-                else:
-                    conn.set_user(user_id=int(teacher_id), name=teacherName, privilege=0)
-                    return True
-            else:
-                QMessageBox.warning(self, "فشل", "لا يوجد جهاز بصمة متصل الآن ")
-                return False
-            #
-            # try:
-            #     conn.enable_device()
-            #     # Retrieve the selected teacher's ID and name
-            #     # clicked_button = self.sender()
-            #     # if clicked_button:
-            #     #     cell_widget = clicked_button.parentWidget()
-            #     #     if cell_widget and self.table_widget:
-            #     #         row = self.table_widget.indexAt(cell_widget.pos()).row()
-            #     #         teacher_id_item = self.table_widget.item(row, 0)
-            #     #         teacher_name_item = self.table_widget.item(row, 1)
-            #     #
-            #     #         if teacher_id_item and teacher_name_item:
-            #     #             teacher_id = teacher_id_item.text()
-            #     #             teacher_name = teacher_name_item.text()
-            #     # codecs.encode(teacher_name, 'hex').decode('ascii')
-            #     # Enroll the user to the fingerprint device with the padded name
-            #     users = conn.get_users()
-            #     users_names = []
-            #     for user in users:
-            #         users_names.append(user.name)
-            #     if teacher_name in users_names:
-            #         QMessageBox.warning(self, "لم تتم الاضافة", "المستخدم موجود مسبقاً")
-            #     else:
-            #         conn.set_user(uid=int(teacher_id), name=teacher_name, privilege=0)
-            #         return True
-            # except Exception as e:
-            #     QMessageBox.warning(self, "تحذير", "لم تتم الإضافة ".format(teacher_name=e))
-            #     logging.error("لم تتم الإضافة", exc_info=True)
-
+            conn.set_user(uid=int(teacher_id), user_id=str(teacher_id), privilege=0)
+            # users = conn.get_users()
+            # for user in users:
+            #     uid.append(user.uid)
+            # for user in users:
+            #     users_id.append(user.user_id)
+            # return users_id, uid
         except Exception as e:
-            QMessageBox.warning(self, "تحذير", "لا يوجد جهاز بصمة متصل الآن".format(teacher_name=e))
-            logging.error("الجهاز غير متصل الآن")
+            QMessageBox.warning(self, "تحذير", "لا يوجد جهاز بصمة متصل الآن")
 
     def start_enroll_face(sIp="192.168.1.201", iPort=4370, iMachineNumber=1, userid="", fingureindex=0):
         zk = ZK('192.168.1.201', port=4370, timeout=5)

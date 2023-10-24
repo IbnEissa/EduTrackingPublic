@@ -2014,8 +2014,8 @@ color:rgb(0, 0, 0)</string>
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_91">
-       <item row="0" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_218" stretch="0,90">
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_218" stretch="0,0,90,0,0">
          <property name="spacing">
           <number>10</number>
          </property>
@@ -2041,6 +2041,27 @@ color:rgb(0, 0, 0)</string>
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="btnExit">
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(255, 62, 24);
+color:rgb(0, 0, 0)</string>
+           </property>
+           <property name="text">
+            <string>خـــروج</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/log-out.svg</normaloff>../icons/log-out.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="btnSchoolName">
            <property name="styleSheet">
             <string notr="true">background-color: qlineargradient(spread:pad, x1:0.964478, y1:0.193, x2:1, y2:0, stop:0 rgba(191, 194, 181, 255), stop:1 rgba(255, 255, 255, 255));
@@ -2053,9 +2074,51 @@ color:rgb(0, 0, 0);
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="btnRefresh">
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(255, 255, 255);
+color:rgb(0, 0, 0)</string>
+           </property>
+           <property name="text">
+            <string>تحديث</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/refresh-button.png</normaloff>../icons/refresh-button.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnConnectDivice">
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(255, 255, 255);
+color:rgb(0, 0, 0)</string>
+           </property>
+           <property name="text">
+            <string>توصيل الجهاز</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/images (1).jpg</normaloff>../icons/images (1).jpg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
-       <item row="1" column="0">
+       <item row="4" column="0">
         <widget class="QTabWidget" name="tabMainTab">
          <property name="font">
           <font>
@@ -4060,7 +4123,7 @@ color:rgb(0, 0, 0);
 font:rgb(0, 0, 0);</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <property name="documentMode">
           <bool>true</bool>
@@ -6592,7 +6655,27 @@ background-color: rgb(255, 255, 255);</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QDateEdit" name="dateEdit_5">
+                        <widget class="QDateEdit" name="dateFrom">
+                         <property name="styleSheet">
+                          <string notr="true">  font: 75 10pt &quot;Motken K Sina&quot;;
+color:rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="wrapping">
+                          <bool>false</bool>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::PlusMinus</enum>
+                         </property>
+                         <property name="accelerated">
+                          <bool>false</bool>
+                         </property>
+                         <property name="displayFormat">
+                          <string>yyyy-MM-dd</string>
+                         </property>
                          <property name="calendarPopup">
                           <bool>true</bool>
                          </property>
@@ -6609,7 +6692,24 @@ background-color: rgb(255, 255, 255);</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QDateEdit" name="dateEdit_6">
+                        <widget class="QDateEdit" name="dateTo">
+                         <property name="styleSheet">
+                          <string notr="true">  font: 75 10pt &quot;Motken K Sina&quot;;
+color:rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                         <property name="readOnly">
+                          <bool>false</bool>
+                         </property>
+                         <property name="buttonSymbols">
+                          <enum>QAbstractSpinBox::PlusMinus</enum>
+                         </property>
+                         <property name="displayFormat">
+                          <string>yyyy-MM-dd</string>
+                         </property>
                          <property name="calendarPopup">
                           <bool>true</bool>
                          </property>
@@ -11676,6 +11776,34 @@ color:rgb(0, 0, 0);</string>
          </widget>
         </widget>
        </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="lblCurrentSystemDateAndTime">
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>70</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>News701 BT</family>
+           <pointsize>14</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color:rgb(0, 0, 0);
+font: 14pt &quot;News701 BT&quot;;
+background-color:rgb(191, 194, 181)
+</string>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
@@ -11698,7 +11826,65 @@ color:rgb(0, 0, 0);</string>
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_28">
-         <item row="0" column="0">
+         <item row="4" column="0">
+          <widget class="QPushButton" name="btnStudents">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>260</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Motken K Sina</family>
+             <pointsize>15</pointsize>
+             <weight>9</weight>
+             <italic>false</italic>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: qlineargradient(spread:pad, x1:0.964478, y1:0.193, x2:1, y2:0, stop:0 rgba(191, 194, 181, 255), stop:1 rgba(255, 255, 255, 255));
+color:rgb(0, 0, 0);
+</string>
+           </property>
+           <property name="text">
+            <string>شــــؤن الطـــلاب</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/طالب.svg</normaloff>../icons/طالب.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+           <property name="default">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
           <widget class="QPushButton" name="pushButton_201">
            <property name="text">
             <string/>
@@ -11715,7 +11901,7 @@ color:rgb(0, 0, 0);</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
+         <item row="2" column="0">
           <widget class="QPushButton" name="btnHome">
            <property name="maximumSize">
             <size>
@@ -11758,7 +11944,7 @@ color:rgb(0, 0, 0);
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
+         <item row="7" column="0">
           <widget class="QPushButton" name="btnSettings">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
@@ -11817,7 +12003,7 @@ color:rgb(0, 0, 0);
            </property>
           </widget>
          </item>
-         <item row="4" column="0">
+         <item row="5" column="0">
           <widget class="QPushButton" name="btnReports">
            <property name="maximumSize">
             <size>
@@ -11861,7 +12047,7 @@ color:rgb(0, 0, 0);
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
+         <item row="3" column="0">
           <widget class="QPushButton" name="btnEmps">
            <property name="maximumSize">
             <size>
@@ -11902,64 +12088,6 @@ color:rgb(0, 0, 0);
              <width>35</width>
              <height>35</height>
             </size>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QPushButton" name="btnStudents">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>260</width>
-             <height>80</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Motken K Sina</family>
-             <pointsize>15</pointsize>
-             <weight>9</weight>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: qlineargradient(spread:pad, x1:0.964478, y1:0.193, x2:1, y2:0, stop:0 rgba(191, 194, 181, 255), stop:1 rgba(255, 255, 255, 255));
-color:rgb(0, 0, 0);
-</string>
-           </property>
-           <property name="text">
-            <string>شــــؤن الطـــلاب</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../icons/طالب.svg</normaloff>../icons/طالب.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>35</width>
-             <height>35</height>
-            </size>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-           <property name="default">
-            <bool>false</bool>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
            </property>
           </widget>
          </item>
