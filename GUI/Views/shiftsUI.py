@@ -1,10 +1,6 @@
 import peewee
-from PyQt5.QtCore import QDate, Qt
-
-from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QDialog, QMessageBox, QTableWidgetItem, QPushButton, \
-    QWidget, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QDialog, QMessageBox, QTableWidgetItem, QPushButton
 from GUI.Dialogs.Shifttimes import Shift_timedialog
-from PyQt5.QtCore import QTime, Qt
 from models.shift_time import Shift_time
 
 

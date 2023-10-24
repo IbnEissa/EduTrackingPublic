@@ -44,7 +44,7 @@ class AttendanceUI:
         self.attendance_time = ''
         self.previous_stylesheet = self.ui.comboAddendenceTime.styleSheet()
         self.ui.checkFilterWithDays.clicked.connect(self.on_checkbox_state_changed)
-        self.ui.comboAddendenceTime.stateChanged.connect()
+        # self.ui.comboAddendenceTime.stateChanged.connect()
 
     def use_ui_elements(self):
         self.ui.tblLoadAttendence.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -86,11 +86,12 @@ class AttendanceUI:
 
     def execute_method_when_checked(self):
         self.ui.comboAddendenceTime.setEnabled(True)
-        self.ui.comboAddendenceTime.setStyleSheet(self.previous_stylesheet)
+        self.ui.comboAddendenceTime.setStyleSheet(
+            "QComboBox { background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); }")
 
     def execute_method_when_unchecked(self):
         self.ui.comboAddendenceTime.setEnabled(False)
-        self.ui.comboAddendenceTime.setStyleSheet("QComboBox { background-color: #333333; color: #ffffff; }")
+        self.ui.comboAddendenceTime.setStyleSheet("QComboBox { background-color: #333333; color: #333333; }")
 
     def hide_searching_widget(self):
         self.ui.layout.removeWidget(self.ui.searching_widget)
@@ -156,12 +157,22 @@ class AttendanceUI:
     def filter_methods(self):
         # if self.ui.checkFilterWithDays.isNotChecked():
         attendance_time = self.ui.comboAddendenceTime.currentText()
-        if attendance_time == 'اليوم':
-            self.display_today_attendance()
-        elif attendance_time == 'الكل':
-            self.start_attendance_retrieval()
-        elif attendance_time == 'هذا الشهر':
-            self.show_month_attendance_data()
+        if self.ui.checkFilterWithDays.isChecked():
+            if attendance_time == 'اليوم':
+                self.display_today_attendance()
+            elif attendance_time == 'الكل':
+                self.start_attendance_retrieval()
+            elif attendance_time == 'هذا الشهر':
+                self.show_month_attendance_data()
+        else:
+            QMessageBox.warning(self.ui, 'تحذير', 'يجب تحديد الفترة')
+        # elif self.ui.checkFilterWithTime.isChecked():
+        #     if attendance_time == 'اليوم':
+        #         self.display_today_attendance()
+        #     elif attendance_time == 'الكل':
+        #         self.start_attendance_retrieval()
+        #     elif attendance_time == 'هذا الشهر':
+        #         self.show_month_attendance_data()
         # elif self.ui.checkFilterWithDate.isChecked():
 
     def display_today_attendance(self):
