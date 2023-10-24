@@ -1,9 +1,11 @@
 import sys
+from datetime import datetime
 from functools import partial
 
 import peewee
-from PyQt5.QtCore import QPoint
+from PyQt5.QtCore import QPoint, QTimer, QDateTime
 from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QLabel, QPushButton
+from zk import ZK
 
 from GUI.Dialogs.InitializingTheProject.ListOptions import OptionUI, OptionDialog
 from GUI.Dialogs.InitializingTheProject.SchoolDialog import SchoolDialog
@@ -21,22 +23,68 @@ from GUI.Views.UsersUI import UsersUI
 from GUI.Views.shiftsUI import Shift_timeUI
 from GUI.Views.uihandler import UIHandler
 from GUI.Views.PersonBasicDataUI import SubMain
+from models.Device import Device
 from models.School import School
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
 
 
 class Main:
-    def __init__(self, state, login_state):
+    def __init__(self, state):
         self.state = state
-        self.login_state = login_state
+        # self.login_state = login_state
         # self.window = None
         self.dialog = OptionDialog()
-
+        self.last_inserted_device = Device.select(peewee.fn.Max(Device.id)).scalar()
+        device = Device.get(Device.id == self.last_inserted_device)
+        self.zk = ZK(device.ip, port=device.port, timeout=5)
         self.main_design = 'Design/EduTracMain.ui'
         self.ui_handler = UIHandler(self.main_design)
         self.window = SubMain(self.ui_handler)
         self.app = QApplication([])
         self.window.ui.btnSchoolName.clicked.connect(self.close_dialog)
+        self.system_date_timer = QTimer()
+        self.device_timer = QTimer()
+        self.device_timer.timeout.connect(self.find_the_device_connected)
+        self.system_date_timer.timeout.connect(self.update_system_date_label)
+        self.system_date_timer.start(1000)
+        self.device_timer.start(10000)
+        self.window.ui.btnExit.clicked.connect(self.close_application)
+        self.window.ui.btnRefresh.clicked.connect(self.find_the_device_connected)
+        self.window.ui.btnConnectDivice.clicked.connect(self.connect_device)
+
+    def close_application(self):
+        reply = QMessageBox.question(self.window.ui, "معلومة", "هل حقاً تريد الخروج؟", QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.app.quit()
+        else:
+            pass
+
+    def connect_device(self):
+        if self.window.ui.btnConnectDivice.text() == "الجهاز متصل":
+            QMessageBox.information(self.window.ui, "معلومه", "الجهاز متصل حالياً")
+        else:
+            self.find_the_device_connected()
+
+    def find_the_device_connected(self):
+        # self.last_inserted_device = Device.select(peewee.fn.Max(Device.id)).scalar()
+        # device = Device.get(Device.id == self.last_inserted_device)
+        # zk = ZK(device.ip, port=device.port, timeout=5)
+        try:
+            conn = self.zk.connect()
+            if conn:
+                self.device_timer.stop()
+                self.window.ui.btnConnectDivice.setText("الجهاز متصل")
+                self.window.ui.btnConnectDivice.setStyleSheet("color: green;background-color: white;")
+        except Exception as e:
+            self.device_timer.start(10000)
+            QMessageBox.warning(self.window.ui, 'خطأ', "لا يوجد جهاز بصمة متصل")
+            self.window.ui.btnConnectDivice.setText("توصيل الجهاز")
+            self.window.ui.btnConnectDivice.setStyleSheet("color: red;background-color: white;")
+
+    def update_system_date_label(self):
+        current_datetime = QDateTime.currentDateTime()
+        formatted_datetime = current_datetime.toString("dd/MM/yyyy hh:mm:ss")
+        self.window.ui.lblCurrentSystemDateAndTime.setText(formatted_datetime)
 
     def close_dialog(self):
         print("the school is clicked ")
@@ -76,11 +124,6 @@ class Main:
     def show_options(self, options, btn_name):
         if btn_name == 'btnUserDetails':
             self.dialog.setOptions(options)
-            button_rect = self.window.ui.btnUserDetails.rect()
-            # button_bottom_left = self.window.ui.btnUserDetails.mapToGlobal(button_rect.bottomLeft())
-            # dialog_width = self.dialog.width()
-            # dialog_height = self.dialog.height()
-            # self.dialog.move(button_bottom_left + QPoint(dialog_width, dialog_height))
             self.dialog.move(50, 100)
             if self.dialog.exec_() == QDialog.Accepted:
                 selected_option = self.dialog.selectedOption()
@@ -106,6 +149,7 @@ class Main:
         if result is True:
             self.window.ui.comboAddendenceTime.setEnabled(False)
             self.window.ui.comboAddendenceTime.setStyleSheet("QComboBox { background-color: #333333; color: #333333; }")
+            self.window.ui.checkFilterWithDate.setChecked(True)
             Device = DeviceUI(self.window)
             Device.use_ui_elements()
             Teacher = TeachersUI(self.window)
@@ -162,7 +206,7 @@ if __name__ == "__main__":
     else:
         state_value = 0
 
-    main = Main(state_value, login)
+    main = Main(state_value)
     main.main()
     # sys.exit(app.exec_())
 

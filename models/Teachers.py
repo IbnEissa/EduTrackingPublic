@@ -14,5 +14,11 @@ class Teachers(BaseModel):
     class Meta:
         table_name = 'teachers'
 
+    def get_teacher_by_id(self, id):
+        try:
+            class_obj = Teachers.get(Teachers.id == id)
+            return class_obj
+        except DoesNotExist:
+            return None
 
 db.create_tables([Teachers])

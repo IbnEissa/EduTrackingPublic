@@ -69,8 +69,8 @@ class TeachersInit(QDialog):
                 fullName = [teacher[0], teacher[1], teacher[3]]
                 print(fullName)
                 operations_buttons = DeleteUpdateButtonTeachersWidget(table_widget=self.listTeachers)
-                result = operations_buttons.add_users_to_device(self.lastInsertedTeacherId, fullName)
-                print(result)
+                result = operations_buttons.add_users_to_device(self.lastInsertedTeacherId)
+                print("the data returned is : ", result)
                 if result:
                     self.add_new_teacher_to_table_widget(teacher)
                     Common.style_table_widget(self, self.listTeachers)
