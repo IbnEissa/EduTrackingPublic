@@ -1,12 +1,15 @@
 import sys
+from functools import partial
 
 import peewee
+from PyQt5.QtCore import QPoint
 from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QLabel, QPushButton
 
-from GUI.Dialogs.InitializingTheProject.ListOptions import OptionUI
+from GUI.Dialogs.InitializingTheProject.ListOptions import OptionUI, OptionDialog
 from GUI.Dialogs.InitializingTheProject.SchoolDialog import SchoolDialog
 from GUI.Dialogs.InitializingTheProject.TermSessionsInit import TermSessionsInit
 from GUI.Dialogs.UserLoginDialog import UserLoginDialog
+from GUI.Dialogs.UserLogoutDialog import UserLogoutDialog
 from GUI.Views.AttendanceUI import AttendanceUI
 from GUI.Views.CommonFunctionality import Common
 from GUI.Views.CouncilFathersUI import CouncilFathersUI
@@ -26,75 +29,19 @@ class Main:
     def __init__(self, state, login_state):
         self.state = state
         self.login_state = login_state
-        self.window = None
-    # def __init__(self):
-    #     self.logged_in = False
-    #     # self.login_state = login_state
-    #     # self.window = None
-    #     self.app = None
+        # self.window = None
+        self.dialog = OptionDialog()
 
-    # def start_application(self):
-    #     if self.app is None:
-    #         # Start the application if it's not running
-    #         self.app = QApplication([])
-    #         self.login()
-    #         sys.exit(self.app.exec_())
-    #     else:
-    #         # Close the application if it's already running
-    #         self.app.quit()
-    #         self.app = None
-    #         self.login()
+        self.main_design = 'Design/EduTracMain.ui'
+        self.ui_handler = UIHandler(self.main_design)
+        self.window = SubMain(self.ui_handler)
+        self.app = QApplication([])
+        self.window.ui.btnSchoolName.clicked.connect(self.close_dialog)
 
-    # def login(self):
-    #     user_login = UserLoginDialog()
-    #     user_login.use_ui_elements()
-    #     user_login.exec_()
-    #     result = user_login.login()
-    #     if result is True:
-    #         self.logged_in = True
-    #         self.show_main_ui()
-    #     else:
-    #         print("Login canceled or failed")
-
-    # def logout(self):
-    #     user_logout = UserLogoutDialog()
-    #     if user_logout.exec_() == QDialog.Accepted:
-    #         self.logged_in = False
-    #         print("Logout successful")
-    #         self.login()
-    #     else:
-    #         print("Logout canceled")
-    #
-    # print("Logout canceled")
-
-    # def show_main_ui(self):
-    #     if self.logged_in:
-    #         main_design = 'Design/EduTracMain.ui'
-    #         ui_handler = UIHandler(main_design)
-    #         window = SubMain(ui_handler)
-    #         Device = DeviceUI(window)
-    #         Device.use_ui_elements()
-    #         Teacher = TeachersUI(window)
-    #         Teacher.use_ui_elements()
-    #         options = OptionUI(window)
-    #         options.use_ui_elements()
-    #         attendance = AttendanceUI(window)
-    #         attendance.use_ui_elements()
-    #         shift = Shift_timeUI(window)
-    #         shift.shift_ui_elements()
-    #         common = Common(window)
-    #         common.use_ui_elements()
-    #         students = StudentsUI(window)
-    #         students.use_ui_elements()
-    #         permission = PermissionUI(window)
-    #         permission.permission_ui_elements()
-    #         council_fathers = CouncilFathersUI(window)
-    #         council_fathers.use_ui_elements()
-    #         user = UsersUI(window)
-    #         user.use_ui_elements()
-    #         window.ui.showMaximized()
-    #         app = QApplication([])
-    #         sys.exit(app.exec_())
+    def close_dialog(self):
+        print("the school is clicked ")
+        if self.dialog.exec_() == QDialog.Accepted:
+            self.dialog.reject()
 
     def main(self):
         if self.state == 0:
@@ -117,40 +64,71 @@ class Main:
             if term_dialog.result() == QDialog.Accepted:
                 self.method_1()
 
+    def show_options_user_details(self, btn_name):
+        options = [
+            ("الحساب", "icons/users.png"),
+            ("تبديل المستخدم", "icons/log-out.svg"),
+            ("خروج نهائي", "icons/log-out.svg"),
+
+        ]
+        self.show_options(options, btn_name)
+
+    def show_options(self, options, btn_name):
+        if btn_name == 'btnUserDetails':
+            self.dialog.setOptions(options)
+            button_rect = self.window.ui.btnUserDetails.rect()
+            # button_bottom_left = self.window.ui.btnUserDetails.mapToGlobal(button_rect.bottomLeft())
+            # dialog_width = self.dialog.width()
+            # dialog_height = self.dialog.height()
+            # self.dialog.move(button_bottom_left + QPoint(dialog_width, dialog_height))
+            self.dialog.move(50, 100)
+            if self.dialog.exec_() == QDialog.Accepted:
+                selected_option = self.dialog.selectedOption()
+                self.show_user_details_tab(selected_option)
+
+    def show_user_details_tab(self, selected_option):
+
+        if selected_option == 'تبديل المستخدم':
+            # self.app.quit()
+            user_logout = UserLogoutDialog()
+            user_logout.exec_()
+        if selected_option == 'خروج نهائي':
+            self.app.quit()
+
+        if selected_option == 'الحساب':
+            QMessageBox.information(self.window.ui, 'تحذير', 'لم يتم اضافة الواجهه بعد')
+
     def method_1(self):
         user_login = UserLoginDialog()
         user_login.use_ui_elements()
         user_login.exec_()
         result = user_login.login()
         if result is True:
-            # QMessageBox.information(self.window, "تسجيل الدخول", "تم تسجيل الدخول بنجاح")
-            # print("hello main")
-            main_design = 'Design/EduTracMain.ui'
-            ui_handler = UIHandler(main_design)
-            window = SubMain(ui_handler)
-            Device = DeviceUI(window)
+            self.window.ui.comboAddendenceTime.setEnabled(False)
+            self.window.ui.comboAddendenceTime.setStyleSheet("QComboBox { background-color: #333333; color: #333333; }")
+            Device = DeviceUI(self.window)
             Device.use_ui_elements()
-            Teacher = TeachersUI(window)
+            Teacher = TeachersUI(self.window)
             Teacher.use_ui_elements()
-            options = OptionUI(window)
+            options = OptionUI(self.window)
             options.use_ui_elements()
-            attendance = AttendanceUI(window)
+            self.window.ui.btnUserDetails.clicked.connect(lambda: self.show_options_user_details('btnUserDetails'))
+            attendance = AttendanceUI(self.window)
             attendance.use_ui_elements()
-            shift = Shift_timeUI(window)
+            shift = Shift_timeUI(self.window)
             shift.shift_ui_elements()
-            common = Common(window)
+            common = Common(self.window)
             common.use_ui_elements()
-            students = StudentsUI(window)
+            students = StudentsUI(self.window)
             students.use_ui_elements()
-            permission = PermissionUI(window)
+            permission = PermissionUI(self.window)
             permission.permission_ui_elements()
-            council_fathers = CouncilFathersUI(window)
+            council_fathers = CouncilFathersUI(self.window)
             council_fathers.use_ui_elements()
-            user = UsersUI(window)
+            user = UsersUI(self.window)
             user.use_ui_elements()
-            window.ui.showMaximized()
-            app = QApplication([])
-            sys.exit(app.exec_())
+            self.window.ui.showMaximized()
+            sys.exit(self.app.exec_())
 
 
 # class UserLogoutDialog(QDialog):

@@ -203,8 +203,9 @@ from PyQt5.QtGui import QIcon, QColor, QFont
 # # app.exec_()  # Start the application event loop
 
 
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QListWidget, QListWidgetItem, QApplication, QPushButton, QMessageBox
-from PyQt5.QtCore import Qt, pyqtSignal, QPoint
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QListWidget, QListWidgetItem, QApplication, QPushButton, QMessageBox, \
+    QMainWindow, QWidget
+from PyQt5.QtCore import Qt, pyqtSignal, QPoint, QEvent
 
 from GUI.Dialogs.UserLogoutDialog import UserLogoutDialog
 from GUI.Views.CommonFunctionality import Common
@@ -213,21 +214,28 @@ from GUI.Views.LoginState import LoginState
 
 class OptionDialog(QDialog):
     def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
+        super().__init__(parent, Qt.Window | Qt.FramelessWindowHint | Qt.MSWindowsFixedSizeDialogHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.layout = QVBoxLayout(self)
         self.layout.setAlignment(Qt.AlignLeft)
-        self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
-        self.setAttribute(Qt.WA_TranslucentBackground)
+
         self.list_widget = QListWidget()
-        self.list_widget.setLayoutDirection(Qt.LeftToRight)  # Set right-to-left layout direction
-        self.list_widget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)  # Disable vertical scrollbar
+        self.list_widget.setLayoutDirection(Qt.LeftToRight)
+        self.list_widget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.list_widget.setStyleSheet(
-            "QListWidget { background-color: white; border: 0px solid white; }")
+            "QListWidget { background-color: white; border: 0px solid white; font-family:Motken K Sina;color: black; font-size: 16px;}")
         self.layout.addWidget(self.list_widget)
 
+        self.close_button = QPushButton("إغــــــــــــلاق")
+        self.close_button.setStyleSheet(
+            "QPushButton { background-color: red; font-family:Motken K Sina;color: white; font-size: 16px;}")
+        self.close_button.clicked.connect(self.close_dialog)
+        self.layout.addWidget(self.close_button)
+
         self.list_widget.itemClicked.connect(self.accept)
+
+    def close_dialog(self):
+        self.close()
 
     def setOptions(self, options):
         self.list_widget.clear()
@@ -254,52 +262,58 @@ class OptionUI:
         self.submain = submain_instance
         self.ui = self.submain.ui
         self.dialog = OptionDialog()
+        self.dialog.close_button.clicked.connect(self.close_dialog)
         # self.dialog.setOptions([])
+        # self.installEventFilter(self.dialog)
+
+    def close_dialog(self):
+        self.ui.btnEmps.setStyleSheet(
+            "QPushButton { background-color: qlineargradient(spread:pad, x1:0.964478, y1:0.193, x2:1, y2:0, stop:0 rgba(191, 194, 181, 255), stop:1 rgba(255, 255, 255, 255));color:black}")
+        self.ui.btnSettings.setStyleSheet(
+            "QPushButton { background-color: qlineargradient(spread:pad, x1:0.964478, y1:0.193, x2:1, y2:0, stop:0 rgba(191, 194, 181, 255), stop:1 rgba(255, 255, 255, 255));color:black}")
+        self.ui.btnStudents.setStyleSheet(
+            "QPushButton { background-color: qlineargradient(spread:pad, x1:0.964478, y1:0.193, x2:1, y2:0, stop:0 rgba(191, 194, 181, 255), stop:1 rgba(255, 255, 255, 255));color:black}")
+        self.ui.btnReports.setStyleSheet(
+            "QPushButton { background-color: qlineargradient(spread:pad, x1:0.964478, y1:0.193, x2:1, y2:0, stop:0 rgba(191, 194, 181, 255), stop:1 rgba(255, 255, 255, 255));color:black}")
+        self.ui.btnHome.setStyleSheet(
+            "QPushButton { background-color: qlineargradient(spread:pad, x1:0.964478, y1:0.193, x2:1, y2:0, stop:0 rgba(191, 194, 181, 255), stop:1 rgba(255, 255, 255, 255));color:black}")
+    # def mousePressEvent(self, event):
+    #     option_dialog = self.findChild(OptionDialog)
+    #     if option_dialog is not None:
+    #         option_dialog.close()
+    #     super().mousePressEvent(event)
 
     def use_ui_elements(self):
-        self.ui.btnEntery.clicked.connect(self.show_options_entery)
-        self.ui.btnSettings.clicked.connect(self.show_options_settings)
-        self.ui.btnUserDetails.clicked.connect(self.show_options_user_details)
-        self.ui.btnReports.clicked.connect(self.show_options_reports)
+        self.ui.btnEmps.clicked.connect(lambda: self.show_options_entery("btnEmps"))
+        # self.ui.btnEmps.clicked.connect(self.show_options_entery)
+        self.ui.btnSettings.clicked.connect(lambda: self.show_options_settings('btnSettings'))
+        self.ui.btnStudents.clicked.connect(lambda: self.show_options_students('btnStudents'))
+        self.ui.btnReports.clicked.connect(lambda: self.show_options_reports('btnReports'))
 
-    def show_options(self, options, QPushButton):
-        if QPushButton == self.ui.btnEntery:
+    def show_options(self, options, button_name):
+
+        print("the button clicked is 2: ", button_name)
+        if button_name == 'btnEmps':
             self.dialog.setOptions(options)
-            button_rect = QPushButton.rect()
-            button_bottom_left = QPushButton.mapToGlobal(button_rect.bottomLeft())
-            dialog_width = self.dialog.width()
-            dialog_height = self.dialog.height()
-            self.dialog.move(button_bottom_left - QPoint(dialog_width, dialog_height))
+            self.dialog.move(1350, 500)
             if self.dialog.exec_() == QDialog.Accepted:
                 selected_option = self.dialog.selectedOption()
                 self.show_entry_tab(selected_option)
-        if QPushButton == self.ui.btnSettings:
+        if button_name == 'btnStudents':
             self.dialog.setOptions(options)
-            button_rect = QPushButton.rect()
-            button_bottom_left = QPushButton.mapToGlobal(button_rect.bottomLeft())
-            dialog_width = self.dialog.width()
-            dialog_height = self.dialog.height()
-            self.dialog.move(button_bottom_left - QPoint(dialog_width, dialog_height))
+            self.dialog.move(1350, 620)
+            if self.dialog.exec_() == QDialog.Accepted:
+                selected_option = self.dialog.selectedOption()
+                self.show_students_tab(selected_option)
+        if button_name == 'btnSettings':
+            self.dialog.setOptions(options)
+            self.dialog.move(1350, 770)
             if self.dialog.exec_() == QDialog.Accepted:
                 selected_option = self.dialog.selectedOption()
                 self.show_settings_tab(selected_option)
-        if QPushButton == self.ui.btnUserDetails:
+        if button_name == 'btnReports':
             self.dialog.setOptions(options)
-            button_rect = QPushButton.rect()
-            button_bottom_left = QPushButton.mapToGlobal(button_rect.bottomLeft())
-            dialog_width = self.dialog.width()
-            dialog_height = self.dialog.height()
-            self.dialog.move(button_bottom_left + QPoint(dialog_width, dialog_height))
-            if self.dialog.exec_() == QDialog.Accepted:
-                selected_option = self.dialog.selectedOption()
-                self.show_user_details_tab(selected_option)
-        if QPushButton == self.ui.btnReports:
-            self.dialog.setOptions(options)
-            button_rect = QPushButton.rect()
-            button_bottom_left = QPushButton.mapToGlobal(button_rect.bottomLeft())
-            dialog_width = self.dialog.width()
-            dialog_height = self.dialog.height()
-            self.dialog.move(button_bottom_left - QPoint(dialog_width, dialog_height))
+            self.dialog.move(1350, 740)
             if self.dialog.exec_() == QDialog.Accepted:
                 selected_option = self.dialog.selectedOption()
                 self.show_reports_tab(selected_option)
@@ -314,18 +328,14 @@ class OptionUI:
         if selected_option == 'مجلس الاباء':
             self.ui.tabMainTab.setCurrentIndex(1)
             self.ui.tabDataManagement.setCurrentIndex(4)
-        if selected_option == 'جدول حصص الطلاب':
-            self.ui.tabMainTab.setCurrentIndex(1)
-            self.ui.tabDataManagement.setCurrentIndex(3)
+
         if selected_option == 'جدول حصص المعلمين':
             self.ui.tabMainTab.setCurrentIndex(1)
             self.ui.tabDataManagement.setCurrentIndex(2)
         if selected_option == 'عرض حسب الورديات':
             self.ui.tabMainTab.setCurrentIndex(2)
             self.ui.tabEmpsMovement.setCurrentIndex(2)
-        if selected_option == 'طالــب جديد':
-            self.ui.tabMainTab.setCurrentIndex(1)
-            self.ui.tabDataManagement.setCurrentIndex(1)
+
         if selected_option == 'موضفيـــن':
             self.ui.tabMainTab.setCurrentIndex(1)
             self.ui.tabDataManagement.setCurrentIndex(0)
@@ -337,6 +347,16 @@ class OptionUI:
             self.ui.tabDataManagement.setCurrentIndex(2)
         if selected_option == 'غياب بعذر':
             QMessageBox.information(self.ui, 'تحذير', 'لم يتم اضافة الواجهه بعد')
+        if selected_option == 'الحسابـــات':
+            QMessageBox.information(self.ui, 'تحذير', 'لم يتم اضافة الواجهه بعد')
+
+    def show_students_tab(self, selected_option):
+        if selected_option == 'جدول حصص الطلاب':
+            self.ui.tabMainTab.setCurrentIndex(1)
+            self.ui.tabDataManagement.setCurrentIndex(3)
+        if selected_option == 'طالــب جديد':
+            self.ui.tabMainTab.setCurrentIndex(1)
+            self.ui.tabDataManagement.setCurrentIndex(1)
         if selected_option == 'الحسابـــات':
             # self.ui.tabDataManagement.setCurrentIndex(3)
             QMessageBox.information(self.ui, 'تحذير', 'لم يتم اضافة الواجهه بعد')
@@ -363,11 +383,12 @@ class OptionUI:
 
     def show_user_details_tab(self, selected_option):
 
-        if selected_option == 'تسجيل الخروج':
-             user_logout = UserLogoutDialog()
-             user_logout.exec_()
+        if selected_option == 'تبديل المستخدم':
+            user_logout = UserLogoutDialog()
+            user_logout.exec_()
+        if selected_option == 'خروج نهائي':
+            QMessageBox.information(self.ui, 'تحذير', 'لم يتم اضافة الواجهه بعد')
 
-            # Main(1, False)
         if selected_option == 'الحساب':
             QMessageBox.information(self.ui, 'تحذير', 'لم يتم اضافة الواجهه بعد')
 
@@ -382,14 +403,13 @@ class OptionUI:
             self.ui.tabMainTab.setCurrentIndex(3)
             self.ui.tabTeachersReports.setCurrentIndex(1)
 
-    def show_options_entery(self):
+    def show_options_entery(self, button_name):
+        self.ui.btnEmps.setStyleSheet("QPushButton { background-color: red;}")
         options = [
-            ("طالــب جديد", "icons/add1.png"),
             ("موضفيـــن", "icons/تنزيل (3).jpg"),
             ("مجلس الاباء", "icons/تنزيل (3).jpg"),
             ("سجــــلات الحضور", "icons/add1.png"),
             ("جدول حصص المعلمين", "icons/add1.png"),
-            ("جدول حصص الطلاب", "icons/add1.png"),
             ("عرض الحضور والانصراف", "icons/add1.png"),
             ("عرض حسب الورديات", "icons/add1.png"),
             ("جهاز البصمة", "icons/images.jpg"),
@@ -397,9 +417,24 @@ class OptionUI:
             ("الحسابـــات", "icons/تنزيل (2).jpg"),
         ]
 
-        self.show_options(options, self.ui.btnEntery)
+        self.show_options(options, button_name)
 
-    def show_options_settings(self):
+    def show_options_students(self, button_name):
+        self.ui.btnStudents.setStyleSheet("QPushButton { background-color: red;}")
+
+        # self.ui.btnStudents.setStyleSheet( "QPushButton { background-color: red;}")
+        # self.ui.btnStudents.setStyleSheet( "QPushButton { background-color: red;}")
+        # self.ui.btnStudents.setStyleSheet( "QPushButton { background-color: red;}")
+        # self.ui.btnStudents.setStyleSheet( "QPushButton { background-color: red;}")
+        options = [
+            ("طالــب جديد", "icons/add1.png"),
+            ("جدول حصص الطلاب", "icons/add1.png"),
+            ("الحسابـــات", "icons/تنزيل (2).jpg"),
+        ]
+        self.show_options(options, button_name)
+
+    def show_options_settings(self, button_name):
+        self.ui.btnSettings.setStyleSheet("QPushButton { background-color: red;}")
         options = [
             ("تهيئةالمدرسة", "icons/users_Details.svg"),
             ("تهيئة حصص الترم", "icons/users_Details.svg"),
@@ -407,18 +442,22 @@ class OptionUI:
             ("المستخدمين", "icons/users_accounts.jpg"),
             ("الصلاحيات", "icons/permission.png"),
         ]
-        self.show_options(options, self.ui.btnSettings)
+        self.show_options(options, button_name)
 
-    def show_options_user_details(self):
+    def show_options_user_details(self, button_name):
+        print("the selected option is : ", button_name)
         options = [
-            ("تسجيل الخروج", "icons/log-out.svg"),
             ("الحساب", "icons/users.png"),
-        ]
-        self.show_options(options, self.ui.btnUserDetails)
+            ("تبديل المستخدم", "icons/log-out.svg"),
+            ("خروج نهائي", "icons/log-out.svg"),
 
-    def show_options_reports(self):
+        ]
+        self.show_options(options, button_name)
+
+    def show_options_reports(self, button_name):
+        self.ui.btnReports.setStyleSheet("QPushButton { background-color: red;}")
         options = [
             ("الموضفين", "icons/newData.png"),
             ("الطلاب", "icons/remarks-24.svg"),
         ]
-        self.show_options(options, self.ui.btnReports)
+        self.show_options(options, button_name)
