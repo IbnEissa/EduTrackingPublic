@@ -12,8 +12,7 @@ from PyQt5.QtCore import QDate
 class UserDialog(QDialog):
     def __init__(self):
         super().__init__()
-        # Load the dialog form created with Qt Designer
-        loadUi("newUser.ui", self)
+        loadUi("GUI/UIFiles/newUser.ui", self)
         self.btnSaveUser.clicked.connect(self.save_data)
         self.btnCancelAddingUser.clicked.connect(self.reject)
         # تعيين ترتيب التنقل بين العناصر

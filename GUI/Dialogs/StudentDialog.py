@@ -16,7 +16,7 @@ class StudentDialog(QDialog):
     def __init__(self):
         super().__init__()
         # Load the dialog form created with Qt Designer
-        loadUi("studentDialog.ui", self)
+        loadUi("GUI/UIFiles/studentDialog.ui", self)
         self.btnSaveStudent.clicked.connect(self.save_data)
         self.btnCancelAddingStudent.clicked.connect(self.reject)
         self.get_classes_combo_data()

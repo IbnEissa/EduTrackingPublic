@@ -45,7 +45,7 @@ class Main:
         self.last_inserted_device = Device.select(peewee.fn.Max(Device.id)).scalar()
         device = Device.get(Device.id == self.last_inserted_device)
         self.zk = ZK(device.ip, port=device.port, timeout=5)
-        self.main_design = 'EduTracMain.ui'
+        self.main_design = 'GUI/UIFiles/EduTracMain.ui'
         self.ui_handler = UIHandler(self.main_design)
         self.window = SubMain(self.ui_handler)
         self.app = QApplication([])

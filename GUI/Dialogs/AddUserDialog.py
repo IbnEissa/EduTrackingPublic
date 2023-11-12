@@ -13,7 +13,7 @@ class AddUserDialog(QDialog):
     def __init__(self):
         super().__init__()
         # Load the dialog form created with Qt Designer
-        loadUi("AddUserDialog.ui", self)
+        loadUi("GUI/UIFiles/AddUserDialog.ui", self)
         self.btnAddUser.clicked.connect(self.save_data)
         self.cobAccountType.installEventFilter(self)
         self.txtUserName.installEventFilter(self)

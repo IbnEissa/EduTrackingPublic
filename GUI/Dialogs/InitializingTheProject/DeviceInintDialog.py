@@ -13,7 +13,7 @@ class DeviceInitDialog(QDialog):
     def __init__(self):
         super().__init__()
         # self.dialog_manager = dialog_manager
-        loadUi("DeviceDialog2.ui", self)
+        loadUi("GUI/UIFiles/DeviceDialog2.ui", self)
         self.setWindowFlags(Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint)
         self.lastInsertedSchoolId = 0
         # self.btnSkippingDevice.clicked.connect(self.accept)

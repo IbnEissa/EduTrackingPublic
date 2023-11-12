@@ -15,7 +15,7 @@ class CouncilFathersDialog(QDialog):
     def __init__(self):
         super().__init__()
         # Load the dialog form created with Qt Designer
-        loadUi("CouncilFathersDialog.ui", self)
+        loadUi("GUI/UIFiles/CouncilFathersDialog.ui", self)
         self.btnSaveCouncil.clicked.connect(self.save_data)
         self.btnCancelAddingCouncil.clicked.connect(self.reject)
         self.txtCouncilFathersName.installEventFilter(self)

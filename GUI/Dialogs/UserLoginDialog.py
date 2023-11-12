@@ -15,7 +15,7 @@ class UserLoginDialog(QDialog):
     def __init__(self):
         super().__init__()
         # Load the dialog form created with Qt Designer
-        loadUi("loginDialog .ui", self)
+        loadUi("GUI/UIFiles/loginDialog.ui", self)
         # self.ui.Users.update_state_to_false()
 
     def use_ui_elements(self):

@@ -9,7 +9,7 @@ from PyQt5.uic import loadUi
 class AdminDialog(QMainWindow):
     def __init__(self):
         super().__init__()
-        loadUi("untitled.ui", self)
+        loadUi("GUI/UIFiles/untitled.ui", self)
         self.btnYes.clicked.connect(self.save_password)
         self.password_input = QLineEdit()
         self.txtpassword.setEchoMode(QtWidgets.QLineEdit.Password)

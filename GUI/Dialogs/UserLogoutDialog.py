@@ -9,7 +9,7 @@ from GUI.Dialogs.UserLoginDialog import UserLoginDialog
 class UserLogoutDialog(QDialog):
     def __init__(self):
         super().__init__()
-        loadUi("UserLogoutDialog.ui", self)
+        loadUi("GUI/UIFiles/UserLogoutDialog.ui", self)
         self.start_ui()
         self.state = False
 

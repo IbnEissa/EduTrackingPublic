@@ -8,7 +8,7 @@ from PyQt5.uic import loadUi
 class Shift_timedialog(QDialog):
     def __init__(self):
         super().__init__()
-        loadUi("shiftDialog.ui", self)
+        loadUi("GUI/UIFiles/shiftDialog.ui", self)
         self.btnSaveshift.clicked.connect(self.save_data_shift)
         self.btnCancelAddingshift.clicked.connect(self.reject)
 

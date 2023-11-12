@@ -10,7 +10,7 @@ from models.term_table import TeacherSubjectClassRoomTermTable
 class TermSessionsInit(QDialog):
     def __init__(self):
         super().__init__()
-        loadUi("TermSessionsInit.ui", self)
+        loadUi("GUI/UIFiles/TermSessionsInit.ui", self)
         self.setWindowFlags(Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint)
         self.lastInsertedTermSession = 0
         self.get_subject()
@@ -199,7 +199,7 @@ class DeleteUpdateButtonTermInitWidget(QWidget):
 class TermSessionsInitUpdate(QDialog):
     def __init__(self):
         super().__init__()
-        loadUi("TermSessionsInitUpdate.ui", self)
+        loadUi("GUI/UIFiles/TermSessionsInitUpdate.ui", self)
         self.get_classes()
         self.get_subject()
         self.updated_term_id = 0

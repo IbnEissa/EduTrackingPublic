@@ -16,7 +16,7 @@ class TeacherDialog(QDialog):
     def __init__(self):
         super().__init__()
         # Load the dialog form created with Qt Designer
-        loadUi("teacherDialog.ui", self)
+        loadUi("GUI/UIFiles/teacherDialog.ui", self)
         self.btnSaveTeacher.clicked.connect(self.save_data)
         self.btnCancelAddingTeacher.clicked.connect(self.reject)
         # تعيين ترتيب التنقل بين العناصر

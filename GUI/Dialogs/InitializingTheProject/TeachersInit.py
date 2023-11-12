@@ -17,7 +17,7 @@ from models.Teachers import Teachers
 class TeachersInit(QDialog):
     def __init__(self):
         super().__init__()
-        loadUi("teachersInit.ui", self)
+        loadUi("GUI/UIFiles/teachersInit.ui", self)
         self.setWindowFlags(Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint)
         self.lastInsertedTeacherId = 0
         self.lastInsertedMemberId = 0

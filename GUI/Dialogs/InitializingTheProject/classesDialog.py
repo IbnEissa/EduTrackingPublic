@@ -12,7 +12,7 @@ class ClassesDialog(QDialog):
     def __init__(self):
         super().__init__()
         # self.dialog_manager = dialog_manager
-        loadUi("ChaptersDataDialog.ui", self)
+        loadUi("GUI/UIFiles/ChaptersDataDialog.ui", self)
         self.setWindowFlags(Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint)
         self.lastInsertedSchoolId = 0
         # self.btnSkipClasses.clicked.connect(self.accept)

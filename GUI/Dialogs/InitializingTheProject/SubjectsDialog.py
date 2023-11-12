@@ -13,7 +13,7 @@ class SubjectsDialog(QDialog):
     def __init__(self):
         super().__init__()
         # self.dialog_manager = dialog_manager
-        loadUi("MaterialDataDialog.ui", self)
+        loadUi("GUI/UIFiles/MaterialDataDialog.ui", self)
         self.setWindowFlags(Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint)
         # self.btnSkipSubjects.clicked.connect(self.accept)
 

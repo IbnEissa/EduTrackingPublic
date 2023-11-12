@@ -15,7 +15,7 @@ from models.School import School
 class SchoolDialog(QDialog):
     def __init__(self):
         super().__init__()
-        loadUi("SchoolData.ui", self)
+        loadUi("GUI/UIFiles/SchoolData.ui", self)
         self.get_cities_combo_data()
         self.setWindowFlags(Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint)
 
