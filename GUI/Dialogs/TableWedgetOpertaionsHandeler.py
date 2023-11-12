@@ -2,8 +2,10 @@ import peewee
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QWidget, QVBoxLayout, QPushButton, QDialog, \
     QTableWidgetItem, QMessageBox, QStyle
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt, QDate
+from PyQt5.QtCore import Qt, QDate, QTime
 from zk import ZK
+
+from GUI.Dialogs.shift_timeDialog import Shift_timedialog
 from GUI.Views.CommonFunctionality import Common
 from GUI.Dialogs.CouncilFathersDialog import CouncilFathersDialog
 from GUI.Dialogs.DeviceDailog import MyDialog
@@ -26,7 +28,10 @@ from GUI.Dialogs.StudentDialog import StudentDialog
 from models.Members import Members
 from models.School import School
 from models.Students import Students
+from models.Teachers import Teachers
+from models.Teachers_Schedule import Teachers_Schedule
 from models.Users import Users
+from models.shift_time import Shift_time
 from models.term_table import TeacherSubjectClassRoomTermTable
 
 lastInsertedSchoolId = School.select(peewee.fn.Max(School.id)).scalar()
@@ -306,12 +311,10 @@ class DeleteUpdateButtonStudentsWidget(QWidget):
                 if cell_widget and self.table_widget:
                     row = self.table_widget.indexAt(cell_widget.pos()).row()
                     # Fetch the user with the selected ID from the database
-                    member_id = self.table_widget.item(row, 0)
-                    student_dialog = StudentDialog()
-                    student_dialog.labAddStudent.setText(member_id.text())
-                    member_id = student_dialog.labAddStudent.text()
+                    student_id = self.table_widget.item(row, 0)
+                    get_id = student_id.text()
                     try:
-                        member = Members.get_by_id(member_id)
+                        member = Members.get_by_id(get_id)
                         reply = QMessageBox.question(self, "تأكيدالحذف", "هل أنت متأكد أنك تريد حذف هذا الطالب",
                                                      QMessageBox.Yes | QMessageBox.No)
                         if reply == QMessageBox.Yes:
@@ -362,30 +365,111 @@ class DeleteUpdateButtonStudentsWidget(QWidget):
                             FName, SName, TName, LName, ClassId, Birth, Phone, ClassName = student_dialog.save_data()
                             print("the member id is : ", member_id.text())
                             m = Members.get_members_by_id(self, member_id.text())
-                            m.school_id = lastInsertedSchoolId
-                            m.fName = FName
-                            m.sName = SName
-                            m.tName = TName
-                            m.lName = LName
-                            m.phone = Phone
-                            m.dateBerth = Birth
-                            m.save()
+                            if m is not None:
+                                m.fName = FName
+                                m.sName = SName
+                                m.tName = TName
+                                m.lName = LName
+                                m.phone = Phone
+                                m.dateBerth = Birth
+                                m.save()
 
-                            student = Students.get(Students.member_id == m.id)
-                            student.class_id = ClassId
-                            student.save()
-                            self.table_widget.setItem(row, 0, QTableWidgetItem(member_id.text()))
-                            self.table_widget.setItem(row, 1, QTableWidgetItem(FName))
-                            self.table_widget.setItem(row, 2, QTableWidgetItem(SName))
-                            self.table_widget.setItem(row, 3, QTableWidgetItem(TName))
-                            self.table_widget.setItem(row, 4, QTableWidgetItem(LName))
-                            self.table_widget.setItem(row, 5, QTableWidgetItem(ClassName))
-                            self.table_widget.setItem(row, 6, QTableWidgetItem(str(Birth)))
-                            self.table_widget.setItem(row, 7, QTableWidgetItem(Phone))
-                            self.table_widget.setColumnHidden(0, True)
-                            QMessageBox.information(self, "نجاح", "تم التعديل بنجاح")
+                                student = Students.get(Students.member_id == m.id)
+                                student.class_id = ClassId
+                                student.save()
+                                self.table_widget.setItem(row, 0, QTableWidgetItem(member_id.text()))
+                                self.table_widget.setItem(row, 1, QTableWidgetItem(FName))
+                                self.table_widget.setItem(row, 2, QTableWidgetItem(SName))
+                                self.table_widget.setItem(row, 3, QTableWidgetItem(TName))
+                                self.table_widget.setItem(row, 4, QTableWidgetItem(LName))
+                                self.table_widget.setItem(row, 5, QTableWidgetItem(ClassName))
+                                self.table_widget.setItem(row, 6, QTableWidgetItem(str(Birth)))
+                                self.table_widget.setItem(row, 7, QTableWidgetItem(Phone))
+
+                                QMessageBox.information(self, "نجاح", "تم التعديل بنجاح")
         else:
             QMessageBox.information(self, "الصلاحية", "ليس لديك الصلاحية")
+
+
+class DeleteUpdateButtonTeacherScheduleWidget(QWidget):
+    def __init__(self, table_widget, parent=None):
+        super().__init__(parent)
+        self.table_widget = table_widget
+        layout = QVBoxLayout()
+        self.delete_teacher_schedule = QPushButton("حــــذف")
+        self.update_teacher_schedule = QPushButton("تعــديل")
+        self.delete_teacher_schedule.setFixedSize(110, 40)
+        self.update_teacher_schedule.setStyleSheet(
+            "color: white; background-color: blue; font: 12pt 'PT Bold Heading';")
+        self.delete_teacher_schedule.setStyleSheet("color: white; background-color: red;font:12pt 'PT Bold Heading';")
+        self.update_teacher_schedule.setFixedSize(110, 40)
+        layout.addSpacing(3)
+        layout.addWidget(self.update_teacher_schedule)
+        layout.addSpacing(3)
+        layout.addWidget(self.delete_teacher_schedule)
+
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setAlignment(Qt.AlignCenter)
+        self.setLayout(layout)
+
+        self.delete_teacher_schedule.clicked.connect(self.on_delete_button_teacher_schedule_clicked)
+        self.update_teacher_schedule.clicked.connect(self.on_update_button_teacher_schedule_clicked)
+
+    def on_delete_button_teacher_schedule_clicked(self):
+        clicked_button = self.sender()
+        if clicked_button:
+            cell_widget = clicked_button.parentWidget()
+            if cell_widget and self.table_widget:
+                row = self.table_widget.indexAt(cell_widget.pos()).row()
+                # Fetch the user with the selected ID from the database
+                member_id = self.table_widget.item(row, 0)
+                if member_id is not None:
+                    member_id = int(member_id.text())  # Convert the item text to an integer
+                    try:
+                        teacher_schedule = Teachers_Schedule.get_by_id(member_id)
+
+                        # Show confirmation message box
+                        reply = QMessageBox.question(self, "تأكيد الحذف", "هل أنت متأكد أنك تريد حذف هذا الطالب",
+                                                     QMessageBox.Yes | QMessageBox.No)
+                        if reply == QMessageBox.Yes:
+                            print(teacher_schedule)
+                            self.table_widget.removeRow(row)
+                            teacher_schedule.delete_instance()
+                            QMessageBox.information(self, "نجاح", "تم الحذف بنجاح")
+                    except Teachers_Schedule.DoesNotExist:
+                        print("Teacher schedule does not exist.")
+                else:
+                    print("Invalid member ID.")
+
+    def on_update_button_teacher_schedule_clicked(self):
+        clicked_button = self.sender()
+        if clicked_button:
+            cell_widget = clicked_button.parentWidget()
+            if cell_widget and self.table_widget:
+                row = self.table_widget.indexAt(cell_widget.pos()).row()
+                member_id = self.table_widget.item(row, 0)
+                day = self.table_widget.item(row, 1).text()
+                subject = self.table_widget.item(row, 2).text()
+                session = self.table_widget.item(row, 3).text()
+                class_name = self.table_widget.item(row, 4).text()
+                teacher_name = self.table_widget.item(row, 5).text()
+
+                if member_id is not None:
+                    member_id = int(member_id.text())  # Convert the item text to an integer
+                    try:
+                        teacher_schedule = Teachers_Schedule.get_by_id(member_id)
+                        teacher_schedule.Teacher_Name = teacher_name
+                        teacher_schedule.Day = day
+                        teacher_schedule.Subject = subject
+                        teacher_schedule.session = session
+                        teacher_schedule.Class_Name = class_name
+                        teacher_schedule.save()
+
+                        QMessageBox.information(self, "نجاح", "تم التعديل بنجاح")
+                    except Teachers_Schedule.DoesNotExist:
+                        print("Teacher schedule does not exist.")
+                else:
+                    print("Invalid member ID.")
 
 
 class DeleteUpdateButtonUsersWidget(QWidget):
@@ -421,23 +505,19 @@ class DeleteUpdateButtonUsersWidget(QWidget):
                 if cell_widget and self.table_widget:
                     row = self.table_widget.indexAt(cell_widget.pos()).row()
                     # Fetch the user with the selected ID from the database
-                    member_id = self.table_widget.item(row, 0)
-                    user_dialog = UserDialog()
-                    user_dialog.labAddUsers.setText(member_id.text())
-                    member_id = user_dialog.labAddUsers.text()
-                    self.table_widget.removeRow(row)
-
+                    user_id = self.table_widget.item(row, 0)
+                    get_id = user_id.text()
                     try:
-                        idUser = Members.get_by_id(member_id)
+                        user = Users.get_by_id(get_id)
 
                         # Show confirmation message box
                         reply = QMessageBox.question(self, "تأكيدالحذف", "هل أنت متأكد أنك تريد حذف هذا الطالب",
                                                      QMessageBox.Yes | QMessageBox.No)
                         if reply == QMessageBox.Yes:
-                            print(idUser)
-                            idUser.delete_instance()
+                            print(user)
+                            self.table_widget.removeRow(row)
+                            user.delete_instance()
                             QMessageBox.information(self, "نجاح", "تم الحذف بنجاح")
-
                     except Members.DoesNotExist:
                         print("Student does not exist.")
         else:
@@ -466,16 +546,16 @@ class DeleteUpdateButtonUsersWidget(QWidget):
                         user_dialog = UserDialog()
                         user_dialog.labAddUsers.setVisible(False)
                         user_dialog.labAddUsers.setText(member_id.text())
-                        user_dialog.txtName.setPlainText(Name.text())
+                        user_dialog.txtname.setPlainText(Name.text())
                         user_dialog.txtUserName.setPlainText(userName.text())
-                        user_dialog.txtPasswordUser.setPlainText(userPassword.text())
-                        user_dialog.combAccountType.setEditText(accountType.text())
+                        user_dialog.txtPassword.setPlainText(userPassword.text())
+                        user_dialog.comboAccountType.setEditText(accountType.text())
 
                         if user_dialog.exec_() == QDialog.Accepted:
-                            Name = user_dialog.txtName.toPlainText()
+                            Name = user_dialog.txtname.toPlainText()
                             userName = user_dialog.txtUserName.toPlainText()
-                            userPassword = user_dialog.txtPasswordUser.toPlainText()
-                            accountType = user_dialog.combAccountType.currentText()
+                            userPassword = user_dialog.txtPassword.toPlainText()
+                            accountType = user_dialog.comboAccountType.currentText()
 
                             # Update the row in the table_widget with the new data
                             self.table_widget.setItem(row, 1, QTableWidgetItem(Name))
@@ -486,34 +566,16 @@ class DeleteUpdateButtonUsersWidget(QWidget):
                             # Fetch the user with the selected ID from the database
                             member_id = user_dialog.labAddUsers.text()
                             print(member_id)
-                            # التحقق مما إذا كان العضو موجودًا بالفعل
-                            existing_member = Members.select().where(
-                                (Members.fName == Name)
 
-                            ).first()
-                            if existing_member:
-                                # العضو موجود بالفعل، يمكنك التعامل مع حالة التكرار هنا
-                                QMessageBox.critical(self, "خطأ", "العضو موجودًا بالفعل: ")
-                                print("العضو موجود بالفعل!")
-                                return
+                            # Update the Users table
+                            user = Users.get_by_id(member_id)
+                            user.Name = Name
+                            user.userName = accountType
+                            user.userPassword = userName
+                            user.account_type = userPassword
+                            user.save()
 
-                                # العضو غير موجود، قم بإجراء الإدخال
-                            else:
-
-                                # Update the Members table
-                                member = Members.get_by_id(member_id)
-                                member.school_id = schoolID
-                                member.fName = Name
-                                member.accountType = accountType
-                                member.save()
-
-                                # Update the Students table
-                                user = Users.get(Users.members_id == member_id)
-                                user.userName = userName
-                                user.userPassword = userPassword
-                                user.save()
-
-                                QMessageBox.information(self, "نجاح", "تم التعديل بنجاح")
+                            QMessageBox.information(self, "نجاح", "تم التعديل بنجاح")
         else:
             QMessageBox.information(self, "الصلاحية", "ليس لديك الصلاحية")
 
@@ -550,9 +612,12 @@ class DeleteUpdateButtonCouncilFathersWidget(QWidget):
                 cell_widget = clicked_button.parentWidget()
                 if cell_widget and self.table_widget:
                     row = self.table_widget.indexAt(cell_widget.pos()).row()
+                    # Fetch the user with the selected ID from the database
+                    father_id = self.table_widget.item(row, 0)
+                    get_id = father_id.text()
                     try:
-                        member = Members.get_by_id(member_id)
-                        reply = QMessageBox.question(self, "تأكيدالحذف", "هل أنت متأكد أنك تريد حذف هذا الطالب",
+                        member = Members.get_by_id(get_id)
+                        reply = QMessageBox.question(self, "تأكيدالحذف", "هل أنت متأكد أنك تريد حذف هذا العضو",
                                                      QMessageBox.Yes | QMessageBox.No)
                         if reply == QMessageBox.Yes:
                             self.table_widget.removeRow(row)
@@ -561,8 +626,6 @@ class DeleteUpdateButtonCouncilFathersWidget(QWidget):
                     except Members.DoesNotExist:
                         print("Student does not exist.")
 
-                    self.table_widget.removeRow(row)
-                    Members.delete()
         else:
             QMessageBox.information(self, "الصلاحية", "ليس لديك الصلاحية")
 
@@ -575,7 +638,9 @@ class DeleteUpdateButtonCouncilFathersWidget(QWidget):
                 cell_widget = clicked_button.parentWidget()
                 if cell_widget and self.table_widget:
                     row = self.table_widget.indexAt(cell_widget.pos()).row()
+                    # Fetch the user with the selected ID from the database
                     member_id = self.table_widget.item(row, 0)
+                    print("the member id is : ", member_id.text())
                     council_fathers_fname = self.table_widget.item(row, 1)
                     council_fathers_sname = self.table_widget.item(row, 2)
                     council_fathers_tname = self.table_widget.item(row, 3)
@@ -587,6 +652,8 @@ class DeleteUpdateButtonCouncilFathersWidget(QWidget):
                     if council_fathers_fname and council_fathers_sname and council_fathers_tname and council_fathers_lname and council_fathers_phone and council_fathers__DOB and council_fathers__occupation:
                         date = QDate.fromString(council_fathers__DOB.text(), "yyyy-MM-dd")
                         council_fathers_dialog = CouncilFathersDialog()
+                        council_fathers_dialog.labAddFathers.setVisible(False)
+                        council_fathers_dialog.labAddFathers.setText(member_id.text())
                         council_fathers_dialog.txtCouncilFathersName.setPlainText(council_fathers_fname.text())
                         council_fathers_dialog.txtCouncilSecName.setPlainText(council_fathers_sname.text())
                         council_fathers_dialog.txtCouncilThirName.setPlainText(council_fathers_tname.text())
@@ -596,38 +663,32 @@ class DeleteUpdateButtonCouncilFathersWidget(QWidget):
                         council_fathers_dialog.txtCouncilTask.setPlainText(council_fathers__occupation.text())
 
                         if council_fathers_dialog.exec_() == QDialog.Accepted:
-                            fname = council_fathers_dialog.txtCouncilFathersName.toPlainText()
-                            sname = council_fathers_dialog.txtCouncilSecName.toPlainText()
-                            tname = council_fathers_dialog.txtCouncilThirName.toPlainText()
-                            lname = council_fathers_dialog.txtCouncilLName.toPlainText()
-                            phone = council_fathers_dialog.txtCouncilPhone.toPlainText()
-                            DOB = council_fathers_dialog.dateCouncilDOB.date().toPyDate()
-                            occupation = council_fathers_dialog.txtCouncilTask.toPlainText()
-
-                            # Update the row in the table_widget with the new data
-                            self.table_widget.setItem(row, 1, QTableWidgetItem(fname))
-                            self.table_widget.setItem(row, 2, QTableWidgetItem(sname))
-                            self.table_widget.setItem(row, 3, QTableWidgetItem(tname))
-                            self.table_widget.setItem(row, 4, QTableWidgetItem(lname))
-                            self.table_widget.setItem(row, 5, QTableWidgetItem(phone))
-                            self.table_widget.setItem(row, 6, QTableWidgetItem(str(DOB)))
-                            self.table_widget.setItem(row, 7, QTableWidgetItem(occupation))
-
-                            member = Members.get_by_id(member_id)
+                            CouncilFathersName, CouncilSecName, CouncilThirdName, CouncilLName, CouncilPhone, CouncilDOB, CouncilTask = council_fathers_dialog.save_data()
+                            print("the member id is : ", member_id.text())
+                            member = Members.get_members_by_id(self, member_id.text())
                             member.school_id = lastInsertedSchoolId
-                            member.fName = fname
-                            member.sName = sname
-                            member.tName = tname
-                            member.lName = lname
-                            member.phone = phone
-                            member.dateBerth = DOB
+                            member.fName = CouncilFathersName
+                            member.sName = CouncilSecName
+                            member.tName = CouncilThirdName
+                            member.lName = CouncilLName
+                            member.phone = CouncilPhone
+                            member.dateBerth = CouncilDOB
                             member.save()
 
                             # Update the Students table
-                            Council = CouncilFathers.get(Students.member_id == member_id)
-                            Council.CouncilFathersTask = occupation
+                            Council = CouncilFathers.get(CouncilFathers.members_id == member.id)
+                            Council.CouncilFathersTask = CouncilTask
                             Council.save()
                             QMessageBox.information(self, "تعديل", "تم التعديل  بنجاح.")
+                            # Update the row in the table_widget with the new data
+                            self.table_widget.setItem(row, 1, QTableWidgetItem(CouncilFathersName))
+                            self.table_widget.setItem(row, 2, QTableWidgetItem(CouncilSecName))
+                            self.table_widget.setItem(row, 3, QTableWidgetItem(CouncilThirdName))
+                            self.table_widget.setItem(row, 4, QTableWidgetItem(CouncilLName))
+                            self.table_widget.setItem(row, 5, QTableWidgetItem(CouncilPhone))
+                            self.table_widget.setItem(row, 6, QTableWidgetItem(str(CouncilDOB)))
+                            self.table_widget.setItem(row, 7, QTableWidgetItem(CouncilTask))
+
         else:
             QMessageBox.information(self, "الصلاحية", "ليس لديك الصلاحية")
 
@@ -732,7 +793,7 @@ class DeleteUpdateButtonTeachersWidget(QWidget):
 
         self.delete_button.clicked.connect(self.on_delete_button_clicked)
         self.update_button.clicked.connect(self.on_update_button_clicked)
-        # self.fingerprint_button.clicked.connect(self.add_users_to_device)
+        self.fingerprint_button.clicked.connect(self.add_users_to_device)
 
     def on_delete_button_clicked(self):
         result_condition = Common.grant_permission_to_clicked_button(self, permission="bt_delete_teacher")
@@ -743,8 +804,19 @@ class DeleteUpdateButtonTeachersWidget(QWidget):
                 cell_widget = clicked_button.parentWidget()
                 if cell_widget and self.table_widget:
                     row = self.table_widget.indexAt(cell_widget.pos()).row()
-                    self.table_widget.removeRow(row)
-                    Members.delete()
+                    # Fetch the user with the selected ID from the database
+                    teacher_id = self.table_widget.item(row, 0)
+                    get_id = teacher_id.text()
+                    try:
+                        member = Members.get_by_id(get_id)
+                        reply = QMessageBox.question(self, "تأكيدالحذف", "هل أنت متأكد أنك تريد حذف هذا المعلم",
+                                                     QMessageBox.Yes | QMessageBox.No)
+                        if reply == QMessageBox.Yes:
+                            self.table_widget.removeRow(row)
+                            member.delete_instance()
+                            QMessageBox.information(self, "نجاح", "تم الحذف بنجاح")
+                    except Members.DoesNotExist:
+                        print("Student does not exist.")
         else:
             QMessageBox.information(self, "الصلاحية", "ليس لديك الصلاحية")
 
@@ -764,69 +836,88 @@ class DeleteUpdateButtonTeachersWidget(QWidget):
                 cell_widget = clicked_button.parentWidget()
                 if cell_widget and self.table_widget:
                     row = self.table_widget.indexAt(cell_widget.pos()).row()
-                    # Get the data from the selected row in the table_widget
+                    member_id = self.table_widget.item(row, 0)
                     fname = self.table_widget.item(row, 1)
-                    sname = self.table_widget.item(row, 2)
-                    tname = self.table_widget.item(row, 3)
-                    lname = self.table_widget.item(row, 4)
-                    teacher_phone = self.table_widget.item(row, 5)
-                    teacher_DOB = self.table_widget.item(row, 6)
+                    teacher_DOB = self.table_widget.item(row, 2)
+                    teacher_phone = self.table_widget.item(row, 3)
+                    qualification = self.table_widget.item(row, 4)
+                    date_qualification = self.table_widget.item(row, 5)
+                    Shift_type = self.table_widget.item(row, 6)
                     teacher_major = self.table_widget.item(row, 7)
-                    teacher_occupation = self.table_widget.item(row, 8)
-                    teacher_state = self.table_widget.item(row, 9)
+                    task = self.table_widget.item(row, 8)
+                    exceperiance_years = self.table_widget.item(row, 9)
+                    teacher_state = self.table_widget.item(row, 10)
 
-                    if fname and sname and tname and lname and teacher_phone and teacher_DOB and teacher_major and teacher_occupation and teacher_state:
+                    if fname and teacher_DOB and teacher_phone and qualification and date_qualification and Shift_type and teacher_major and task and exceperiance_years and teacher_state:
                         date = QDate.fromString(teacher_DOB.text(), "yyyy-MM-dd")
+                        qualification_date = QDate.fromString(date_qualification.text(), "yyyy-MM-dd")
                         teacher_dialog = TeacherDialog()
+                        teacher_dialog.labAddTeacher.setText(member_id.text())
                         teacher_dialog.txtTeacherFName.setPlainText(fname.text())
-                        teacher_dialog.txtTeacherSecName.setPlainText(sname.text())
-                        teacher_dialog.txtTeacherThirName.setPlainText(tname.text())
-                        teacher_dialog.txtTeacherLName.setPlainText(lname.text())
-                        teacher_dialog.txtTeacherPhone.setPlainText(teacher_phone.text())
                         teacher_dialog.dateTeacherDOB.setDate(date)
+                        teacher_dialog.txtTeacherPhone.setPlainText(teacher_phone.text())
+                        teacher_dialog.combShiftsType.setCurrentText(Shift_type.text())
+                        teacher_dialog.txtTeacherQualification.setPlainText(qualification.text())
+                        teacher_dialog.dateTeacherDOQualification.setDate(qualification_date)
                         teacher_dialog.txtTeacherMajor.setPlainText(teacher_major.text())
-                        teacher_dialog.txtTeacherTask.setPlainText(teacher_occupation.text())
-
+                        teacher_dialog.ComboTeacherTask.setCurrentText(task.text())
+                        teacher_dialog.txtExceperianceYears.setText(exceperiance_years.text())
+                        teacher_dialog.ComboTeacherStatus.setCurrentText(teacher_state.text())
+                        m = Members.get_members_by_id(self, member_id.text())
+                        teacher = Teachers.get(Teachers.members_id == m.id)
+                        teacher_dialog.labAddTeacher.setText(str(teacher.id) + 'رقم البصمة : ')
                         if teacher_dialog.exec_() == QDialog.Accepted:
-                            fname = teacher_dialog.txtTeacherFName.toPlainText()
-                            sname = teacher_dialog.txtTeacherSecName.toPlainText()
-                            tname = teacher_dialog.txtTeacherThirName.toPlainText()
-                            lname = teacher_dialog.txtTeacherLName.toPlainText()
-                            phone = teacher_dialog.txtTeacherPhone.toPlainText()
-                            DOB = teacher_dialog.dateTeacherDOB.date().toPyDate()
-                            major = teacher_dialog.txtTeacherMajor.toPlainText()
-                            occupation = teacher_dialog.txtTeacherTask.toPlainText()
+                            FName, LName, DOB, Phone, Qualification, DOQualification, ShiftsType, Major, Task, ExceperianceYears, state = teacher_dialog.save_data()
+                            m.school_id = lastInsertedSchoolId
+                            m.fName = FName
+                            m.lName = LName
+                            m.dateBerth = DOB
+                            m.phone = Phone
+                            m.save()
 
-                            # Update the row in the table_widget with the new data
-                            self.table_widget.setItem(row, 1, QTableWidgetItem(fname))
-                            self.table_widget.setItem(row, 2, QTableWidgetItem(sname))
-                            self.table_widget.setItem(row, 3, QTableWidgetItem(tname))
-                            self.table_widget.setItem(row, 4, QTableWidgetItem(lname))
-                            self.table_widget.setItem(row, 5, QTableWidgetItem(phone))
-                            self.table_widget.setItem(row, 6, QTableWidgetItem(str(DOB)))
-                            self.table_widget.setItem(row, 7, QTableWidgetItem(major))
-                            self.table_widget.setItem(row, 8, QTableWidgetItem(occupation))
+                            teacher.Shift_type = ShiftsType
+                            teacher.major = Major
+                            teacher.task = Task
+                            teacher.exceperiance_years = ExceperianceYears
+                            teacher.qualification = Qualification
+                            teacher.date_qualification = DOQualification
+                            teacher.state = state
+                            teacher.save()
+
+                            self.table_widget.setItem(row, 0, QTableWidgetItem(str(teacher.id)))
+                            self.table_widget.setItem(row, 1, QTableWidgetItem(FName + " " + LName))
+                            self.table_widget.setItem(row, 2, QTableWidgetItem(str(DOB)))
+                            self.table_widget.setItem(row, 3, QTableWidgetItem(str(Phone)))
+                            self.table_widget.setItem(row, 4, QTableWidgetItem(Qualification))
+                            self.table_widget.setItem(row, 5, QTableWidgetItem(str(DOQualification)))
+                            self.table_widget.setItem(row, 6, QTableWidgetItem(ShiftsType))
+                            self.table_widget.setItem(row, 7, QTableWidgetItem(Major))
+                            self.table_widget.setItem(row, 8, QTableWidgetItem(Task))
+                            self.table_widget.setItem(row, 9, QTableWidgetItem(str(ExceperianceYears)))
+                            self.table_widget.setItem(row, 10, QTableWidgetItem(state))
                             QMessageBox.information(self, "تعديل", "تم التعديل  بنجاح.")
+                            Common.style_table_widget(self, self.table_widget)
         else:
             QMessageBox.information(self, "الصلاحية", "ليس لديك الصلاحية")
 
-    def add_users_to_device(self, teacher_id):
-        try:
-            self.last_inserted_device = Device.select(peewee.fn.Max(Device.id)).scalar()
-            device = Device.get(Device.id == self.last_inserted_device)
-            zk = ZK(device.ip, port=device.port, timeout=5)
-            # uid = []
-            # users_id = []
-            conn = zk.connect()
-            conn.set_user(uid=int(teacher_id), user_id=str(teacher_id), privilege=0)
-            # users = conn.get_users()
-            # for user in users:
-            #     uid.append(user.uid)
-            # for user in users:
-            #     users_id.append(user.user_id)
-            # return users_id, uid
-        except Exception as e:
-            QMessageBox.warning(self, "تحذير", "لا يوجد جهاز بصمة متصل الآن")
+    def add_users_to_device(self, teacher_id, teacher_name):
+        # try:
+        self.last_inserted_device = Device.select(peewee.fn.Max(Device.id)).scalar()
+        device = Device.get(Device.id == self.last_inserted_device)
+        zk = ZK(device.ip, port=device.port, timeout=60, force_udp=False, ommit_ping=False, verbose=False,
+                encoding="UTF-32")
+        print("the teacher name is : ", teacher_name)
+        # teacher_name.encode("windows-1256")
+        conn = zk.connect()
+        conn.set_user(uid=int(teacher_id), user_id=str(teacher_id), name=teacher_name, privilege=0)
+        # users = conn.get_users()
+        # for user in users:
+        #     uid.append(user.uid)
+        # for user in users:
+        #     users_id.append(user.user_id)
+        # return users_id, uid
+        # except Exception as e:
+        #     QMessageBox.warning(self, "تحذير", "لا يوجد جهاز بصمة متصل الآن")
 
     def start_enroll_face(sIp="192.168.1.201", iPort=4370, iMachineNumber=1, userid="", fingureindex=0):
         zk = ZK('192.168.1.201', port=4370, timeout=5)
@@ -862,3 +953,129 @@ class DeleteUpdateButtonTeachersWidget(QWidget):
         finally:
             if conn:
                 conn.disconnect()
+
+
+class DeleteUpdateButtonShiftsWidget(QWidget):
+    def __init__(self, table_widget, parent=None):
+        super().__init__(parent)
+        self.table_widget = table_widget
+        layout = QVBoxLayout()
+        self.delete_ste = QPushButton("حــــذف")
+        self.update_stu = QPushButton("تعــديل")
+        self.delete_ste.setFixedSize(110, 40)
+        self.update_stu.setStyleSheet("color: white; background-color: blue; font: 12pt 'PT Bold Heading';")
+        self.delete_ste.setStyleSheet("color: white; background-color: red;font:12pt 'PT Bold Heading';")
+        self.update_stu.setFixedSize(110, 40)
+        layout.addSpacing(3)
+        layout.addWidget(self.update_stu)
+        layout.addSpacing(3)
+        layout.addWidget(self.delete_ste)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setAlignment(Qt.AlignCenter)
+        self.setLayout(layout)
+
+        self.delete_ste.clicked.connect(self.on_delete_button_clicked)
+        self.update_stu.clicked.connect(self.on_update_button_clicked)
+
+    def on_delete_button_clicked(self):
+        result_condition = Common.grant_permission_to_clicked_button(self, permission="bt_delete_attendance")
+        if result_condition is True:
+            print("on_delete_button_clicked")
+            clicked_button = self.sender()
+            if clicked_button:
+                cell_widget = clicked_button.parentWidget()
+                if cell_widget and self.table_widget:
+                    row = self.table_widget.indexAt(cell_widget.pos()).row()
+                    # Fetch the user with the selected ID from the database
+                    shift_time_id = self.table_widget.item(row, 0)
+                    get_id = shift_time_id.text()
+                    try:
+                        shift = Shift_time.get_by_id(get_id)
+                        reply = QMessageBox.question(self, "تأكيدالحذف", "هل أنت متأكد أنك تريد حذف هذا الوردية",
+                                                     QMessageBox.Yes | QMessageBox.No)
+                        if reply == QMessageBox.Yes:
+                            self.table_widget.removeRow(row)
+                            shift.delete_instance()
+                            QMessageBox.information(self, "نجاح", "تم الحذف بنجاح")
+                    except Shift_time.DoesNotExist:
+                        print("shift_time does not exist.")
+        else:
+            QMessageBox.information(self, "الصلاحية", "ليس لديك الصلاحية")
+
+    def on_update_button_clicked(self):
+        result_condition = Common.grant_permission_to_clicked_button(self, permission="bt_update_attendance")
+        if result_condition is True:
+            clicked_button = self.sender()
+            if clicked_button:
+                cell_widget = clicked_button.parentWidget()
+                if cell_widget and self.table_widget:
+                    row = self.table_widget.indexAt(cell_widget.pos()).row()
+                    Shift_time_id = self.table_widget.item(row, 0)
+                    name = self.table_widget.item(row, 1)
+                    shift_Type = self.table_widget.item(row, 2)
+                    entry_start_time = self.table_widget.item(row, 3)
+                    entry_end_time = self.table_widget.item(row, 4)
+                    delay_time = self.table_widget.item(row, 5)
+                    checkout_start_time = self.table_widget.item(row, 6)
+                    checkout_end_time = self.table_widget.item(row, 7)
+                    pay_per_shift = self.table_widget.item(row, 8)
+
+                    if Shift_time_id and name and shift_Type and entry_start_time and entry_end_time \
+                            and delay_time and checkout_start_time and checkout_end_time and pay_per_shift:
+
+                        entry_start_time_qtime = QTime.fromString(entry_start_time.text(), "hh:mm")
+                        entry_end_time_qtime = QTime.fromString(entry_end_time.text(), "hh:mm")
+                        checkout_start_time_qtime = QTime.fromString(checkout_start_time.text(), "hh:mm")
+                        checkout_end_time_qtime = QTime.fromString(checkout_end_time.text(), "hh:mm")
+
+                        Shift_time_dialog = Shift_timedialog()
+                        Shift_time_dialog.labAddShift.setText(Shift_time_id.text())
+                        Shift_time_dialog.txtshift_name.setPlainText(name.text())
+                        Shift_time_dialog.txtshift_Type.setPlainText(shift_Type.text())
+                        Shift_time_dialog.timeStartEnter.setTime(entry_start_time_qtime)
+                        Shift_time_dialog.timeEndEnter.setTime(entry_end_time_qtime)
+                        Shift_time_dialog.timeDelay.setPlainText(delay_time.text())
+                        Shift_time_dialog.timeStartOut.setTime(checkout_start_time_qtime)
+                        Shift_time_dialog.timeEndOut.setTime(checkout_end_time_qtime)
+                        Shift_time_dialog.txtPayPerShift.setPlainText(pay_per_shift.text())
+
+                        if Shift_time_dialog.exec_() == QDialog.Accepted:
+                            name = Shift_time_dialog.txtshift_name.toPlainText()
+                            shift_Type = Shift_time_dialog.txtshift_Type.toPlainText()
+                            start_enter_time = Shift_time_dialog.timeStartEnter.time().toPyTime()
+                            end_enter_time = Shift_time_dialog.timeEndEnter.time().toPyTime()
+                            delay_time = Shift_time_dialog.timeDelay.toPlainText()
+                            start_out_time = Shift_time_dialog.timeStartOut.time().toPyTime()
+                            end_out_time = Shift_time_dialog.timeEndOut.time().toPyTime()
+                            pay_per = Shift_time_dialog.txtPayPerShift.toPlainText()
+
+                            entry_start_time_str = start_enter_time.strftime('%H:%M')
+                            entry_end_time_str = end_enter_time.strftime('%H:%M')
+                            checkout_start_time_str = start_out_time.strftime('%H:%M')
+                            checkout_end_time_str = end_out_time.strftime('%H:%M')
+                            # Update the row in the table_widget with the new data
+                            self.table_widget.setItem(row, 1, QTableWidgetItem(name))
+                            self.table_widget.setItem(row, 2, QTableWidgetItem(shift_Type))
+                            self.table_widget.setItem(row, 3, QTableWidgetItem(str(entry_start_time_str)))
+                            self.table_widget.setItem(row, 4, QTableWidgetItem(str(entry_end_time_str)))
+                            self.table_widget.setItem(row, 5, QTableWidgetItem(str(delay_time)))
+                            self.table_widget.setItem(row, 6, QTableWidgetItem(str(checkout_start_time_str)))
+                            self.table_widget.setItem(row, 7, QTableWidgetItem(str(checkout_end_time_str)))
+                            self.table_widget.setItem(row, 8, QTableWidgetItem(pay_per))
+                            Common.style_table_widget(self, self.table_widget)
+
+                            shift_id = Shift_time_dialog.labAddShift.text()
+                            shift_time = Shift_time.get_by_id(shift_id)
+                            shift_time.name = name
+                            shift_time.shift_Type = shift_Type
+                            shift_time.entry_start_time = entry_start_time_str
+                            shift_time.entry_end_time = entry_end_time_str
+                            shift_time.delay_times = delay_time
+                            shift_time.checkout_start_time = checkout_start_time_str
+                            shift_time.checkout_end_time = checkout_end_time_str
+                            shift_time.pay_per_shift = pay_per
+                            shift_time.save()
+
+                            QMessageBox.information(self, "تعديل", "تم التعديل  بنجاح.")
+        else:
+            QMessageBox.information(self, "الصلاحية", "ليس لديك الصلاحية")

@@ -2,7 +2,7 @@ import sys
 from datetime import date
 
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QEvent
 from PyQt5.uic import loadUi
 from datetime import datetime
 import datetime
@@ -42,3 +42,11 @@ class UserLoginDialog(QDialog):
 
     # def get_name_with_false_state(self):
     #     Users.update(state='False').where(Users.userName == username).execute()
+    def eventFilter(self, obj, event):
+        if obj == self.txtUserNameLogin and event.type() == QEvent.KeyPress and event.key() == Qt.Key_Tab:
+            self.txtPasswordUserLogin.setFocus()
+            return True
+        elif obj == self.txtPasswordUserLogin and event.type() == QEvent.KeyPress and event.key() == Qt.Key_Tab:
+            self.btnLoginUser.setFocus()
+            return True
+        return super().eventFilter(obj, event)

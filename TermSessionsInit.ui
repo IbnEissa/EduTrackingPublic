@@ -263,6 +263,16 @@ font: 15pt &quot;Mohammad Annoktah&quot;;</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtNumberOfSessions</tabstop>
+  <tabstop>btnAddNewSession</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>comboSubjects</tabstop>
+  <tabstop>comboClasses</tabstop>
+  <tabstop>btnMoveTermSessions</tabstop>
+  <tabstop>tblTermSessions</tabstop>
+  <tabstop>btnSkippingTermSessions</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

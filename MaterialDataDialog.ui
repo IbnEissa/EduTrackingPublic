@@ -228,6 +228,15 @@ font: 15pt &quot;Mohammad Annoktah&quot;;</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtSubjectName</tabstop>
+  <tabstop>btnDeleteSubject</tabstop>
+  <tabstop>btnAddSubject</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>listSubjects</tabstop>
+  <tabstop>btnSaveSubjects</tabstop>
+  <tabstop>btnSkipSubjects</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

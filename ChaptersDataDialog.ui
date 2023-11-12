@@ -231,6 +231,15 @@ font: 15pt &quot;Mohammad Annoktah&quot;;</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtClassName</tabstop>
+  <tabstop>btnDeleteClasses</tabstop>
+  <tabstop>btnAddClasses</tabstop>
+  <tabstop>labAddClassRoom</tabstop>
+  <tabstop>listClasses</tabstop>
+  <tabstop>btnSkipClasses</tabstop>
+  <tabstop>btnSaveClasses</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

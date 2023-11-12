@@ -1,4 +1,5 @@
 from peewee import *
+from peewee import *
 from models.BaseModel import BaseModel, db
 from models.Users import Users
 

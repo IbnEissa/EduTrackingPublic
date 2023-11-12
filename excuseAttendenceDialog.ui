@@ -135,6 +135,13 @@ font: 12pt &quot;PT Bold Heading&quot;;</string>
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>txtStudentParentPhone</tabstop>
+  <tabstop>labAddStudent</tabstop>
+  <tabstop>btnSaveStudent</tabstop>
+  <tabstop>btnCancelAddingStudent</tabstop>
+  <tabstop>combClasses_2</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

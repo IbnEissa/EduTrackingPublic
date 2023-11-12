@@ -208,6 +208,15 @@ font: 12pt &quot;PT Bold Heading&quot;;</string>
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>comboAccountType</tabstop>
+  <tabstop>txtname</tabstop>
+  <tabstop>txtUserName</tabstop>
+  <tabstop>txtPassword</tabstop>
+  <tabstop>btnCancelAddingUser</tabstop>
+  <tabstop>btnSaveUser</tabstop>
+  <tabstop>labAddUsers</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

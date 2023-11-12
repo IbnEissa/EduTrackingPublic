@@ -16,34 +16,34 @@ class ShowInitialData:
         self.ui.tblSchoolData.setColumnHidden(0, True)
         self.ui.tblDiveceData.setColumnHidden(0, True)
         self.ui.tblClassRoomData.setColumnHidden(0, True)
-        self.get_school_data()
+        # self.get_school_data()
         self.get_device_data()
         self.get_classroom_data()
         # self.get_subjects_data()
 
-    def get_school_data(self):
-        columns = ['id', 'school_name', 'city', 'directorate', 'village', 'academic_level', 'student_gender_type',
-                   'created_at', 'updated_at']
-
-        school_query = School.select()
-
-        self.ui.tblSchoolData.setRowCount(0)  # Clear existing rows in the table
-        for row, school_data in enumerate(school_query):
-            table_items = []
-            for column_name in columns:
-                item_value = getattr(school_data, column_name)
-                table_item = QTableWidgetItem(str(item_value))
-                table_items.append(table_item)
-
-            self.ui.tblSchoolData.insertRow(row)
-            for col, item in enumerate(table_items):
-                self.ui.tblSchoolData.setItem(row, col, item)
-
-            self.ui.tblSchoolData.setColumnWidth(row, 40)
-            self.ui.tblSchoolData.setRowHeight(row, 150)
-            operations_buttons = DeleteUpdateButtonSchoolWidget(table_widget=self.ui.tblSchoolData)
-            self.ui.tblSchoolData.setCellWidget(row, 9, operations_buttons)
-            Common.style_table_widget(self.ui, self.ui.tblSchoolData)
+    # def get_school_data(self):
+    #     columns = ['id', 'school_name', 'city', 'directorate', 'village', 'academic_level', 'student_gender_type',
+    #                'created_at', 'updated_at']
+    #
+    #     school_query = School.select()
+    #
+    #     self.ui.tblSchoolData.setRowCount(0)  # Clear existing rows in the table
+    #     for row, school_data in enumerate(school_query):
+    #         table_items = []
+    #         for column_name in columns:
+    #             item_value = getattr(school_data, column_name)
+    #             table_item = QTableWidgetItem(str(item_value))
+    #             table_items.append(table_item)
+    #
+    #         self.ui.tblSchoolData.insertRow(row)
+    #         for col, item in enumerate(table_items):
+    #             self.ui.tblSchoolData.setItem(row, col, item)
+    #
+    #         self.ui.tblSchoolData.setColumnWidth(row, 40)
+    #         self.ui.tblSchoolData.setRowHeight(row, 150)
+    #         operations_buttons = DeleteUpdateButtonSchoolWidget(table_widget=self.ui.tblSchoolData)
+    #         self.ui.tblSchoolData.setCellWidget(row, 9, operations_buttons)
+    #         Common.style_table_widget(self.ui, self.ui.tblSchoolData)
 
     def get_device_data(self):
         columns = ['id', 'name', 'ip', 'port', 'status']

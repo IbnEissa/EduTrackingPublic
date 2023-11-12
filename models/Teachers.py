@@ -6,8 +6,12 @@ from models.Members import Members
 
 class Teachers(BaseModel):
     members_id = ForeignKeyField(Members, backref='members')
+    Shift_type = CharField()
     major = CharField()
     task = CharField()
+    exceperiance_years = IntegerField()
+    qualification = CharField()
+    date_qualification = CharField()
     state = CharField()
     fingerPrintData = CharField()
 
@@ -20,5 +24,6 @@ class Teachers(BaseModel):
             return class_obj
         except DoesNotExist:
             return None
+
 
 db.create_tables([Teachers])

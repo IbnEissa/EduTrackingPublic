@@ -210,6 +210,9 @@ from PyQt5.QtCore import Qt, pyqtSignal, QPoint, QEvent
 from GUI.Dialogs.UserLogoutDialog import UserLogoutDialog
 from GUI.Views.CommonFunctionality import Common
 from GUI.Views.LoginState import LoginState
+from GUI.Views.PermissionUI import PermissionUI
+from models.Permissions import Permissions
+from models.Users import Users
 
 
 class OptionDialog(QDialog):
@@ -277,6 +280,7 @@ class OptionUI:
             "QPushButton { background-color: qlineargradient(spread:pad, x1:0.964478, y1:0.193, x2:1, y2:0, stop:0 rgba(191, 194, 181, 255), stop:1 rgba(255, 255, 255, 255));color:black}")
         self.ui.btnHome.setStyleSheet(
             "QPushButton { background-color: qlineargradient(spread:pad, x1:0.964478, y1:0.193, x2:1, y2:0, stop:0 rgba(191, 194, 181, 255), stop:1 rgba(255, 255, 255, 255));color:black}")
+
     # def mousePressEvent(self, event):
     #     option_dialog = self.findChild(OptionDialog)
     #     if option_dialog is not None:
@@ -326,6 +330,7 @@ class OptionUI:
             self.ui.tabMainTab.setCurrentIndex(2)
             self.ui.tabEmpsMovement.setCurrentIndex(1)
         if selected_option == 'مجلس الاباء':
+
             self.ui.tabMainTab.setCurrentIndex(1)
             self.ui.tabDataManagement.setCurrentIndex(4)
 
@@ -363,11 +368,20 @@ class OptionUI:
 
     def show_settings_tab(self, selected_option):
         if selected_option == 'المستخدمين':
-            self.ui.tabMainTab.setCurrentIndex(4)
-            self.ui.tabSettings.setCurrentIndex(0)
+            result_condition = self.grant_permission_tab_to_user(permission="bt_show_attendance")
+            if result_condition is True:
+                self.ui.tabMainTab.setCurrentIndex(4)
+                self.ui.tabSettings.setCurrentIndex(0)
+            else:
+                QMessageBox.information(self.ui, "الصلاحية", "ليس لديك الصلاحية")
+
         if selected_option == 'الصلاحيات':
-            self.ui.tabMainTab.setCurrentIndex(4)
-            self.ui.tabSettings.setCurrentIndex(1)
+            result_condition = self.grant_permission_tab_to_user(permission="bt_export_attendance")
+            if result_condition is True:
+                self.ui.tabMainTab.setCurrentIndex(4)
+                self.ui.tabSettings.setCurrentIndex(1)
+            else:
+                QMessageBox.information(self.ui, "الصلاحية", "ليس لديك الصلاحية")
         if selected_option == 'جهاز البصمة':
             self.ui.tabMainTab.setCurrentIndex(4)
             self.ui.tabSettings.setCurrentIndex(2)
@@ -380,6 +394,26 @@ class OptionUI:
         if selected_option == 'تهيئةالورديات':
             self.ui.tabMainTab.setCurrentIndex(4)
             self.ui.tabSettings.setCurrentIndex(5)
+        if selected_option == 'نسخة احتياطية':
+            self.ui.tabMainTab.setCurrentIndex(4)
+            self.ui.tabSettings.setCurrentIndex(6)
+
+    def grant_permission_tab_to_user(self, permission):
+        name = Users.get_name_with_true_state()
+        print("grant permission button to ", name)
+        # selected_user = "moh"  # Replace with your logic to get the selected user
+        user = Users.get(Users.Name == name)
+        permissions = (
+            Permissions.select()
+            .join(Users, on=(Permissions.users_id == Users.id))
+            .where(Users.id == user.id)
+            .get()
+        )
+        print(permission)
+        if getattr(permissions, permission) == True:
+            return True
+        else:
+            return False
 
     def show_user_details_tab(self, selected_option):
 
@@ -395,13 +429,13 @@ class OptionUI:
     def show_reports_tab(self, selected_option):
         if selected_option == 'الموضفين':
             print('the selected option is : ', selected_option)
-            # self.ui.tabMainTab.setCurrentIndex(3)
-            self.ui.tabTeachersReports.setCurrentIndex(0)
-            # QMessageBox.information(self.ui, 'تحذير', 'لم يتم اضافة الواجهه بعد')
-        elif selected_option == 'الطلاب':
-            print('the selected option is : ', selected_option)
             self.ui.tabMainTab.setCurrentIndex(3)
             self.ui.tabTeachersReports.setCurrentIndex(1)
+            # QMessageBox.information(self.ui, 'تحذير', 'لم يتم اضافة الواجهه بعد')
+        if selected_option == 'الطلاب':
+            print('the selected option is : ', selected_option)
+            self.ui.tabMainTab.setCurrentIndex(3)
+            self.ui.tabTeachersReports.setCurrentIndex(0)
 
     def show_options_entery(self, button_name):
         self.ui.btnEmps.setStyleSheet("QPushButton { background-color: red;}")
@@ -441,6 +475,7 @@ class OptionUI:
             ("تهيئةالورديات", "icons/users_Details.svg"),
             ("المستخدمين", "icons/users_accounts.jpg"),
             ("الصلاحيات", "icons/permission.png"),
+            ("نسخة احتياطية", "icons/permission.png"),
         ]
         self.show_options(options, button_name)
 

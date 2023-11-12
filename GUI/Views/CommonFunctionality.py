@@ -22,7 +22,7 @@ class Common:
         self.ui.btnHome.clicked.connect(self.home_button_clicked)
         # self.ui.bt_sign_out.clicked.connect(self.update_state_to_false)
         # self.ui.btnEmpsMovement.clicked.connect(self.btn_emp_movement)
-        self.ui.btnReports.clicked.connect(self.reports_button_clicked)
+        # self.ui.btnReports.clicked.connect(self.reports_button_clicked)
         # self.ui.btnArchive.clicked.connect(self.archive_button_clicked)
         # self.ui.btnSettings.clicked.connect(self.settings_button_clicked)
         self.ui.tabMainTab.setCurrentIndex(0)
@@ -55,8 +55,6 @@ class Common:
         if result is True:
             app = QApplication(sys.argv)
             sys.exit(app.exec_())
-
-
 
     # def grant_permission_tab_to_user(self, permission, tab):
     #     name = Users.get_name_with_true_state()
@@ -101,9 +99,9 @@ class Common:
         self.ui.tabMainTab.setCurrentIndex(2)
         self.ui.tabEmpsMovement.setCurrentIndex(0)
 
-    def reports_button_clicked(self):
-        self.ui.tabMainTab.setCurrentIndex(3)
-        self.ui.tabTeachersReports.setCurrentIndex(0)
+    # def reports_button_clicked(self):
+    #     self.ui.tabMainTab.setCurrentIndex(3)
+    #     self.ui.tabTeachersReports.setCurrentIndex(0)
 
     def make_school_name(self):
         self.lastInsertedSchoolId = School.select(peewee.fn.Max(School.id)).scalar()
@@ -128,6 +126,23 @@ class Common:
                     ]
         return subjects
 
+    def get_classes(self):
+        classes = ["الاول",
+                   "الثاني",
+                   "الثالث",
+                   "الرابع",
+                   "الخامس",
+                   "السادس",
+                   "السابع",
+                   "الثامن",
+                   "التاسع",
+                   "الاول الثانوي",
+                   "الثاني الثانوي",
+                   "الثالث الثانوي",
+
+                   ]
+        return classes
+
     def get_days(self):
         days = ["السبت",
                 "الاحد",
@@ -146,7 +161,7 @@ class Common:
                     "الخامسة",
                     "السادسة",
                     "السابعة",
-                    "الثامنة",
+
                     ]
         return sessions
 

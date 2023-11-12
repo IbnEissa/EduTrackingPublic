@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
-
+import pandas as pd
 import peewee
-from PyQt5.QtCore import QThread, Qt, QDateTime
-from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QTableWidgetItem, QMessageBox
+from PyQt5.QtCore import QThread
+from PyQt5.QtWidgets import QAbstractItemView, QHeaderView, QTableWidgetItem, QMessageBox, QDialog, QFileDialog
 from zk import ZK
 
+from GUI.Dialogs.InitializingTheProject.ListOptions import OptionDialog
 from GUI.Views.CommonFunctionality import Common
 from models.Attendance import AttendanceModel
 from models.Device import Device
@@ -27,7 +28,7 @@ class AttendanceRetriever(object):
         self.device_port = device_port
 
     def retrieve_attendance_data(self):
-        zk = ZK(self.device_ip, port=self.device_port)
+        zk = ZK(str(self.device_ip), port=self.device_port)
         conn = zk.connect()
         if conn:
             attendance_data = conn.get_attendance()
@@ -43,6 +44,7 @@ class AttendanceUI:
         self.submain = submain_instance
         self.ui = self.submain.ui
         self.search_thread = None
+        self.search_thread2 = None
         self.attendance_time = ''
         self.previous_stylesheet = self.ui.comboAddendenceTime.styleSheet()
         self.ui.checkFilterWithDays.stateChanged.connect(self.on_checkbox_days_state_changed)
@@ -54,6 +56,9 @@ class AttendanceUI:
         self.data_previous_month = False
         self.data_between_dates = False
         Common.style_table_widget(self.ui, self.ui.tblLoadAttendence)
+        self.last_inserted_device = Device.select(peewee.fn.Max(Device.id)).scalar()
+        self.device = Device.get(Device.id == self.last_inserted_device)
+        self.dialog = OptionDialog()
 
     def use_ui_elements(self):
         self.ui.tblLoadAttendence.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -62,12 +67,13 @@ class AttendanceUI:
         self.ui.tblLoadAttendence.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui.tblLoadAttendence.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.tblLoadAttendence.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.ui.btnLoadAttendence.clicked.connect(self.filter_methods)
-        self.ui.btnSaveAttendenceData.clicked.connect(self.add_attendance_to_database)
+        self.ui.btnLoadAttendence.clicked.connect(lambda: self.show_load_options('btnLoadAttendence'))
+        self.ui.btnSaveAttendenceData.clicked.connect(lambda: self.show_export_options('btnSaveAttendenceData'))
+        # self.ui.btnSaveAttendenceData.clicked.connect(self.add_attendance_to_database)
         Common.style_table_widget(self.ui, self.ui.tblLoadAttendence)
 
     def get_user_name(self, user_id):
-        zk = ZK('192.168.1.201', port=4370, timeout=5)
+        zk = ZK(self.device.ip, self.device.port, timeout=5)
         conn = zk.connect()
         if conn:
             conn.enable_device()
@@ -124,29 +130,12 @@ class AttendanceUI:
     def execute_method_when_unchecked(self):
         self.ui.comboAddendenceTime.setEnabled(False)
         self.ui.comboAddendenceTime.setStyleSheet("QComboBox { background-color: #333333; color: #333333; }")
-        # self.ui.checkFilterWithDate.setChecked(True)
-        # self.ui.dateFrom.setEnabled(True)
-        # self.ui.dateTo.setEnabled(True)
-        # self.ui.dateFrom.setStyleSheet(
-        #     "QComboBox { background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); }")
-        # self.ui.dateTo.setStyleSheet(
-        #     "QComboBox { background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); }")
 
     def hide_searching_widget(self):
         self.ui.layout.removeWidget(self.ui.searching_widget)
         self.ui.searching_widget.hide()  # Hide the searching widget
 
-    # def control_filter_check_boxes(self):
-    #     if self.ui.checkFilterWithDays.isChecked():
-    #         self.ui.btnLoadAttendence.setEnabled(True)
-    #     else:
-    #         self.ui.btnLoadAttendence.setEnabled(False)
-    #     if self.ui.checkFilterWithTime.isChecked():
-    #         self.ui.btnLoadAttendence.setEnabled(True)
-    #     else:
-    #         self.ui.btnLoadAttendence.setEnabled(False)
     def add_attendance_to_database(self):
-        self.last_inserted_device = Device.select(peewee.fn.Max(Device.id)).scalar()
         try:
             if self.last_inserted_device != 0:
                 if self.ui.tblLoadAttendence.rowCount() > 0:
@@ -173,10 +162,19 @@ class AttendanceUI:
             error_message = "حدث خطأ\n" + str(e)
             QMessageBox.critical(self.ui, "خطأ", error_message)
 
-    def start_attendance_retrieval(self):
-        if not self.search_thread or not self.search_thread.isRunning():
-            self.search_thread = AttendanceSearchThread(self.display_attendance_data)
-            self.search_thread.start()
+    def start_attendance_retrieval(self, type_of_search):
+        if type_of_search == 'all':
+            if not self.search_thread or not self.search_thread.isRunning():
+                self.search_thread = AttendanceSearchThread(self.display_attendance_data)
+                self.search_thread.start()
+        elif type_of_search == 'with_date':
+            if not self.search_thread2 or not self.search_thread2.isRunning():
+                try:
+                    self.search_thread2 = AttendanceSearchThread(self.get_date_attendance_from_dates)
+                    self.search_thread2.start()
+                except Exception as e:
+                    error_message = "حدث خطأ\n" + str(e)
+                    QMessageBox.critical(self.ui, "خطأ", error_message)
 
     def display_attendance_data(self, attendance_data):
         self.ui.tblLoadAttendence.clearContents()
@@ -186,9 +184,13 @@ class AttendanceUI:
                 user_id = attendance.user_id
                 status = attendance.status
                 punch = str(attendance.punch)
+                if punch == '0':
+                    punch = 'وصول'
+                elif punch == '1':
+                    punch = 'خروج'
                 teacher = Teachers.get(Teachers.id == user_id)
                 member = Members.get(Members.id == teacher.members_id)
-                user_name = member.fName + ' ' + member.sName + ' ' + member.tName + ' ' + member.lName
+                user_name = member.fName + ' ' + member.lName
                 timestamp = attendance.timestamp.strftime('%Y-%m-%d-%H:%M:%S')
                 current_row = self.ui.tblLoadAttendence.rowCount()
                 self.ui.tblLoadAttendence.insertRow(current_row)
@@ -196,69 +198,168 @@ class AttendanceUI:
                 self.ui.tblLoadAttendence.setItem(current_row, 1, QTableWidgetItem(user_name))
                 self.ui.tblLoadAttendence.setItem(current_row, 2, QTableWidgetItem(timestamp))
                 self.ui.tblLoadAttendence.setItem(current_row, 3, QTableWidgetItem(status))
-                self.ui.tblLoadAttendence.setItem(current_row, 4, QTableWidgetItem(punch))
+                self.ui.tblLoadAttendence.setItem(current_row, 4, QTableWidgetItem(str(punch)))
             Common.style_table_widget(self.ui, self.ui.tblLoadAttendence)
+
+    def show_load_options(self, button_name):
+        options = [
+            ("من جهاز البصمة", "icons/users_Details.svg"),
+            ("من أكسل", "icons/users_Details.svg"),
+        ]
+        self.show_options(options, button_name)
+
+    def show_export_options(self, button_name):
+        options = [
+            ('إلى قاعدة البيانات', "icons/users_Details.svg"),
+            ('إلى أكسل', "icons/users_Details.svg"),
+        ]
+        self.show_options(options, button_name)
+
+    def show_options(self, options, button_name):
+        if button_name == 'btnLoadAttendence':
+            self.dialog.setOptions(options)
+            btnLoadAttendence_pos = self.ui.btnLoadAttendence.pos()
+            dialog_x = btnLoadAttendence_pos.x() - 200
+            dialog_y = btnLoadAttendence_pos.y() + self.ui.btnLoadAttendence.height() + 130
+            self.dialog.move(dialog_x, dialog_y)
+            # self.dialog.move(1350, 500)
+            if self.dialog.exec_() == QDialog.Accepted:
+                selected_option = self.dialog.selectedOption()
+                self.show_entry_tab(selected_option)
+        elif button_name == 'btnSaveAttendenceData':
+            self.dialog.setOptions(options)
+            btnSaveAttendenceData_pos = self.ui.btnSaveAttendenceData.pos()
+            dialog_x = btnSaveAttendenceData_pos.x() + 100
+            dialog_y = btnSaveAttendenceData_pos.y() + self.ui.btnSaveAttendenceData.height() + 130
+            self.dialog.move(dialog_x, dialog_y)
+            if self.dialog.exec_() == QDialog.Accepted:
+                selected_option = self.dialog.selectedOption()
+                self.show_export_tab(selected_option)
+
+    def show_entry_tab(self, selected_option):
+        if selected_option == 'من جهاز البصمة':
+            self.filter_methods()
+        if selected_option == "من أكسل":
+            self.get_data_from_excel()
+
+    def get_data_from_excel(self):
+        file_dialog = QFileDialog()
+        file_name, _ = file_dialog.getOpenFileName(self.ui, "اختر ملف Excel", "", "Excel Files (*.xlsx *.xls)")
+        if file_name:
+            try:
+                data_frame = pd.read_excel(file_name)
+                num_rows, num_cols = data_frame.shape
+                self.ui.tblLoadAttendence.setRowCount(num_rows)
+                self.ui.tblLoadAttendence.setColumnCount(num_cols)
+
+                for row in range(num_rows):
+                    for col in range(num_cols):
+                        cell_value = str(data_frame.iloc[row, col])
+                        item = QTableWidgetItem(cell_value)
+                        self.ui.tblLoadAttendence.setItem(row, col, item)
+                QMessageBox.information(self.ui, "معلومة", "تم استيراد البيانات بنجاح")
+            except Exception as e:
+                QMessageBox.critical(self.ui, "خطأ", "حدث خطأ أثناء استيراد البيانات:" + str(e))
+
+    def show_export_tab(self, selected_option):
+        if selected_option == 'إلى قاعدة البيانات':
+            self.add_attendance_to_database()
+        if selected_option == 'إلى أكسل':
+            self.export_data_to_excel()
+
+    def export_data_to_excel(self):
+        file_dialog = QFileDialog()
+        file_name, _ = file_dialog.getSaveFileName(self.ui, "اختر ملف Excel", "", "Excel Files (*.xlsx *.xls)")
+        if file_name:
+            try:
+                num_rows = self.ui.tblLoadAttendence.rowCount()
+                num_cols = self.ui.tblLoadAttendence.columnCount()
+
+                data = []
+                for row in range(num_rows):
+                    row_data = []
+                    for col in range(num_cols):
+                        item = self.ui.tblLoadAttendence.item(row, col)
+                        if item is not None:
+                            row_data.append(item.text())
+                        else:
+                            row_data.append("")
+                    data.append(row_data)
+
+                columns = [f"Column {col + 1}" for col in range(num_cols)]
+                df = pd.DataFrame(data, columns=columns)
+
+                df.to_excel(file_name, index=False)
+                QMessageBox.information(self.ui, "معلومة", "تم حفظ البيانات بنجاح في ملف Excel.ً")
+
+            except Exception as e:
+                QMessageBox.critical(self.ui, "خطأ", "حدث خطأ أثناء تصدير البيانات:" + str(e))
 
     def filter_methods(self):
         # if self.ui.checkFilterWithDays.isNotChecked():
-        attendance_time = self.ui.comboAddendenceTime.currentText()
-        if self.ui.checkFilterWithDays.isChecked():
-            if attendance_time == 'اليوم':
-                self.display_today_attendance()
-            elif attendance_time == 'الكل':
-                self.start_attendance_retrieval()
-            elif attendance_time == 'امس':
-                self.start_attendance_yesterday()
-            elif attendance_time == 'هذا الشهر':
-                self.show_month_attendance_data()
-            elif attendance_time == 'الشهر الماضي':
-                self.show_previous_month_attendance_data()
+        if self.ui.btnConnectDivice.text() == "الجهاز متصل":
+            attendance_time = self.ui.comboAddendenceTime.currentText()
+            if self.ui.checkFilterWithDays.isChecked():
+                if attendance_time == 'اليوم':
+                    # self.display_today_attendance()
+                    QMessageBox.information(self.ui, "معلومة", "لايمكن تحميل الا الكل ً")
+                elif attendance_time == 'الكل':
+                    self.start_attendance_retrieval("all")
+                elif attendance_time == 'امس':
+                    QMessageBox.information(self.ui, "معلومة", "لايمكن تحميل الا الكل ً")
+                    # self.start_attendance_yesterday()
+                elif attendance_time == 'هذا الشهر':
+                    QMessageBox.information(self.ui, "معلومة", "لايمكن تحميل الا الكل ً")
+                    # self.show_month_attendance_data()
+                elif attendance_time == 'الشهر الماضي':
+                    QMessageBox.information(self.ui, "معلومة", "لايمكن تحميل الا الكل ً")
+                    # self.show_previous_month_attendance_data()
+            else:
+                self.start_attendance_retrieval('with_date')
         else:
-            self.get_date_attendance_from_dates()
+            QMessageBox.warning(self.ui, "تحذير", "الجهاز غير متصل حالياً")
 
-    def get_date_attendance_from_dates(self):
+    def get_date_attendance_from_dates(self, attendance_data):
+        self.data_between_dates = False
         self.ui.tblLoadAttendence.clearContents()
         self.ui.tblLoadAttendence.setRowCount(0)
-        attendance_from_date = datetime.strptime(self.ui.dateFrom.text(), '%Y-%m-%d').date()
-        attendance_to_date = datetime.strptime(self.ui.dateTo.text(), '%Y-%m-%d').date()
-        attendance_retriever = AttendanceRetriever('192.168.1.201')
-        attendance_data = attendance_retriever.retrieve_attendance_data()
-
-        for attendance in attendance_data:
-            user_id = attendance.user_id
-            status = attendance.status
-            punch = str(attendance.punch)
-            user_name = self.get_user_name(user_id)
-            timestamp = attendance.timestamp.date()
-            if attendance_from_date <= timestamp <= attendance_to_date:
-                self.data_between_dates = True
-                current_row = self.ui.tblLoadAttendence.rowCount()
-                self.ui.tblLoadAttendence.insertRow(current_row)
-                self.ui.tblLoadAttendence.setItem(current_row, 0, QTableWidgetItem(str(user_id)))
-                self.ui.tblLoadAttendence.setItem(current_row, 1, QTableWidgetItem(user_name))
-                self.ui.tblLoadAttendence.setItem(current_row, 2, QTableWidgetItem(timestamp.strftime('%Y-%m-%d')))
-                self.ui.tblLoadAttendence.setItem(current_row, 3, QTableWidgetItem(status))
-                self.ui.tblLoadAttendence.setItem(current_row, 4, QTableWidgetItem(punch))
-        if not self.data_between_dates:
-            QMessageBox.critical(self.ui, "خطأ", "لا يوجد بيانات حضور في هذا التاريخ ")
-        #         if timestamp == yesterday_date:
-        #             time = timestamp
-        #             self.data_yesterday = True
-        #             current_row = self.ui.tblLoadAttendence.rowCount()
-        #             self.ui.tblLoadAttendence.insertRow(current_row)
-        #             self.ui.tblLoadAttendence.setItem(current_row, 0, QTableWidgetItem(str(user_id)))
-        #             self.ui.tblLoadAttendence.setItem(current_row, 1, QTableWidgetItem(user_name))
-        #             self.ui.tblLoadAttendence.setItem(current_row, 2, QTableWidgetItem(time))
-        #             self.ui.tblLoadAttendence.setItem(current_row, 3, QTableWidgetItem(status))
-        #             self.ui.tblLoadAttendence.setItem(current_row, 4, QTableWidgetItem(punch))
-        # if not self.data_yesterday:
-        #     QMessageBox.critical(self.ui, "خطأ", "لا يوجد بيانات حضور امس ")
+        date_from_str = self.ui.dateFrom.text()
+        date_to_str = self.ui.dateTo.text()
+        try:
+            attendance_from_date = datetime.strptime(date_from_str, "%Y-%d-%m")
+            attendance_to_date = datetime.strptime(date_to_str, "%Y-%d-%m")
+            for index, attendance in enumerate(attendance_data):
+                user_id = attendance.user_id
+                status = attendance.status
+                punch = str(attendance.punch)
+                if punch == '0':
+                    punch = 'وصول'
+                elif punch == '1':
+                    punch = 'خروج'
+                teacher = Teachers.get(Teachers.id == user_id)
+                member = Members.get(Members.id == teacher.members_id)
+                user_name = member.fName + ' ' + member.lName
+                timestamp = attendance.timestamp
+                if attendance_from_date <= timestamp <= attendance_to_date:
+                    self.data_between_dates = True
+                    current_row = self.ui.tblLoadAttendence.rowCount()
+                    self.ui.tblLoadAttendence.insertRow(current_row)
+                    self.ui.tblLoadAttendence.setItem(current_row, 0, QTableWidgetItem(str(user_id)))
+                    self.ui.tblLoadAttendence.setItem(current_row, 1, QTableWidgetItem(user_name))
+                    self.ui.tblLoadAttendence.setItem(current_row, 2, QTableWidgetItem(timestamp.strftime('%Y-%m-%d')))
+                    self.ui.tblLoadAttendence.setItem(current_row, 3, QTableWidgetItem(status))
+                    self.ui.tblLoadAttendence.setItem(current_row, 4, QTableWidgetItem(punch))
+                Common.style_table_widget(self.ui, self.ui.tblLoadAttendence)
+            if not self.data_between_dates:
+                QMessageBox.critical(self.ui, "خطأ", "لا يوجد بيانات حضور في هذا التاريخ ")
+        except Exception as e:
+            QMessageBox.critical(self.ui, "خطأ", "التاريخ غير صحيح" + str(e))
 
     def display_today_attendance(self):
         self.ui.tblLoadAttendence.clearContents()
         self.ui.tblLoadAttendence.setRowCount(0)
         attendance_time = self.ui.comboAddendenceTime.currentText()
-        attendance_retriever = AttendanceRetriever('192.168.1.201')
+        attendance_retriever = AttendanceRetriever(self.device.ip)
         attendance_data = attendance_retriever.retrieve_attendance_data()
         today = datetime.today().strftime('%Y-%m-%d')
         self.array_of_ids = []
@@ -269,7 +370,7 @@ class AttendanceUI:
                 if timestamp == today:
                     self.array_of_ids.append(user_id)
                     self.data_today = True
-            attendance_retriever2 = AttendanceRetriever('192.168.1.201')
+            attendance_retriever2 = AttendanceRetriever(self.device.ip)
             attendance_data2 = attendance_retriever2.retrieve_attendance_data()
             for id in self.array_of_ids:
                 for data in attendance_data2:
@@ -277,7 +378,6 @@ class AttendanceUI:
                         user_id = id
                         status = data.status
                         punch = str(data.punch)
-                        # teacher = Teachers.get_teacher_by_id(self, int(user_id))
                         teacher = Teachers.get(Teachers.id == user_id)
                         member = Members.get(Members.id == teacher.members_id)
                         user_name = member.fName + '' + member.sName + '' + member.tName + ' ' + member.lName
@@ -297,14 +397,16 @@ class AttendanceUI:
         self.ui.tblLoadAttendence.clearContents()
         self.ui.tblLoadAttendence.setRowCount(0)
         attendance_time = self.ui.comboAddendenceTime.currentText()
-        attendance_retriever = AttendanceRetriever('192.168.1.201')
+        attendance_retriever = AttendanceRetriever(self.device.ip)
         attendance_data = attendance_retriever.retrieve_attendance_data()
 
         for attendance in attendance_data:
             user_id = attendance.user_id
             status = attendance.status
             punch = str(attendance.punch)
-            user_name = self.get_user_name(user_id)
+            teacher = Teachers.get(Teachers.id == user_id)
+            member = Members.get(Members.id == teacher.members_id)
+            user_name = member.fName + ' ' + member.sName + ' ' + member.tName + ' ' + member.lName
             timestamp = attendance.timestamp.strftime('%m')
             full_timestamp = attendance.timestamp.strftime('%Y-%m-%d')
             # today = datetime.monthname(datetime.today().month).today().strftime('%Y-%m-%d')
@@ -331,14 +433,16 @@ class AttendanceUI:
         start_of_previous_month = end_of_previous_month.replace(day=1)
         start_date_str = start_of_previous_month.strftime('%Y-%m-%d')
         end_date_str = end_of_previous_month.strftime('%Y-%m-%d')
-        attendance_retriever = AttendanceRetriever('192.168.1.201')
+        attendance_retriever = AttendanceRetriever(self.device.ip)
         attendance_data = attendance_retriever.retrieve_attendance_data()
         if attendance_data:
             for attendance in attendance_data:
                 user_id = attendance.user_id
                 status = attendance.status
                 punch = str(attendance.punch)
-                user_name = self.get_user_name(user_id)
+                teacher = Teachers.get(Teachers.id == user_id)
+                member = Members.get(Members.id == teacher.members_id)
+                user_name = member.fName + ' ' + member.sName + ' ' + member.tName + ' ' + member.lName
                 timestamp = attendance.timestamp.strftime('%m')
                 full_timestamp = attendance.timestamp.strftime('%Y-%m-%d')
                 if attendance_time == 'الشهر الماضي' and start_date_str <= full_timestamp <= end_date_str:
@@ -358,8 +462,10 @@ class AttendanceSearchThread(QThread):
     def __init__(self, callback, parent=None):
         super().__init__(parent)
         self.callback = callback
+        self.last_inserted_device = Device.select(peewee.fn.Max(Device.id)).scalar()
+        self.device = Device.get(Device.id == self.last_inserted_device)
 
     def run(self):
-        attendance_retriever = AttendanceRetriever('192.168.1.201')
+        attendance_retriever = AttendanceRetriever(self.device.ip)
         attendance_data = attendance_retriever.retrieve_attendance_data()
         self.callback(attendance_data)

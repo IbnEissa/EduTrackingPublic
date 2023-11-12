@@ -133,6 +133,12 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>txtUserNameLogin</tabstop>
+  <tabstop>txtPasswordUserLogin</tabstop>
+  <tabstop>btnSaveDevice_2</tabstop>
+  <tabstop>btnLoginUser</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
