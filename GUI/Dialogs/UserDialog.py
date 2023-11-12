@@ -2,7 +2,7 @@ import sys
 from datetime import date
 
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QEvent
 from PyQt5.uic import loadUi
 from datetime import datetime
 import datetime
@@ -16,7 +16,26 @@ class UserDialog(QDialog):
         loadUi("newUser.ui", self)
         self.btnSaveUser.clicked.connect(self.save_data)
         self.btnCancelAddingUser.clicked.connect(self.reject)
+        # تعيين ترتيب التنقل بين العناصر
+        self.txtname.installEventFilter(self)
+        self.txtUserName.installEventFilter(self)
+        self.txtPassword.installEventFilter(self)
+        self.btnSaveUser.installEventFilter(self)
+        self.btnCancelAddingUser.installEventFilter(self)
+        self.setTabOrder(self.btnSaveUser, self.btnCancelAddingUser)
 
+    def eventFilter(self, obj, event):
+        if obj == self.txtname and event.type() == QEvent.KeyPress and event.key() == Qt.Key_Tab:
+            self.txtUserName.setFocus()
+            return True
+        elif obj == self.txtUserName and event.type() == QEvent.KeyPress and event.key() == Qt.Key_Tab:
+            self.txtPassword.setFocus()
+            return True
+        elif obj == self.txtPassword and event.type() == QEvent.KeyPress and event.key() == Qt.Key_Tab:
+            self.btnSaveUser.setFocus()
+            return True
+
+        return super().eventFilter(obj, event)
     def save_data(self):
         try:
             account_type = self.comboAccountType.currentText()

@@ -32,6 +32,7 @@ class StudentsUI:
         self.ui.txtStudentsSearch.textChanged.connect(self.get_member_data)
 
     def add_members_database(self):
+        self.ui.tblStudents.setRowCount(0)
         result_condition = Common.grant_permission_to_clicked_button(self.ui, permission="bt_save_student")
         if result_condition is True:
             student_dialog = StudentDialog()
@@ -65,12 +66,8 @@ class StudentsUI:
             QMessageBox.information(self.ui, "الصلاحية", "ليس لديك الصلاحية")
 
     def add_new_student_to_table_widget(self, student_id, student):
-        # self.ui.tblStudents.setColumnHidden(8, True)
-        self.ui.tblStudents.setColumnHidden(0, True)
-        self.ui.tblStudents.setRowCount(0)
         try:
-            operationsButtons = DeleteUpdateButtonStudentsWidget(table_widget=self.ui.tblStudents)
-            current_row = self.ui.tblTeachers.rowCount()  # Get the current row index
+            current_row = self.ui.tblStudents.rowCount()  # Get the current row index
             self.ui.tblStudents.insertRow(current_row)  # Insert a new row at the current row index
             self.ui.tblStudents.setItem(current_row, 0, QTableWidgetItem(student_id))
             self.ui.tblStudents.setItem(current_row, 1, QTableWidgetItem(student[0]))
@@ -80,7 +77,8 @@ class StudentsUI:
             self.ui.tblStudents.setItem(current_row, 5, QTableWidgetItem(student[7]))
             self.ui.tblStudents.setItem(current_row, 6, QTableWidgetItem(str(student[5])))
             self.ui.tblStudents.setItem(current_row, 7, QTableWidgetItem(str(student[6])))
-            self.ui.tblStudents.setCellWidget(current_row, 8, operationsButtons)
+            operations_buttons = DeleteUpdateButtonStudentsWidget(table_widget=self.ui.tblStudents)
+            self.ui.tblStudents.setCellWidget(current_row, 8, operations_buttons)
             self.ui.tblStudents.setColumnWidth(current_row, 40)
             self.ui.tblStudents.setRowHeight(current_row, 150)
         except Exception as e:

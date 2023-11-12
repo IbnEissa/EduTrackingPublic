@@ -9,11 +9,9 @@ from models.School import School
 class Members(BaseModel):
     school_id = ForeignKeyField(School, backref='school')
     fName = CharField()
-    sName = CharField()
-    tName = CharField()
     lName = CharField()
-    phone = IntegerField()
     dateBerth = CharField()
+    phone = IntegerField()
 
     class Meta:
         table_name = 'members'
@@ -31,4 +29,6 @@ class Members(BaseModel):
             return member_object.id
         except DoesNotExist:
             return None
-# db.create_tables([Members])
+
+
+db.create_tables([Members])

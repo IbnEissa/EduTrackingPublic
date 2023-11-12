@@ -310,6 +310,16 @@ font: 15pt &quot;Mohammad Annoktah&quot;;</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtDeviceName</tabstop>
+  <tabstop>txtIPNumber</tabstop>
+  <tabstop>txtPortNumber</tabstop>
+  <tabstop>labAddDivece</tabstop>
+  <tabstop>btnCancelInitDevice</tabstop>
+  <tabstop>btnSaveDevice</tabstop>
+  <tabstop>btnSkippingDevice</tabstop>
+  <tabstop>btnSaveInitDevice</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

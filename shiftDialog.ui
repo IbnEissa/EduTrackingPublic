@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>461</width>
-    <height>370</height>
+    <width>455</width>
+    <height>437</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>370</x>
-     <y>130</y>
+     <y>100</y>
      <width>71</width>
      <height>21</height>
     </rect>
@@ -33,7 +33,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>310</y>
+     <y>380</y>
      <width>121</width>
      <height>41</height>
     </rect>
@@ -50,9 +50,9 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>170</y>
-     <width>101</width>
+     <x>330</x>
+     <y>142</y>
+     <width>121</width>
      <height>21</height>
     </rect>
    </property>
@@ -60,16 +60,16 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
     <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
    </property>
    <property name="text">
-    <string>وقت البدء</string>
+    <string>وقت بداية الدخول</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="txtshift_Type">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>110</y>
+     <y>95</y>
      <width>261</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -80,14 +80,17 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
    <property name="inputMethodHints">
     <set>Qt::ImhPreferNumbers</set>
    </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
   </widget>
   <widget class="QTextEdit" name="txtshift_name">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>60</y>
+     <y>57</y>
      <width>261</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -98,12 +101,15 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
    <property name="inputMethodHints">
     <set>Qt::ImhDigitsOnly|Qt::ImhMultiLine|Qt::ImhPreferNumbers</set>
    </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
      <x>330</x>
-     <y>70</y>
+     <y>57</y>
      <width>111</width>
      <height>31</height>
     </rect>
@@ -115,19 +121,22 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
     <string>اسم الوردية</string>
    </property>
   </widget>
-  <widget class="QTimeEdit" name="timeEdit">
+  <widget class="QTimeEdit" name="timeStartEnter">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>160</y>
+     <y>133</y>
      <width>261</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>14</pointsize>
     </font>
+   </property>
+   <property name="locale">
+    <locale language="English" country="UnitedStates"/>
    </property>
    <property name="buttonSymbols">
     <enum>QAbstractSpinBox::UpDownArrows</enum>
@@ -145,11 +154,11 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
     <bool>true</bool>
    </property>
    <property name="timeSpec">
-    <enum>Qt::OffsetFromUTC</enum>
+    <enum>Qt::LocalTime</enum>
    </property>
    <property name="time">
     <time>
-     <hour>0</hour>
+     <hour>3</hour>
      <minute>0</minute>
      <second>0</second>
     </time>
@@ -158,9 +167,9 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>270</y>
-     <width>101</width>
+     <x>330</x>
+     <y>255</y>
+     <width>121</width>
      <height>21</height>
     </rect>
    </property>
@@ -168,22 +177,198 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
     <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
    </property>
    <property name="text">
-    <string>وقت النهاية</string>
+    <string>وقت بداية الخروج</string>
    </property>
   </widget>
-  <widget class="QTimeEdit" name="timeEdit_2">
+  <widget class="QTimeEdit" name="timeStartOut">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>260</y>
+     <y>245</y>
      <width>261</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>14</pointsize>
     </font>
+   </property>
+   <property name="locale">
+    <locale language="English" country="UnitedStates"/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+   <property name="buttonSymbols">
+    <enum>QAbstractSpinBox::UpDownArrows</enum>
+   </property>
+   <property name="correctionMode">
+    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+   </property>
+   <property name="showGroupSeparator" stdset="0">
+    <bool>false</bool>
+   </property>
+   <property name="currentSection">
+    <enum>QDateTimeEdit::HourSection</enum>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+   <property name="timeSpec">
+    <enum>Qt::LocalTime</enum>
+   </property>
+   <property name="time">
+    <time>
+     <hour>15</hour>
+     <minute>0</minute>
+     <second>0</second>
+    </time>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="labAddShift">
+   <property name="geometry">
+    <rect>
+     <x>1</x>
+     <y>3</y>
+     <width>451</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(4, 0, 62);
+color:rgb(255, 255, 255);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+   </property>
+   <property name="text">
+    <string>تسجيل وردية جديدة</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnCancelAddingshift">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>380</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgb(255, 85, 0);
+color:rgb(255, 255, 255);
+font: 15pt &quot;PT Bold Heading&quot;;</string>
+   </property>
+   <property name="text">
+    <string>إلغــــــاء</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>210</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
+   </property>
+   <property name="text">
+    <string>وقت التاخير</string>
+   </property>
+  </widget>
+  <widget class="QTimeEdit" name="timeEndEnter">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>171</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="locale">
+    <locale language="English" country="UnitedStates"/>
+   </property>
+   <property name="buttonSymbols">
+    <enum>QAbstractSpinBox::UpDownArrows</enum>
+   </property>
+   <property name="correctionMode">
+    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+   </property>
+   <property name="showGroupSeparator" stdset="0">
+    <bool>false</bool>
+   </property>
+   <property name="displayFormat">
+    <string>hh:mm AP</string>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
+   </property>
+   <property name="timeSpec">
+    <enum>Qt::TimeZone</enum>
+   </property>
+   <property name="time">
+    <time>
+     <hour>2</hour>
+     <minute>0</minute>
+     <second>0</second>
+    </time>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>170</y>
+     <width>121</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
+   </property>
+   <property name="text">
+    <string>وقت نهاية الدخول</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>326</x>
+     <y>291</y>
+     <width>121</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
+   </property>
+   <property name="text">
+    <string>وقت نهاية الخروج</string>
+   </property>
+  </widget>
+  <widget class="QTimeEdit" name="timeEndOut">
+   <property name="geometry">
+    <rect>
+     <x>61</x>
+     <y>286</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="locale">
+    <locale language="English" country="UnitedStates"/>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -211,49 +396,13 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
     </time>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnSaveDevice_2">
-   <property name="geometry">
-    <rect>
-     <x>1</x>
-     <y>3</y>
-     <width>451</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(4, 0, 62);
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-   </property>
-   <property name="text">
-    <string>تسجيل وردية جديدة</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btnCancelAddingshift">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>310</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:rgb(255, 85, 0);
-color:rgb(255, 255, 255);
-font: 15pt &quot;PT Bold Heading&quot;;</string>
-   </property>
-   <property name="text">
-    <string>إلغــــــاء</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="txtdelay_time">
+  <widget class="QTextEdit" name="txtPayPerShift">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>210</y>
+     <y>330</y>
      <width>261</width>
-     <height>41</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -262,26 +411,77 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
     </font>
    </property>
    <property name="inputMethodHints">
-    <set>Qt::ImhPreferNumbers</set>
+    <set>Qt::ImhNone</set>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::TextEditorInteraction</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_6">
+  <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>230</y>
-     <width>101</width>
-     <height>21</height>
+     <x>320</x>
+     <y>330</y>
+     <width>131</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 10pt &quot;PT Bold Heading&quot;;</string>
    </property>
    <property name="text">
-    <string>وقت التاخير</string>
+    <string>الاجر مقابل الوردية</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="timeDelay">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>210</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
+   <property name="verticalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="horizontalScrollBarPolicy">
+    <enum>Qt::ScrollBarAlwaysOff</enum>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::TextEditorInteraction</set>
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>txtshift_name</tabstop>
+  <tabstop>txtshift_Type</tabstop>
+  <tabstop>timeStartEnter</tabstop>
+  <tabstop>timeStartOut</tabstop>
+  <tabstop>labAddShift</tabstop>
+  <tabstop>btnCancelAddingshift</tabstop>
+  <tabstop>btnSaveshift</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -27,6 +27,7 @@ class CouncilFathersUI:
         self.lastInsertedMemberId = 0
         self.lastInsertedCouncilFathersId = 0
         self.lastInsertedSchoolId = 0
+        self.ui.tblCouncilFathers.setColumnHidden(0, True)
 
     def use_ui_elements(self):
         self.ui.tblCouncilFathers.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -70,6 +71,7 @@ class CouncilFathersUI:
             QMessageBox.information(self.ui, "الصلاحية", "ليس لديك الصلاحية")
 
     def add_council_fathers_database(self):
+        self.ui.tblCouncilFathers.setRowCount(0)
         result_condition = Common.grant_permission_to_clicked_button(self.ui, permission="bt_save_fathers")
         if result_condition is True:
             CouncilFathers_dialog = CouncilFathersDialog()

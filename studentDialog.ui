@@ -272,6 +272,12 @@ color:rgb(0, 0, 0)</string>
     <string notr="true">background-color:rgb(255, 255, 255);
 color:rgb(0, 0, 0)</string>
    </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhDialableCharactersOnly|Qt::ImhDigitsOnly|Qt::ImhMultiLine</set>
+   </property>
+   <property name="lineWidth">
+    <number>3</number>
+   </property>
   </widget>
   <widget class="QComboBox" name="combClasses">
    <property name="geometry">
@@ -306,6 +312,18 @@ color:rgb(0, 0, 0)</string>
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>txtStudentFName</tabstop>
+  <tabstop>txtStudentSecName</tabstop>
+  <tabstop>txtStudentThirName</tabstop>
+  <tabstop>txtStudentLName</tabstop>
+  <tabstop>txtStudentParentPhone</tabstop>
+  <tabstop>dateStudentDOB</tabstop>
+  <tabstop>labAddStudent</tabstop>
+  <tabstop>btnCancelAddingStudent</tabstop>
+  <tabstop>btnSaveStudent</tabstop>
+  <tabstop>combClasses</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

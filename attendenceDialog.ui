@@ -254,6 +254,16 @@ font: 15pt &quot;PT Bold Heading&quot;;</string>
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>txtNameAttendence</tabstop>
+  <tabstop>txtNmberAttendence</tabstop>
+  <tabstop>CBoxAttendence</tabstop>
+  <tabstop>dateEditAttendence</tabstop>
+  <tabstop>txtNmberDAttendence</tabstop>
+  <tabstop>pushButton_8</tabstop>
+  <tabstop>btnCancelAddingAttendence</tabstop>
+  <tabstop>btnSaveAttendence</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

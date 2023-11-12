@@ -10,6 +10,7 @@ from zk import ZK
 from GUI.Dialogs.InitializingTheProject.ListOptions import OptionUI, OptionDialog
 from GUI.Dialogs.InitializingTheProject.SchoolDialog import SchoolDialog
 from GUI.Dialogs.InitializingTheProject.TermSessionsInit import TermSessionsInit
+from GUI.Dialogs.InitializingTheProject.showInitializeData import ShowInitialData
 from GUI.Dialogs.UserLoginDialog import UserLoginDialog
 from GUI.Dialogs.UserLogoutDialog import UserLogoutDialog
 from GUI.Views.AttendanceUI import AttendanceUI
@@ -17,15 +18,22 @@ from GUI.Views.CommonFunctionality import Common
 from GUI.Views.CouncilFathersUI import CouncilFathersUI
 from GUI.Views.DeviceUI import DeviceUI
 from GUI.Views.PermissionUI import PermissionUI
+from GUI.Views.Student_class_scheduleUI import Student_class_scheduleUI
+from GUI.Views.Student_reportUI import Student_reportUI
 from GUI.Views.StudentsUI import StudentsUI
+from GUI.Views.Teacher_class_scheduleUI import Teacher_class_scheduleUI
+from GUI.Views.Teacher_reportUI import Teacher_reportUI
 from GUI.Views.TeachersUI import TeachersUI
 from GUI.Views.UsersUI import UsersUI
+from GUI.Views.backupUI import Backup_UI
 from GUI.Views.shiftsUI import Shift_timeUI
 from GUI.Views.uihandler import UIHandler
 from GUI.Views.PersonBasicDataUI import SubMain
 from models.Device import Device
 from models.School import School
 from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox
+
+from models.Users import Users
 
 
 class Main:
@@ -37,14 +45,13 @@ class Main:
         self.last_inserted_device = Device.select(peewee.fn.Max(Device.id)).scalar()
         device = Device.get(Device.id == self.last_inserted_device)
         self.zk = ZK(device.ip, port=device.port, timeout=5)
-        self.main_design = 'Design/EduTracMain.ui'
+        self.main_design = 'EduTracMain.ui'
         self.ui_handler = UIHandler(self.main_design)
         self.window = SubMain(self.ui_handler)
         self.app = QApplication([])
-        self.window.ui.btnSchoolName.clicked.connect(self.close_dialog)
         self.system_date_timer = QTimer()
         self.device_timer = QTimer()
-        self.device_timer.timeout.connect(self.find_the_device_connected)
+        # self.device_timer.timeout.connect(self.find_the_device_connected)
         self.system_date_timer.timeout.connect(self.update_system_date_label)
         self.system_date_timer.start(1000)
         self.device_timer.start(10000)
@@ -53,6 +60,7 @@ class Main:
         self.window.ui.btnConnectDivice.clicked.connect(self.connect_device)
 
     def close_application(self):
+        Users.update_all_states_to_false()
         reply = QMessageBox.question(self.window.ui, "معلومة", "هل حقاً تريد الخروج؟", QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
             self.app.quit()
@@ -77,14 +85,17 @@ class Main:
                 self.window.ui.btnConnectDivice.setStyleSheet("color: green;background-color: white;")
         except Exception as e:
             self.device_timer.start(10000)
+            self.device_timer.stop()
             QMessageBox.warning(self.window.ui, 'خطأ', "لا يوجد جهاز بصمة متصل")
             self.window.ui.btnConnectDivice.setText("توصيل الجهاز")
             self.window.ui.btnConnectDivice.setStyleSheet("color: red;background-color: white;")
 
     def update_system_date_label(self):
         current_datetime = QDateTime.currentDateTime()
-        formatted_datetime = current_datetime.toString("dd/MM/yyyy hh:mm:ss")
-        self.window.ui.lblCurrentSystemDateAndTime.setText(formatted_datetime)
+        formatted_datetime = current_datetime.toString("dd/MM/yyyy")
+        formatted_time = current_datetime.toString("hh:mm:ss")
+        self.window.ui.lblCurrentSystemDateAndTime.setText("التاريخ :  " + formatted_datetime + "   الساعة :   " + formatted_time)
+        # self.window.ui.lblCurrentSystemDateAndTime.setStyleSheet("font-family:Shorooq_N1.ttf;")
 
     def close_dialog(self):
         print("the school is clicked ")
@@ -117,7 +128,6 @@ class Main:
             ("الحساب", "icons/users.png"),
             ("تبديل المستخدم", "icons/log-out.svg"),
             ("خروج نهائي", "icons/log-out.svg"),
-
         ]
         self.show_options(options, btn_name)
 
@@ -150,6 +160,7 @@ class Main:
             self.window.ui.comboAddendenceTime.setEnabled(False)
             self.window.ui.comboAddendenceTime.setStyleSheet("QComboBox { background-color: #333333; color: #333333; }")
             self.window.ui.checkFilterWithDate.setChecked(True)
+            ShowInitialData(self.window)
             Device = DeviceUI(self.window)
             Device.use_ui_elements()
             Teacher = TeachersUI(self.window)
@@ -171,6 +182,16 @@ class Main:
             council_fathers.use_ui_elements()
             user = UsersUI(self.window)
             user.use_ui_elements()
+            student_reports = Student_reportUI(self.window)
+            student_reports.use_ui_elements()
+            teacher_reports = Teacher_reportUI(self.window)
+            teacher_reports.use_ui_elements()
+            student_class_schedule = Student_class_scheduleUI(self.window)
+            student_class_schedule.use_ui_elements()
+            teacher_class_schedule = Teacher_class_scheduleUI(self.window)
+            teacher_class_schedule.use_ui_elements()
+            backup = Backup_UI(self.window)
+            backup.use_ui_elements()
             self.window.ui.showMaximized()
             sys.exit(self.app.exec_())
 

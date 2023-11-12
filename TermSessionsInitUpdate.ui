@@ -247,6 +247,14 @@ font: 15pt &quot;Mohammad Annoktah&quot;;</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtNumberOfSessions</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>btnCancelUpdateSession</tabstop>
+  <tabstop>btnSaveTermSessionsUpdate</tabstop>
+  <tabstop>comboClasses</tabstop>
+  <tabstop>comboSubjects</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

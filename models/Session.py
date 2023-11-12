@@ -1,5 +1,7 @@
 from peewee import *
-from db import *
+# from db import *
+from models.BaseModel import BaseModel, db
+
 
 
 class Session(BaseModel):

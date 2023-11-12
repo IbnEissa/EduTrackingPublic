@@ -23,6 +23,7 @@ class UsersUI:
         self.lastInsertedMemberId = 0
         self.lastInsertedUserId = 0
         self.ui.tblUsers.setColumnHidden(0, True)
+        self.ui.tblUsers.setColumnHidden(9, True)
         self.state = 'False'
         self.initialization = 'False'
 
@@ -132,10 +133,9 @@ class UsersUI:
         #     QMessageBox.information(self.ui, "الصلاحية", "ليس لديك الصلاحية")
 
     def add_new_user_to_table_widget(self, user):
-        self.ui.tblUsers.setColumnHidden(0, True)
         self.ui.tblUsers.setRowCount(0)
         try:
-            operationsButtons = DeleteUpdateButtonUsersWidget(table_widget=self.ui.tblUsers)
+            # operationsButtons = DeleteUpdateButtonUsersWidget(table_widget=self.ui.tblUsers)
             current_row = self.ui.tblTeachers.rowCount()  # Get the current row index
             self.ui.tblUsers.insertRow(current_row)  # Insert a new row at the current row index
             self.ui.tblUsers.setItem(current_row, 0, QTableWidgetItem(user[0]))
@@ -147,7 +147,7 @@ class UsersUI:
             self.ui.tblUsers.setItem(current_row, 6, QTableWidgetItem(str(user[6])))
             self.ui.tblUsers.setItem(current_row, 7, QTableWidgetItem(str(user[7])))
             self.ui.tblUsers.setItem(current_row, 8, QTableWidgetItem(str(user[8])))
-            self.ui.tblUsers.setCellWidget(current_row, 9, operationsButtons)
+            # self.ui.tblUsers.setCellWidget(current_row, 9, operationsButtons)
             self.ui.tblUsers.setColumnWidth(current_row, 40)
             self.ui.tblUsers.setRowHeight(current_row, 150)
         except Exception as e:
@@ -157,8 +157,7 @@ class UsersUI:
     def get_users_data(self):
         result_condition = Common.grant_permission_to_clicked_button(self.ui, permission="bt_search_user")
         if result_condition is True:
-
-            self.ui.tblUsers.setColumnHidden(0, True)
+            self.ui.tblUsers.setColumnHidden(9, False)
             Common.style_table_widget(self.ui, self.ui.tblStudents)
             try:
                 columns = ['id', 'account_type', 'Name', 'userName', 'userPassword', 'created_at', 'updated_at',

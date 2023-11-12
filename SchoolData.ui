@@ -348,6 +348,18 @@ font: 15pt &quot;Mohammad Annoktah&quot;;</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>txtSchoolName</tabstop>
+  <tabstop>txtVillage</tabstop>
+  <tabstop>comboAcademicLevel</tabstop>
+  <tabstop>comboGenderType</tabstop>
+  <tabstop>labAddSchool</tabstop>
+  <tabstop>comboCity</tabstop>
+  <tabstop>combDirectorates</tabstop>
+  <tabstop>btnSaveSchool</tabstop>
+  <tabstop>btnUpdateSchool</tabstop>
+  <tabstop>btnCancelSchool</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

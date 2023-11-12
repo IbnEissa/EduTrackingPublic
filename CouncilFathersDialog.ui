@@ -47,7 +47,7 @@ color:rgb(0, 0, 0)</string>
     <string>الهـــــاتف</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_8">
+  <widget class="QPushButton" name="labAddFathers">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -305,6 +305,18 @@ color:rgb(0, 0, 0)</string>
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>txtCouncilFathersName</tabstop>
+  <tabstop>txtCouncilSecName</tabstop>
+  <tabstop>txtCouncilThirName</tabstop>
+  <tabstop>txtCouncilLName</tabstop>
+  <tabstop>txtCouncilPhone</tabstop>
+  <tabstop>dateCouncilDOB</tabstop>
+  <tabstop>txtCouncilTask</tabstop>
+  <tabstop>btnCancelAddingCouncil</tabstop>
+  <tabstop>labAddFathers</tabstop>
+  <tabstop>btnSaveCouncil</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
